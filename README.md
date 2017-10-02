@@ -1,2 +1,1 @@
-# the-feels
-Mental Wellness Tracker
+The Feels is a mental wellness mobile app to help users track their mental and emotional processes. Users are encouraged daily to share their thoughts and feelings by simply speaking into the app. The app will then analyze the recording and output a visual representation of their emotional insight, allowing users to learn and discover more about themselves.
