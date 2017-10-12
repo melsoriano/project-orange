@@ -4,14 +4,14 @@ var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-lan
 var config = require( '../config/nlp.json' );
 
 var nlu = new NaturalLanguageUnderstandingV1({
-  username: '725a8b4f-a868-474f-9d0b-3b47a7ccae83',
-  password: 'SGhrkY8qvCjq',
+  username: config.username,
+  password: config.password,
   version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
 });
 
 let file_data = "He held forth his eating utensil before the growing horde.  I shalt pillage this buffet before opening, the hobo declared.  And until those doors open, you are powerless to stop me!";
 
-/*nlu.analyze({
+nlu.analyze({
   'html': file_data, // Buffer or String
   'features': {
     'keywords': {
@@ -26,7 +26,7 @@ let file_data = "He held forth his eating utensil before the growing horde.  I s
        console.log('error:', err);
      else
        console.log(JSON.stringify(response, null, 2));
- });*/
+ });
 
 /*
 text: "He held forth his eating utensil before the growing horde.  I shalt pillage this buffet before opening, the hobo declared.  And until those doors open, you are powerless to stop me!"
