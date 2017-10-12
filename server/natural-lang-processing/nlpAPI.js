@@ -1,32 +1,40 @@
-var fs = require('fs');
-var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+const fs = require('fs');
+const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 
-var config = require( '../config/nlp.json' );
+const config = require( '../config/nlp.json' );
 
-var nlu = new NaturalLanguageUnderstandingV1({
+const nlu = new NaturalLanguageUnderstandingV1({
   username: config.username,
   password: config.password,
   version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
 });
 
+
 let file_data = "He held forth his eating utensil before the growing horde.  I shalt pillage this buffet before opening, the hobo declared.  And until those doors open, you are powerless to stop me!";
 
-nlu.analyze({
-  'html': file_data, // Buffer or String
-  'features': {
-    'keywords': {
-      'emotion': true,
-      'sentiment': true
-    },
-    'emotion' : {},
-    'sentiment' : {}
-  }
-}, function(err, response) {
-     if (err)
-       console.log('error:', err);
-     else
-       console.log(JSON.stringify(response, null, 2));
- });
+function analyze( file_data ){
+
+  nlu.analyze( {
+    'html': file_data, // Buffer or String
+    'features': {
+      'keywords': {
+        'emotion': true,
+        'sentiment': true
+      },
+      'emotion' : {},
+      'sentiment' : {}
+    }
+  }, function( err, response ) {
+       if ( err )
+         console.log( 'error:', err );
+       else
+         console.log(JSON.stringify( response, null, 2 ) );
+  } );
+}
+
+module.exports = {
+  analyze
+};
 
 /*
 text: "He held forth his eating utensil before the growing horde.  I shalt pillage this buffet before opening, the hobo declared.  And until those doors open, you are powerless to stop me!"
