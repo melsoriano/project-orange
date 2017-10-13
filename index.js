@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 
 const db = require('./models');
-const Recordings = db.recordings;
+const Entries = db.entries;
+const Keywords = db.keywords;
+const Users = db.users;
 
 const PORT = process.env.PORT || 3001;
 
-app.use('/', require('./api'));
+app.use('/', require('./server'));
 
 const server = app.listen(PORT, () => {
   db.sequelize.sync({force: true});
