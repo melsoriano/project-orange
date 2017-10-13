@@ -7,7 +7,6 @@ import FooterTab from './components/FooterTab';
 import Main from './components/Main';
 import 'bulma/css/bulma.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
-import './App.css';
 const browserHistory = Router.browserHistory;
 
 class App extends Component {
