@@ -10,10 +10,10 @@ const nlu = new NaturalLanguageUnderstandingV1({
 });
 
 
-let file_data = "He held forth his eating utensil before the growing horde.  I shalt pillage this buffet before opening, the hobo declared.  And until those doors open, you are powerless to stop me!";
-
 function analyze( file_data ){
-
+  if( typeof file_data !== 'string' ){
+    return null;
+  }
   nlu.analyze( {
     'html': file_data, // Buffer or String
     'features': {
@@ -25,10 +25,16 @@ function analyze( file_data ){
       'sentiment' : {}
     }
   }, function( err, response ) {
-       if ( err )
-         console.log( 'error:', err );
-       else
-         console.log(JSON.stringify( response, null, 2 ) );
+    let returnObj = {};
+    if ( err ){
+     console.log( 'error:', err );
+     returnObj = err;
+    }
+    else {
+      returnObj = JSON.stringify( response, null, 2 );
+      console.log( "from watson", returnObj );
+    }
+    return returnObj;
   } );
 }
 
@@ -36,10 +42,12 @@ module.exports = {
   analyze
 };
 
+
+
 /*
 text: "He held forth his eating utensil before the growing horde.  I shalt pillage this buffet before opening, the hobo declared.  And until those doors open, you are powerless to stop me!"
 
-{
+let testData = {
   "usage": {
     "text_units": 1,
     "text_characters": 182,
