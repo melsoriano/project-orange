@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Logo from './assets/orange_logo.svg';
+import FooterTab from './components/FooterTab';
+import Main from './components/Main';
 import 'bulma/css/bulma.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import './App.css';
+const browserHistory = Router.browserHistory;
 
 class App extends Component {
   handleSwipeUp() {
@@ -25,16 +29,12 @@ class App extends Component {
 
   render() {
     return (
-      <Swipeable
-        onSwipedUp={this.handleSwipeUp}
-        onSwipedDown={this.handleSwipeDown}
-        onSwipedLeft={this.handleSwipeLeft}
-        onSwipedRight={this.handleSwipeRight}
-      >
+      <Router history={browserHistory}>
         <div className="container">
-          <img id="logo" src={Logo} />
+          <Main />
+          <FooterTab />
         </div>
-      </Swipeable>
+      </Router>
     );
   }
 }
