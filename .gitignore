@@ -1,2 +1,4 @@
 node_modules
+config/config.json
+config/speechToText.json
 server/config/nlp.json

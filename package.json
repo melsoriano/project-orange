@@ -13,10 +13,18 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mellaniesoriano/the-feels/issues"
+    "url": "https://github.com/mellaniesoriano/TheFeels/issues"
   },
-  "homepage": "https://github.com/mellaniesoriano/the-feels#readme",
+  "homepage": "https://github.com/mellaniesoriano/TheFeels#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "request": "^2.83.0",
+    "sequelize": "^4.13.8",
+    "sequelize-cli": "^3.0.0",
     "watson-developer-cloud": "^2.41.1"
   }
 }
