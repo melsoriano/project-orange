@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mellaniesoriano/the-feels/issues"
   },
-  "homepage": "https://github.com/mellaniesoriano/the-feels#readme"
+  "homepage": "https://github.com/mellaniesoriano/the-feels#readme",
+  "dependencies": {
+    "watson-developer-cloud": "^2.41.1"
+  }
 }
