@@ -11,30 +11,34 @@ const nlu = new NaturalLanguageUnderstandingV1({
 
 
 function analyze( file_data ){
-  if( typeof file_data !== 'string' ){
-    return null;
-  }
-  nlu.analyze( {
-    'html': file_data, // Buffer or String
-    'features': {
-      'keywords': {
-        'emotion': true,
-        'sentiment': true
-      },
-      'emotion' : {},
-      'sentiment' : {}
+  return new Promise( function( resolve, reject ){
+    //validate input, make sure it is string.
+    if( typeof file_data !== 'string' ){
+      return null;
     }
-  }, function( err, response ) {
-    let returnObj = {};
-    if ( err ){
-     console.log( 'error:', err );
-     returnObj = err;
-    }
-    else {
-      returnObj = JSON.stringify( response, null, 2 );
-      console.log( "from watson", returnObj );
-    }
-    return returnObj;
+
+    nlu.analyze( {
+      'html': file_data, // Buffer or String
+      'features': {
+        'keywords': {
+          'emotion': true,
+          'sentiment': true
+        },
+        'emotion' : {},
+        'sentiment' : {}
+      }
+    }, function( err, response ) {
+      let returnObj = {};
+      if ( err ){
+       returnObj = err;
+      }
+      else {
+        returnObj = JSON.stringify( response, null, 2 );
+      }
+
+      resolve( returnObj );
+
+    } );
   } );
 }
 
