@@ -2,16 +2,23 @@ module.exports = function(sequelize, DataTypes) {
   let Users = sequelize.define('users', {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    birthdate: DataTypes.STRING,
+    birthDate: DataTypes.DATE,
     location: DataTypes.STRING,
     occupation: DataTypes.STRING,
-    gender: DataTypes.STRING
+    gender: DataTypes.STRING,
+    token: DataTypes.STRING
   });
   Users.associate = function(models) {
-    Users.hasMany(models.recordings, {
+    Users.hasMany(models.entries, {
       foreignKey: {
-        name: 'recording_id',
-        allowNull: true // need to change back to false
+        name: 'user_id',
+        allowNull: true
+      }
+    });
+    Users.hasMany(models.keywords, {
+      foreignKey: {
+        name: 'user_id',
+        allowNull: true
       }
     });
   };
