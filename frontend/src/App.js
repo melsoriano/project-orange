@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import { connect } from 'react-redux';
+import Logo from './assets/orange_logo.svg';
 import 'bulma/css/bulma.css';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
 import './App.css';
 
 class App extends Component {
@@ -30,7 +32,7 @@ class App extends Component {
         onSwipedRight={this.handleSwipeRight}
       >
         <div className="container">
-          <h1 className="App-title">Orange</h1>
+          <img id="logo" src={Logo} />
         </div>
       </Swipeable>
     );

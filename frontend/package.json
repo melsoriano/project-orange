@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@grove/react-font-awesome": "^1.1.5",
     "axios": "^0.16.2",
     "bulma": "^0.6.0",
+    "font-awesome": "^4.7.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
