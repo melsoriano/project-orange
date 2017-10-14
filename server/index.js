@@ -17,7 +17,7 @@ app.use('/server', require('./watson/speechToTextAPI.js'));
 app.use( '/entry/new', nlpRoute );
 
 const server = app.listen(PORT, () => {
-  db.sequelize.sync({force: true});
+  db.sequelize.sync({/*force: true*/});
   console.log(`Server running on ${PORT}`);
 });
 
