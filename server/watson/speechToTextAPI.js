@@ -32,7 +32,6 @@ router.post('/', (req, res) => {
       });
     }
   });
-  res.end();
 });
 
 // converts response to text
