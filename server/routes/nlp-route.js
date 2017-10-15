@@ -80,13 +80,15 @@ router.post( '/', ( req, res ) => {
 
       enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
         .then( ()=> {
+
           Entries.findOne( {
             where: {
               id: entry_id
             },
             include: [
               {
-                model: Keywords
+                model: Keywords,
+                limit: 5
               }
             ]
           } )
