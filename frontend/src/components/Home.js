@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addEntry } from '../actions';
 import Swipeable from 'react-swipeable';
 import Logo from '../assets/orange_logo.svg';
 
@@ -11,6 +13,10 @@ class Home extends Component {
     alert('Swiped right!');
   }
 
+  handleSubmit = () => {
+    alert('Submitted!');
+  };
+
   render() {
     return (
       <Swipeable
@@ -21,17 +27,20 @@ class Home extends Component {
           <img src={Logo} alt="Logo" />
           <div className="level">
             <div className="level-item">
-              <div className="field has-addons">
+              <div className="field">
                 <div className="control">
-                  <input
-                    type="text"
-                    className="input"
-                    placeholder="Your feelings"
-                  />
+                  <textarea className="textarea" placeholder="Your feelings" />
                 </div>
-                <div className="control">
-                  <button className="button is-primary">Submit</button>
-                </div>
+              </div>
+            </div>
+            <div className="level-item">
+              <div className="control">
+                <button
+                  className="button is-primary"
+                  onClick={this.handleSubmit}
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>
@@ -41,4 +50,18 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStatetoProps = state => {
+  return { entries: state.entries };
+};
+
+const mapDispatchtoProps = dispatch => {
+  return {
+    addEntry: entry => {
+      dispatch(addEntry(entry));
+    }
+  };
+};
+
+const ConnectedHome = connect(mapStatetoProps, mapDispatchtoProps)(Home);
+
+export default ConnectedHome;
