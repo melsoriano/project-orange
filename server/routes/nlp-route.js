@@ -18,7 +18,6 @@ function enterKeywordsToDb( keywordArray, entry_id, user_id ){
         resolve();
       } else {
         let keyword = keywordArray[ keywordCount ];
-        console.log( keywordCount, "keyword", keyword );
 
         Keywords.create( {
           keyword: keyword.text,
@@ -49,10 +48,9 @@ function enterKeywordsToDb( keywordArray, entry_id, user_id ){
 router.post( '/', ( req, res ) => {
   let textEntry = req.body.text;
 //  let user_id = req.body.userId;
-  let user_id = null;
+  let user_id = null; //change this once users exist.
   let entryType = req.body.type;
   //receive json containing finalized text
-  console.log( textEntry );
 
   //validate input somehow.
 /*  if( typeof textEntry !== "string" ){
@@ -70,7 +68,7 @@ router.post( '/', ( req, res ) => {
     let sentimentData = nlpData.sentiment.document;
     let emotionData = nlpData.emotion.document.emotion;
     Entries.create( {
-      user_id: user_id, //change later to user_id
+      user_id: user_id,
       text: textEntry,
       sentimentScore: sentimentData.score,
       sentimentLabel: sentimentData.label,
@@ -84,27 +82,41 @@ router.post( '/', ( req, res ) => {
 
     } )
     .then( ( entry ) => {
-      console.log( entry );
-      console.log( "nlpData.keywords", nlpData.keywords );
+      console.log( "@@@@@@@@@@@@", entry );
       let entry_id = entry.dataValues.id;
 
       //create entry of keywords.
       enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
         .then( ()=> {
-          console.log( 'tihs should be at end' );
+          console.log( "$$$$$$$$$$$$$$$$ back from keywords" );
+      //query database for entry( this entry ) + keywords
+          Entries.findOne( {
+            where: {
+              id: entry_id
+            },
+            include: [
+              {
+                model: Keywords
+              }
+            ]
+          } )
+          .then( ( entry ) => {
+            console.log( "#############from DB",entry );
+      //return entry as json.
+            res.send( entry );
+          } )
+          .catch( ( err ) => {
+            res.send( err );
+          } );
+
+          //change data source and api back to normal before pull request.
+
 
         } )
         .catch( ( err ) => {
           res.send( err );
         } );
 
-
-      //query database for entry( this entry ) + keywords
-
-      //return entry as json.
-
-
-      res.send();
     } )
     .catch( ( err ) => {
       console.log( err );
