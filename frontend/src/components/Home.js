@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addEntry } from '../actions';
 import Swipeable from 'react-swipeable';
 import Logo from '../assets/orange_logo.svg';
 
@@ -41,4 +43,18 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStatetoProps = state => {
+  return { entries: state.entries };
+};
+
+const mapDispatchtoProps = dispatch => {
+  return {
+    addEntry: entry => {
+      dispatch(addEntry(entry));
+    }
+  };
+};
+
+const ConnectedHome = connect(mapStatetoProps, mapDispatchtoProps)(Home);
+
+export default ConnectedHome;
