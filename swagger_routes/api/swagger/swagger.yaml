@@ -1,0 +1,512 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Orange
+# during dev, should point to your local machine
+host: localhost:3001
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /entry/all:
+    get:
+      tags:
+        - entries
+      description: Displays all of the User's journal entries and graphs
+      parameters:
+        - name: allEntries
+          in: body
+          description: Display list of all User's entries.
+          required: true
+          schema:
+            $ref: "#/definitions/Entry"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EntryResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /entry/all/{createdAt}:
+    get:
+      tags:
+        - entries
+      description: Displays all of the User's journal entries and graphs
+      parameters:
+        - name: createdAt
+          in: path
+          description: Display list of all User's entries.
+          required: true
+          type: string
+          format: date
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EntryResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /entry/{id}:
+    get:
+      tags:
+        - entries
+      description: Displays individual entry by ID
+      parameters:
+        - name: id
+          in: path
+          description: Displays individual entry by ID
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EntryResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /entry/edit/{id}:
+    put:
+      tags:
+        - entries
+      description: Updates individual entry by ID
+      parameters:
+        - name: id
+          in: path
+          description: Updates individual entry by ID
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ""
+          required: false
+          schema:
+            $ref: "#/definitions/UpdateEntry"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Entry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      
+  
+  /user/{id}:
+    get:
+      tags:
+        - user
+      description: Displays User's profile
+      parameters:
+        - name: id
+          in: path
+          description: Displays User's profile
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserProfileResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /user/edit/{id}:
+    put:
+      tags:
+        - user
+      description: Update user information
+      parameters:
+        - name: id
+          in: path
+          description: Updates User information
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ""
+          required: false
+          schema:
+            $ref: "#/definitions/UserProfile"
+          
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserProfileResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /login:
+    get:
+      tags:
+        - user
+      description: Displays login page
+      parameters:
+        - name: loginPage
+          in: body
+          description: Displays User's profile
+          required: true
+          schema:
+            $ref: "#/definitions/LoginUser"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/LoginUser"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    
+  /logout:
+    get:
+      tags:
+        - user
+      description: Displays message letting User know they have successfully logged out.
+      parameters:
+        - name: logoutPage
+          in: body
+          description: Displays message letting User know they have successfully logged out.
+          required: true
+          schema:
+            $ref: "#/definitions/Logout"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Logout"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /twitterProfile/{name}:
+    get:
+      tags:
+        - user
+        - entries
+      description: Displays analyzed twitter profile
+      parameters:
+        - name: name
+          in: path
+          description: Displays analyzed twitter profile
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Entry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /audio:
+    post:
+      tags:
+        - entries
+        - input
+      description: Displays microphone for User to record journal entry
+      parameters:
+        - name: audioInput
+          in: body
+          description: Displays microphone for User to record journal entry
+          required: true
+          schema:
+            $ref: "#/definitions/AudioInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AudioInput"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /text:
+    post:
+      tags:
+        - entries
+        - input
+      description: Displays text input box for User to type in journal entry.
+      parameters:
+        - name: textInput
+          in: body
+          description: Displays text input box for User to type in journal entry.
+          required: true
+          schema:
+            $ref: "#/definitions/TextInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/TextInput"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+definitions:
+        
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        
+  Entry:
+    properties:
+      id:
+        type: integer
+      text:
+        type: string
+      sentimentScore:
+        type: number
+        format: float
+      sentimentLabel:
+        type: string
+      sadnessScore:
+        type: number
+        format: float
+      fearScore:
+        type: number
+        format: float
+      angerScore:
+        type: number
+        format: float
+      joyScore:
+        type: number
+        format: float
+      disgustScore:
+        type: number
+        format: float
+      user_id:
+        type: integer
+      inputType:
+        type: string
+      source_id:
+        type: string
+      keywords:
+        type: array
+        items:
+          type: object
+        properties:
+          id:
+            type: integer
+          keyword:
+            type: string
+          sentimentScore:
+            type: number
+            format: float
+          sentimentLabel:
+            type: string
+          relevanceScore:
+            type: number
+            format: float
+          sadnessScore:
+            type: number
+            format: float
+          fearScore:
+            type: number
+            format: float
+          angerScore:
+            type: number
+            format: float
+          joyScore:
+            type: number
+            format: float
+          disgustScore:
+            type: number
+            format: float
+          entry_id:
+            type: integer
+          user_id:
+            type: integer
+          createdAt:
+            type: string
+            format: date
+          updatedAt:
+            type: string
+            format: date
+        
+  EntryResponse:
+    properties:
+      id:
+        type: integer
+      text:
+        type: string
+      sentimentScore:
+        type: number
+        format: float
+      sentimentLabel:
+        type: string
+      sadnessScore:
+        type: number
+        format: float
+      fearScore:
+        type: number
+        format: float
+      angerScore:
+        type: number
+        format: float
+      joyScore:
+        type: number
+        format: float
+      disgustScore:
+        type: number
+        format: float
+      user_id:
+        type: integer
+      inputType:
+        type: string
+      source_id:
+        type: string
+      keywords:
+        type: array
+        items:
+          type: object
+        properties:
+          id:
+            type: integer
+          keyword:
+            type: string
+          sentimentScore:
+            type: number
+            format: float
+          sentimentLabel:
+            type: string
+          relevanceScore:
+            type: number
+            format: float
+          sadnessScore:
+            type: number
+            format: float
+          fearScore:
+            type: number
+            format: float
+          angerScore:
+            type: number
+            format: float
+          joyScore:
+            type: number
+            format: float
+          disgustScore:
+            type: number
+            format: float
+          entry_id:
+            type: integer
+          user_id:
+            type: integer
+          createdAt:
+            type: string
+            format: date
+          updatedAt:
+            type: string
+            format: date
+      createdAt:
+        type: string
+        format: date
+      updatedAt:
+        type: string
+        format: date
+        
+  UserProfile:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      birthDate:
+        type: string
+        format: date
+      date:
+        type: string
+        format: date-time
+      location:
+        type: string
+      occupation:
+        type: string
+      token:
+        type: string
+        
+  UserProfileResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      birthDate:
+        type: string
+        format: date
+      date:
+        type: string
+        format: date-time
+      location:
+        type: string
+      occupation:
+        type: string
+      token:
+        type: string
+      createdAt:
+        type: string
+        format: date
+      updatedAt:
+        type: string
+        format: date
+        
+  UpdateEntry:
+    properties:
+      id:
+        type: integer
+      text:
+        type: string
+        
+  LoginUser:
+    properties:
+      message:
+        type: string
+        
+  Logout:
+    properties:
+      message:
+        type: string
+        
+  AudioInput:
+    properties:
+      recording:
+        type: string
+        format: byte
+        
+  TextInput:
+    properties:
+      text:
+        type: string
+  
+        
