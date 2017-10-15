@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  height: 100%;
+  color: black;
+}
+
+#mainBox {
+  background-color: #f9a346;
+  min-height: 92vh;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #f9a346;
+}
+
+@import "../node_modules/bulma/sass/utilities/initial-variables";
+$tabs-toggle-link-hover-background-color: #fed156;
+$tabs-link-color: #627586;
+$body-background-color: #f9a346;
+$tabs-toggle-link-border-color: #627586;
+$primary: #f47f70;
+
+@import "../node_modules/bulma/bulma.sass";
