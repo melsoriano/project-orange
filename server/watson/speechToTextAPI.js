@@ -4,12 +4,14 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 
-const db = require('../../models');
+const db = require('../models');
 const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
 
-const config = require('../../config/speechToText.json');
+const config = require('../config/speechToText.json');
+
+const watson = require( '../natural-lang-processing/nlpAPI.js' );
 
 router.post('/', (req, res) => {
   const speech_to_text = new SpeechToTextV1({
@@ -32,7 +34,6 @@ router.post('/', (req, res) => {
       });
     }
   });
-  res.end();
 });
 
 // converts response to text

@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 
-const db = require('../models');
+const db = require('./models');
 const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
