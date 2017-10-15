@@ -28,7 +28,7 @@ function analyze( file_data ){
         'sentiment' : {}
       }
     }, function( err, response ) {
-      let returnObj = {};
+        let returnObj = {};
       if ( err ){
        returnObj = err;
       }
@@ -39,6 +39,7 @@ function analyze( file_data ){
       resolve( returnObj );
 
     } );
+
   } );
 }
 
