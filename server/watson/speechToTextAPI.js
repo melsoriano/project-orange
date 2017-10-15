@@ -11,8 +11,6 @@ const Users = db.users;
 
 const config = require('../config/speechToText.json');
 
-const watson = require( '../natural-lang-processing/nlpAPI.js' );
-
 router.post('/', (req, res) => {
   const speech_to_text = new SpeechToTextV1({
     username: config.username,
