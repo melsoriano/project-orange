@@ -4,26 +4,34 @@ import { Link } from 'react-router-dom';
 class FooterTab extends Component {
   render() {
     return (
-      //   <nav className="navbar" id="footer">
-      //     <div className="navbar-brand">
-      //       <p className="navbar-item">
-      //         <Link to="/graph">Graph</Link>
-      //       </p>
-      //       <p className="navbar-item">
-      //         <Link to="/">Home</Link>
-      //       </p>
-      //     </div>
-      //   </nav>
       <div
-        className="tabs is-centered is-medium is-toggle is-fullwidth"
+        className="tabs is-centered is-medium is-boxed is-toggle is-fullwidth"
         id="footer"
       >
         <ul>
           <li>
-            <Link to="/graph">Graph</Link>
+            <Link to="/graph">
+              <span className="icon is-small">
+                <i className="fa fa-home" />
+              </span>
+              <span>Graph</span>
+            </Link>
           </li>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">
+              <span className="icon is-small">
+                <i className="fa fa-pie-chart" />
+              </span>
+              <span>Home</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/settings">
+              <span className="icon is-small">
+                <i className="fa fa-wrench" />
+              </span>
+              <span>Settings</span>
+            </Link>
           </li>
         </ul>
       </div>

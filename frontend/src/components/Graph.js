@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
-import Logo from '../assets/orange_logo.svg';
 
 class Graph extends Component {
   handleSwipeLeft() {
@@ -16,7 +15,9 @@ class Graph extends Component {
         onSwipedLeft={this.handleSwipeLeft}
         onSwipedRight={this.handleSwipeRight}
       >
-        <div className="container">GRAPH GOES HERE</div>
+        <div className="container" id="mainBox">
+          GRAPH GOES HERE
+        </div>
       </Swipeable>
     );
   }

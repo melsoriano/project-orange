@@ -6,9 +6,9 @@ body {
   color: black;
 }
 
-.container {
+#mainBox {
   background-color: #f9a346;
-  min-height: 93vh;
+  min-height: 92vh;
 }
 
 .footer {
@@ -18,3 +18,12 @@ body {
   right: 0;
   background-color: #f9a346;
 }
+
+@import "../node_modules/bulma/sass/utilities/initial-variables";
+$tabs-toggle-link-hover-background-color: #fed156;
+$tabs-link-color: #627586;
+$body-background-color: #f9a346;
+$tabs-toggle-link-border-color: #627586;
+$primary: #f47f70;
+
+@import "../node_modules/bulma/bulma.sass";
