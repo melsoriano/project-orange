@@ -86,7 +86,8 @@ router.post( '/', ( req, res ) => {
             },
             include: [
               {
-                model: Keywords
+                model: Keywords,
+                limit: 5
               }
             ]
           } )
