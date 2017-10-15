@@ -13,6 +13,10 @@ class Home extends Component {
     alert('Swiped right!');
   }
 
+  handleSubmit = () => {
+    alert('Submitted!');
+  };
+
   render() {
     return (
       <Swipeable
@@ -23,17 +27,20 @@ class Home extends Component {
           <img src={Logo} alt="Logo" />
           <div className="level">
             <div className="level-item">
-              <div className="field has-addons">
+              <div className="field">
                 <div className="control">
-                  <input
-                    type="text"
-                    className="input"
-                    placeholder="Your feelings"
-                  />
+                  <textarea className="textarea" placeholder="Your feelings" />
                 </div>
-                <div className="control">
-                  <button className="button is-primary">Submit</button>
-                </div>
+              </div>
+            </div>
+            <div className="level-item">
+              <div className="control">
+                <button
+                  className="button is-primary"
+                  onClick={this.handleSubmit}
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>
