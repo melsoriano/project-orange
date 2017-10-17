@@ -15,8 +15,8 @@ const app = express();
 app.use(bp.json({ extended: true }));
 
 app.use('/server', require('./watson/speechToTextAPI.js'));
-app.use( 'user/entry/new', nlpRoute );
-app.use( 'user/entries', getEntriesRoutes );
+app.use( '/user/entry/new', nlpRoute );
+app.use( '/user/entries', getEntriesRoutes );
 
 const server = app.listen(PORT, () => {
   db.sequelize.sync();
