@@ -27,5 +27,12 @@ router.get( '/all', ( req, res ) => {
     } );
 } );
 
+router.get( '/pastmonth', ( req, res ) => {
+
+  console.log( 'month' );
+  res.send('pastmonth');
+
+} );
+
 
 module.exports = router;
