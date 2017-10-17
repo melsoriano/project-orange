@@ -29,8 +29,32 @@ router.get( '/all', ( req, res ) => {
 
 router.get( '/pastmonth', ( req, res ) => {
 
-  console.log( 'month' );
-  res.send('pastmonth');
+  let currentDate = new Date();
+  currentDate.setDate( currentDate.getDate() - 30 );
+
+  Entries.findAll( {
+    where : {
+      createdAt: {
+        $gte: currentDate
+      }
+    }
+  } )
+    .then( ( entries ) => {
+      let returnData = {
+        entries: entries,
+        keywordSummary: null
+      };
+      Keywords.findAll( {
+        where: {
+          createdAt: {
+            $gte: currentDate
+          }
+        }
+      } )
+        .then( ( keywords ) => {
+          res.send( keywords );
+        } );
+    } );
 
 } );
 
