@@ -139,4 +139,26 @@ router.get( '/pastmonth', ( req, res ) => {
 
 } );
 
+router.get( '/pastweek', ( req, res ) => {
+  getEntriesAndAggregateKeywordsFromLastXDays( 7 )
+  .then( ( data ) => {
+    res.send( data );
+  } )
+  .catch( ( err ) => {
+    res.send( err );
+  } );
+
+} );
+
+router.get( '/today', ( req, res ) => {
+  getEntriesAndAggregateKeywordsFromLastXDays( 1 )
+  .then( ( data ) => {
+    res.send( data );
+  } )
+  .catch( ( err ) => {
+    res.send( err );
+  } );
+
+} );
+
 module.exports = router;
