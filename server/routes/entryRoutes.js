@@ -27,6 +27,53 @@ router.get( '/all', ( req, res ) => {
     } );
 } );
 
+function isDuplicateKeyword( keyword, keywordArray ){
+  let index = -1;
+  for( var i = 0; i < keywordArray.length; i++ ){
+    let keywordFromArray = keywordArray[ i ].keyword;
+    if( keyword ===  keywordFromArray ){
+      index = i;
+      break;
+    }
+  }
+  return index;
+}
+
+function sumKeywordValues( newKeyword, storedKeyword ){
+
+}
+
+function combineKeywordsIntoAverage( keywordArray ){
+  let arrayOfKeywordSums = [];
+
+  keywordArray.forEach( ( keywordObj, index ) => {
+    let keywordData = keywordObj.dataValues;
+    let indexOfKeyword = isDuplicateKeyword( keywordData.keyword, arrayOfKeywordSums );
+
+    if( indexOfKeyword === -1 ){
+      //is new keyword, add to array  //need to actually create object.
+      let newKeyword = Object.assign( keywordObj.dataValues );
+      newKeyword.frequency = 1;
+      console.log( newKeyword );
+      arrayOfKeywordSums.push( newKeyword );
+
+    } else {
+      console.log( indexOfKeyword );
+      let keywordBeingStored = arrayOfKeywordSums[ index ];
+      let combinedKeyword = sumKeywordValues( keywordObj, keywordBeingStored );
+      //get instance of keyword
+      //add to keyword in array
+      keywordBeingStored = combinedKeyword;
+    }
+
+  } );
+  console.log( arrayOfKeywordSums );
+  let summaryOfKeywords = arrayOfKeywordSums;
+
+
+  return summaryOfKeywords;
+}
+
 router.get( '/pastmonth', ( req, res ) => {
 
   let currentDate = new Date();
@@ -52,7 +99,8 @@ router.get( '/pastmonth', ( req, res ) => {
         }
       } )
         .then( ( keywords ) => {
-          res.send( keywords );
+          let keywordSummary = combineKeywordsIntoAverage( keywords );
+          res.send( keywordSummary ); //needs to return returnData object later
         } );
     } );
 
