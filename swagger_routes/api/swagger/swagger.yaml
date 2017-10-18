@@ -5,7 +5,7 @@ info:
 # during dev, should point to your local machine
 host: localhost:3001
 # basePath prefixes all resource paths 
-basePath: /
+basePath: /api
 # 
 schemes:
   # tip: remove http to make production-grade
@@ -18,18 +18,11 @@ consumes:
 produces:
   - application/json
 paths:
-  /entry/all:
+  /user/entries/all:
     get:
       tags:
         - entries
-      description: Displays all of the User's journal entries and graphs
-      parameters:
-        - name: allEntries
-          in: body
-          description: Display list of all User's entries.
-          required: true
-          schema:
-            $ref: "#/definitions/Entry"
+      description: Returns all of the User's entries in JSON format
       responses:
         "200":
           description: Success
@@ -40,18 +33,11 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
             
-  /entry/all/{createdAt}:
+  /user/entries/daily:
     get:
       tags:
         - entries
-      description: Displays all of the User's journal entries and graphs
-      parameters:
-        - name: createdAt
-          in: path
-          description: Display list of all User's entries.
-          required: true
-          type: string
-          format: date
+      description: Return all daily entries in JSON format
       responses:
         "200":
           description: Success
@@ -62,15 +48,59 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
             
-  /entry/{id}:
+  /user/entries/weekly:
     get:
       tags:
         - entries
-      description: Displays individual entry by ID
+      description: Return all weekly entries in JSON format
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EntryResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /user/entries/monthly:
+    get:
+      tags:
+        - entries
+      description: Return all monthly entries in JSON format
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EntryResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /user/entries/yearly:
+    get:
+      tags:
+        - entries
+      description: Return all yearly entries in JSON format
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EntryResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /user/entry/{id}:
+    get:
+      tags:
+        - entries
+      description: Returns individual entries in JSON format
       parameters:
         - name: id
           in: path
-          description: Displays individual entry by ID
           required: true
           type: integer
       responses:
@@ -82,46 +112,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-            
-  /entry/edit/{id}:
+  
+  /user/entry/edit:
     put:
       tags:
         - entries
-      description: Updates individual entry by ID
+      description: Gives the user the ability to edit text entries.
       parameters:
-        - name: id
-          in: path
-          description: Updates individual entry by ID
+        - name: body
+          in: body
           required: true
-          type: string
-        - in: body
-          name: body
-          description: ""
-          required: false
           schema:
-            $ref: "#/definitions/UpdateEntry"
+            $ref: "#/definitions/EditEntryInfo"
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Entry"
+            $ref: "#/definitions/EntryResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-      
   
-  /user/{id}:
+  /user/profile:
     get:
       tags:
         - user
-      description: Displays User's profile
-      parameters:
-        - name: id
-          in: path
-          description: Displays User's profile
-          required: true
-          type: string
+      description: Returns User's profile information in JSON format
       responses:
         "200":
           description: Success
@@ -132,24 +149,17 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   
-  /user/edit/{id}:
+  /user/profile/edit:
     put:
       tags:
         - user
-      description: Update user information
+      description: Update User profile information
       parameters:
-        - name: id
-          in: path
-          description: Updates User information
-          required: true
-          type: string
         - in: body
           name: body
-          description: ""
-          required: false
+          required: true
           schema:
             $ref: "#/definitions/UserProfile"
-          
       responses:
         "200":
           description: Success
@@ -159,12 +169,12 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
+
   /login:
-    get:
+    post:
       tags:
         - user
-      description: Displays login page
+      description: Logs User in
       parameters:
         - name: loginPage
           in: body
@@ -183,10 +193,10 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     
   /logout:
-    get:
+    post:
       tags:
         - user
-      description: Displays message letting User know they have successfully logged out.
+      description: Logs User out
       parameters:
         - name: logoutPage
           in: body
@@ -204,18 +214,12 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
             
-  /twitterProfile/{name}:
+  /user/twitteranalysis/:
     get:
       tags:
         - user
         - entries
-      description: Displays analyzed twitter profile
-      parameters:
-        - name: name
-          in: path
-          description: Displays analyzed twitter profile
-          required: true
-          type: string
+      description: Returns analyzed twitter profile in JSON format
       responses:
         "200":
           description: Success
@@ -226,12 +230,12 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   
-  /audio:
+  /user/audio:
     post:
       tags:
         - entries
         - input
-      description: Displays microphone for User to record journal entry
+      description: Let's User record journal entry
       parameters:
         - name: audioInput
           in: body
@@ -249,12 +253,12 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
             
-  /text:
+  /user/text:
     post:
       tags:
         - entries
         - input
-      description: Displays text input box for User to type in journal entry.
+      description: Let's User write journal entry in text input
       parameters:
         - name: textInput
           in: body
@@ -453,9 +457,7 @@ definitions:
         type: string
       occupation:
         type: string
-      token:
-        type: string
-        
+
   UserProfileResponse:
     properties:
       id:
@@ -481,12 +483,15 @@ definitions:
         type: string
         format: date
         
-  UpdateEntry:
+  EditEntryInfo:
     properties:
       id:
         type: integer
       text:
         type: string
+      time:
+        type: string
+        format: date-time
         
   LoginUser:
     properties:
@@ -500,10 +505,10 @@ definitions:
         
   AudioInput:
     properties:
-      recording:
+      wavFile:
         type: string
         format: byte
-        
+      
   TextInput:
     properties:
       text:
