@@ -88,18 +88,18 @@ function combineKeywordsIntoAverage( keywordArray ){
   return summaryOfKeywords;
 }
 
-router.get( '/pastmonth', ( req, res ) => {
+function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze ){
+  return new Promise( function( resolve, reject ){
+    let currentDate = new Date();
+    currentDate.setDate( currentDate.getDate() - daysToAnalyze );
 
-  let currentDate = new Date();
-  currentDate.setDate( currentDate.getDate() - 30 );
-
-  Entries.findAll( {
-    where : {
-      createdAt: {
-        $gte: currentDate
+    Entries.findAll( {
+      where : {
+        createdAt: {
+          $gte: currentDate
+        }
       }
-    }
-  } )
+    } )
     .then( ( entries ) => {
       let returnData = {
         entries: entries,
@@ -112,14 +112,31 @@ router.get( '/pastmonth', ( req, res ) => {
           }
         }
       } )
-        .then( ( keywords ) => {
-          let keywordSummary = combineKeywordsIntoAverage( keywords );
-          returnData.keywordSummary = keywordSummary;
-          res.send( returnData );
-        } );
+      .then( ( keywords ) => {
+        let keywordSummary = combineKeywordsIntoAverage( keywords );
+        returnData.keywordSummary = keywordSummary;
+        resolve( returnData );
+      } )
+      .catch( ( err ) => {
+        resolve( err );
+      } );
+      } )
+    .catch( ( err )=> {
+      resolve( err );
     } );
+  } );
+}
+
+
+router.get( '/pastmonth', ( req, res ) => {
+  getEntriesAndAggregateKeywordsFromLastXDays( 30 )
+  .then( ( data ) => {
+    res.send( data );
+  } )
+  .catch( ( err ) => {
+    res.send( err );
+  } );
 
 } );
-
 
 module.exports = router;
