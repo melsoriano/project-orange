@@ -40,7 +40,19 @@ function isDuplicateKeyword( keyword, keywordArray ){
 }
 
 function sumKeywordValues( newKeyword, storedKeyword ){
+  let combinedKeyword = {
+    keyword: storedKeyword.keyword,
+    sentimentScore: newKeyword.sentimentScore + storedKeyword.sentimentScore,
+    relevanceScore: newKeyword.relevanceScore + storedKeyword.relevanceScore,
+    sadnessScore: newKeyword.sadnessScore + storedKeyword.sadnessScore,
+    fearScore: newKeyword.fearScore + storedKeyword.fearScore,
+    angerScore: newKeyword.angerScore + storedKeyword.angerScore,
+    joyScore: newKeyword.joyScore + storedKeyword.joyScore,
+    disgustScore: newKeyword.disgustScore + storedKeyword.disgustScore,
+    frequency: storedKeyword.frequency + 1
 
+  };
+  return combinedKeyword;
 }
 
 function combineKeywordsIntoAverage( keywordArray ){
@@ -54,12 +66,10 @@ function combineKeywordsIntoAverage( keywordArray ){
       //is new keyword, add to array  //need to actually create object.
       let newKeyword = Object.assign( keywordObj.dataValues );
       newKeyword.frequency = 1;
-      console.log( newKeyword );
       arrayOfKeywordSums.push( newKeyword );
 
     } else {
-      console.log( indexOfKeyword );
-      let keywordBeingStored = arrayOfKeywordSums[ index ];
+      let keywordBeingStored = arrayOfKeywordSums[ indexOfKeyword ];
       let combinedKeyword = sumKeywordValues( keywordObj, keywordBeingStored );
       //get instance of keyword
       //add to keyword in array
@@ -67,7 +77,6 @@ function combineKeywordsIntoAverage( keywordArray ){
     }
 
   } );
-  console.log( arrayOfKeywordSums );
   let summaryOfKeywords = arrayOfKeywordSums;
 
 
