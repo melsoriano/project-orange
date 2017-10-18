@@ -127,8 +127,18 @@ function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze ){
   } );
 }
 
+router.get( '/yearly', ( req, res ) => {
+  getEntriesAndAggregateKeywordsFromLastXDays( 365 )
+  .then( ( data ) => {
+    res.send( data );
+  } )
+  .catch( ( err ) => {
+    res.send( err );
+  } );
 
-router.get( '/pastmonth', ( req, res ) => {
+} );
+
+router.get( '/monthly', ( req, res ) => {
   getEntriesAndAggregateKeywordsFromLastXDays( 30 )
   .then( ( data ) => {
     res.send( data );
@@ -139,7 +149,7 @@ router.get( '/pastmonth', ( req, res ) => {
 
 } );
 
-router.get( '/pastweek', ( req, res ) => {
+router.get( '/weekly', ( req, res ) => {
   getEntriesAndAggregateKeywordsFromLastXDays( 7 )
   .then( ( data ) => {
     res.send( data );
@@ -150,7 +160,7 @@ router.get( '/pastweek', ( req, res ) => {
 
 } );
 
-router.get( '/today', ( req, res ) => {
+router.get( '/daily', ( req, res ) => {
   getEntriesAndAggregateKeywordsFromLastXDays( 1 )
   .then( ( data ) => {
     res.send( data );
