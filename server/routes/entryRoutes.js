@@ -63,7 +63,6 @@ function combineKeywordsIntoAverage( keywordArray ){
     let indexOfKeyword = isDuplicateKeyword( keywordData.keyword, arrayOfKeywordSums );
 
     if( indexOfKeyword === -1 ){
-      //is new keyword, add to array  //need to actually create object.
       let newKeyword = Object.assign( keywordObj.dataValues );
       newKeyword.frequency = 1;
       arrayOfKeywordSums.push( newKeyword );
@@ -71,15 +70,21 @@ function combineKeywordsIntoAverage( keywordArray ){
     } else {
       let keywordBeingStored = arrayOfKeywordSums[ indexOfKeyword ];
       let combinedKeyword = sumKeywordValues( keywordObj, keywordBeingStored );
-      //get instance of keyword
-      //add to keyword in array
-      keywordBeingStored = combinedKeyword;
+      arrayOfKeywordSums[ indexOfKeyword ] = combinedKeyword;
     }
-
   } );
-  let summaryOfKeywords = arrayOfKeywordSums;
-
-
+  let summaryOfKeywords = arrayOfKeywordSums.map( (  keywordObj ) => {
+    return {
+      keyword: keywordObj.keyword,
+      sentimentScore: keywordObj.sentimentScore / keywordObj.frequency,
+      relevanceScore: keywordObj.relevanceScore / keywordObj.frequency,
+      sadnessScore: keywordObj.sadnessScore / keywordObj.frequency,
+      fearScore: keywordObj.fearScore / keywordObj.frequency,
+      angerScore: keywordObj.angerScore / keywordObj.frequency,
+      joyScore: keywordObj.joyScore / keywordObj.frequency,
+      disgustScore: keywordObj.disgustScore / keywordObj.frequency
+    };
+  } );
   return summaryOfKeywords;
 }
 
@@ -109,7 +114,8 @@ router.get( '/pastmonth', ( req, res ) => {
       } )
         .then( ( keywords ) => {
           let keywordSummary = combineKeywordsIntoAverage( keywords );
-          res.send( keywordSummary ); //needs to return returnData object later
+          returnData.keywordSummary = keywordSummary;
+          res.send( returnData );
         } );
     } );
 
