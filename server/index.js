@@ -4,7 +4,7 @@ const bp = require("body-parser");
 const db = require('./models');
 const nlpRoute = require( './routes/nlp-route.js' );
 const getEntriesRoutes = require( './routes/entriesRoutes.js' );
-const getEntriesRoutes = require( './routes/entryRoutes.js' );
+const getEntryRoutes = require( './routes/entryRoutes.js' );
 
 
 const Entries = db.entries;
