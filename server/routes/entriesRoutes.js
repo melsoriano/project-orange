@@ -77,18 +77,42 @@ function combineKeywordsIntoAverage( keywordArray ){
     return {
       keyword: keywordObj.keyword,
       sentimentScore: keywordObj.sentimentScore / keywordObj.frequency,
-      relevanceScore: keywordObj.relevanceScore / keywordObj.frequency,
+      relevanceScore: keywordObj.relevanceScore,
       sadnessScore: keywordObj.sadnessScore / keywordObj.frequency,
       fearScore: keywordObj.fearScore / keywordObj.frequency,
       angerScore: keywordObj.angerScore / keywordObj.frequency,
       joyScore: keywordObj.joyScore / keywordObj.frequency,
-      disgustScore: keywordObj.disgustScore / keywordObj.frequency
+      disgustScore: keywordObj.disgustScore / keywordObj.frequency,
+      frequency: keywordObj.frequency
     };
   } );
   return summaryOfKeywords;
 }
 
-function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze ){
+function quickSortKeywordsByRelevance ( array ){
+  if( array.length < 2 ){
+    return array;
+  }
+  var pivot = array.shift();
+  var lesserArray = [];
+  var greaterArray = [];
+
+  var currentNumber = null;
+
+  for( var i = 0; i < array.length; i++ ) {
+    currentNumber = array[ i ];
+    ( currentNumber.relevanceScore < pivot.relevanceScore ) ? lesserArray.unshift( currentNumber ) : greaterArray.unshift( currentNumber );
+  }
+  return quickSortKeywordsByRelevance( greaterArray ).concat( pivot, quickSortKeywordsByRelevance( lesserArray ) );
+}
+
+function getTopKeywords( listLength, keywordArray ){
+  let sortedArray = quickSortKeywordsByRelevance( keywordArray );
+  let arrayCutToSpecifiedLength = sortedArray.slice( 0, listLength );
+  return arrayCutToSpecifiedLength;
+}
+
+function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze, keywordSummaryListLength ){
   return new Promise( function( resolve, reject ){
     let currentDate = new Date();
     currentDate.setDate( currentDate.getDate() - daysToAnalyze );
@@ -98,7 +122,12 @@ function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze ){
         createdAt: {
           $gte: currentDate
         }
-      }
+      },
+      include: [
+        {
+          model: Keywords
+        }
+      ]
     } )
     .then( ( entries ) => {
       let returnData = {
@@ -113,7 +142,9 @@ function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze ){
         }
       } )
       .then( ( keywords ) => {
-        let keywordSummary = combineKeywordsIntoAverage( keywords );
+        let combinedKeywords = combineKeywordsIntoAverage( keywords );
+        let keywordSummary = getTopKeywords( keywordSummaryListLength, combinedKeywords );
+        console.log( keywordSummary );
         returnData.keywordSummary = keywordSummary;
         resolve( returnData );
       } )
@@ -128,7 +159,9 @@ function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze ){
 }
 
 router.get( '/yearly', ( req, res ) => {
-  getEntriesAndAggregateKeywordsFromLastXDays( 365 )
+  let timespanInDays = 365;
+  let keywordSummaryLength = 20;
+  getEntriesAndAggregateKeywordsFromLastXDays( timespanInDays, keywordSummaryLength )
   .then( ( data ) => {
     res.send( data );
   } )
@@ -139,7 +172,9 @@ router.get( '/yearly', ( req, res ) => {
 } );
 
 router.get( '/monthly', ( req, res ) => {
-  getEntriesAndAggregateKeywordsFromLastXDays( 30 )
+  let timespanInDays = 30;
+  let keywordSummaryLength = 10;
+  getEntriesAndAggregateKeywordsFromLastXDays( timespanInDays, keywordSummaryLength )
   .then( ( data ) => {
     res.send( data );
   } )
@@ -150,7 +185,9 @@ router.get( '/monthly', ( req, res ) => {
 } );
 
 router.get( '/weekly', ( req, res ) => {
-  getEntriesAndAggregateKeywordsFromLastXDays( 7 )
+  let timespanInDays = 7;
+  let keywordSummaryLength = 5;
+  getEntriesAndAggregateKeywordsFromLastXDays( timespanInDays, keywordSummaryLength )
   .then( ( data ) => {
     res.send( data );
   } )
@@ -161,7 +198,9 @@ router.get( '/weekly', ( req, res ) => {
 } );
 
 router.get( '/daily', ( req, res ) => {
-  getEntriesAndAggregateKeywordsFromLastXDays( 1 )
+  let timespanInDays = 1;
+  let keywordSummaryLength = 3;
+  getEntriesAndAggregateKeywordsFromLastXDays( timespanInDays, keywordSummaryLength )
   .then( ( data ) => {
     res.send( data );
   } )
