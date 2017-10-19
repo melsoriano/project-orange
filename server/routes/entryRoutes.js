@@ -8,24 +8,28 @@ const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
 
-router.get( '/all', ( req, res ) => {
-
-  Entries.findAll( {
+router.get( '/:id', ( req, res ) => {
+  let entry_id = req.params.id;
+  Entries.findOne( {
     where: {
+      id: entry_id
     },
     include: [
       {
-        model: Keywords
+        model: Keywords,
       }
     ]
   } )
-    .then( ( entries ) => {
-      res.send( entries );
-    } )
-    .catch( ( err ) => {
-      res.send( err );
-    } );
+  .then( ( entry ) => {
+    res.send( entry );
+  } )
+  .catch( ( err ) => {
+    res.send( err );
+  } );
 } );
 
+router.get( '/:edit', ( req, res ) => {
+
+} );
 
 module.exports = router;

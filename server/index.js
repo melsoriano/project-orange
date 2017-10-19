@@ -3,7 +3,9 @@ const bp = require("body-parser");
 
 const db = require('./models');
 const nlpRoute = require( './routes/nlp-route.js' );
-const getEntriesRoutes = require( './routes/entryRoutes.js' );
+const getEntriesRoutes = require( './routes/entriesRoutes.js' );
+const getEntryRoutes = require( './routes/entryRoutes.js' );
+
 
 const Entries = db.entries;
 const Keywords = db.keywords;
@@ -15,8 +17,9 @@ const app = express();
 app.use(bp.json({ extended: true }));
 
 app.use('/server', require('./watson/speechToTextAPI.js'));
-app.use( '/entry/new', nlpRoute );
-app.use( '/entries', getEntriesRoutes );
+app.use( '/user/entry/new', nlpRoute );
+app.use( '/user/entries', getEntriesRoutes );
+app.use( '/user/entry', getEntryRoutes );
 
 const server = app.listen(PORT, () => {
   db.sequelize.sync();
