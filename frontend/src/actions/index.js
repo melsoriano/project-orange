@@ -5,7 +5,7 @@ export const ADD_ENTRY = 'ADD_ENTRY';
 export const addEntry = entry => {
   return dispatch => {
     axios
-      .post('/entry/new', {
+      .post('/user/entry/new', {
         text: entry,
         type: 'text-entry'
       })
@@ -20,7 +20,7 @@ export const addEntry = entry => {
 
 export const getEntries = () => {
   return dispatch => {
-    axios.get('/entries/all').then(entries => {
+    axios.get('/user/entries/all').then(entries => {
       dispatch({
         type: LOAD_ENTRIES,
         entries: entries.data
