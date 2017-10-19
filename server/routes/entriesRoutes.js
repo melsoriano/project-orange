@@ -108,8 +108,8 @@ function quickSortKeywordsByRelevance ( array ){
 
 function getTopKeywords( listLength, keywordArray ){
   let sortedArray = quickSortKeywordsByRelevance( keywordArray );
-  console.log( sortedArray );
-  return sortedArray;
+  let arrayCutToSpecifiedLength = sortedArray.slice( 0, listLength );
+  return arrayCutToSpecifiedLength;
 }
 
 function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze, keywordSummaryListLength ){
@@ -144,7 +144,7 @@ function getEntriesAndAggregateKeywordsFromLastXDays( daysToAnalyze, keywordSumm
       .then( ( keywords ) => {
         let combinedKeywords = combineKeywordsIntoAverage( keywords );
         let keywordSummary = getTopKeywords( keywordSummaryListLength, combinedKeywords );
-
+        console.log( keywordSummary );
         returnData.keywordSummary = keywordSummary;
         resolve( returnData );
       } )
