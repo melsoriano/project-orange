@@ -58,7 +58,6 @@ class Graph extends Component {
   }
 
   render() {
-    console.log(this.props.entries);
     if (this.props.entries.length > 0) {
       return (
         <Swipeable
