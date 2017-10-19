@@ -10,6 +10,8 @@ const db = require('./models');
 const nlpRoute = require( './routes/nlp-route.js' );
 const userRoute = require( './routes/user-routes.js' );
 const CONFIG = require('./config/config.json');
+const getEntriesRoutes = require( './routes/entriesRoutes.js' );
+const getEntryRoutes = require( './routes/entryRoutes.js' );
 
 const Entry = db.entries;
 const Keyword = db.keywords;
@@ -17,6 +19,7 @@ const User = db.users;
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+
 
 app.use( bp.json( { extended: true } ) );
 app.use(bp.urlencoded());
@@ -76,12 +79,16 @@ passport.deserializeUser((userId, done) => {
   });
 });
 
+app.use( '/user/entry/new', nlpRoute );
+app.use( '/user/entries', getEntriesRoutes );
+app.use( '/user/entry', getEntryRoutes );
+
 app.use('/recording', require('./watson/speechToTextAPI.js'));
 app.use( '/entry/new', nlpRoute );
 app.use( '/', userRoute );
 
+
 const server = app.listen(PORT, () => {
-  db.sequelize.sync({force: true});
+  db.sequelize.sync();
   console.log(`Server running on ${PORT}`);
 });
-

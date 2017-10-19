@@ -7,13 +7,12 @@ body {
 
 #mainBox {
   background-color: #f9a346;
-  min-height: 92vh; }
+  padding-bottom: 2rem; }
 
-.footer {
+#footer {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   background-color: #f9a346; }
 
 /*! bulma.io v0.6.0 | MIT License | github.com/jgthms/bulma */

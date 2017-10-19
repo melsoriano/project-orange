@@ -80,9 +80,8 @@ router.post( '/', ( req, res ) => {
 
       enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
         .then( ()=> {
-          Entries.findOne( {
+          Entries.findAll( {
             where: {
-              id: entry_id
             },
             include: [
               {
@@ -90,8 +89,8 @@ router.post( '/', ( req, res ) => {
               }
             ]
           } )
-          .then( ( entry ) => {
-            res.send( entry );
+          .then( ( entries ) => {
+            res.send( entries );
           } )
           .catch( ( err ) => {
             res.send( err );
