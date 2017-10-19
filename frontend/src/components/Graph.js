@@ -24,7 +24,41 @@ class Graph extends Component {
     this.props.getEntries();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.entries !== nextProps.entries) {
+      return (
+        <Swipeable
+          onSwipedLeft={this.handleSwipeLeft}
+          onSwipedRight={this.handleSwipeRight}
+        >
+          <div className="container" id="mainBox">
+            {this.props.entries.map(entry => {
+              return (
+                <article key={entry.id} className="media">
+                  <figure className="media-left">
+                    <i className="fa fa-heart" />
+                  </figure>
+                  <div className="media-content">
+                    <div className="content" id="entryText">
+                      <p>
+                        <strong>Entry {entry.id} </strong>
+                        <small>{entry.createdAt}</small>
+                        <br />
+                        {entry.text}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </Swipeable>
+      );
+    }
+  }
+
   render() {
+    console.log(this.props.entries);
     if (this.props.entries.length > 0) {
       return (
         <Swipeable

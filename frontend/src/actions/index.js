@@ -9,10 +9,10 @@ export const addEntry = entry => {
         text: entry,
         type: 'text-entry'
       })
-      .then(entry => {
+      .then(entries => {
         dispatch({
           type: LOAD_ENTRIES,
-          entries: entry.data
+          entries: entries.data
         });
       });
   };
