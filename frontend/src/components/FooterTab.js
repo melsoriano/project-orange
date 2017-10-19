@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 class FooterTab extends Component {
   render() {
     return (
-      <div
+      <footer
         className="tabs is-centered is-medium is-boxed is-toggle is-fullwidth"
         id="footer"
       >
@@ -34,7 +34,7 @@ class FooterTab extends Component {
             </Link>
           </li>
         </ul>
-      </div>
+      </footer>
     );
   }
 }

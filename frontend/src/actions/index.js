@@ -17,3 +17,14 @@ export const addEntry = entry => {
       });
   };
 };
+
+export const getEntries = () => {
+  return dispatch => {
+    axios.get('/entries/all').then(entries => {
+      dispatch({
+        type: LOAD_ENTRIES,
+        entries: entries.data
+      });
+    });
+  };
+};
