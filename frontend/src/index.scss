@@ -8,6 +8,7 @@ body {
 
 #mainBox {
   background-color: #f9a346;
+  padding: 1rem;
   padding-bottom: 2rem;
 }
 
@@ -28,5 +29,6 @@ $tabs-link-color: #627586;
 $body-background-color: #f9a346;
 $tabs-toggle-link-border-color: #627586;
 $primary: #f47f70;
+$danger: #f47f70;
 
 @import "../node_modules/bulma/bulma.sass";
