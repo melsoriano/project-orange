@@ -12,6 +12,7 @@ const userRoute = require( './routes/user-routes.js' );
 const CONFIG = require('./config/config.json');
 const getEntriesRoutes = require( './routes/entriesRoutes.js' );
 const getEntryRoutes = require( './routes/entryRoutes.js' );
+const oauthRoute = require('./routes/oauth.js');
 
 const Entry = db.entries;
 const Keyword = db.keywords;
@@ -86,6 +87,7 @@ app.use( '/user/entry', getEntryRoutes );
 app.use('/recording', require('./watson/speechToTextAPI.js'));
 app.use( '/entry/new', nlpRoute );
 app.use( '/', userRoute );
+app.use( '/sessions', oauthRoute );
 
 
 const server = app.listen(PORT, () => {
