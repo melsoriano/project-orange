@@ -1,0 +1,5 @@
+{
+  "CONSUMER_KEY": "insert_twitter_consumer_key",
+  "CONSUMER_SECRET": "insert_twitter_consumer_sercret",
+  "SESSIONS_SECRET": "insert_sessions_secret_here"
+}
