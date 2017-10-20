@@ -210,4 +210,14 @@ router.get( '/daily', ( req, res ) => {
 
 } );
 
+router.get( '/month/:mmyyDate', ( req, res ) => {
+  let timespan = req.params.mmyyDate;
+  let monthOfQuery = parseInt( timespan.slice( 0, 2 ) ) - 1;
+  let yearOfQuery = parseInt( '20' + timespan.slice( 2, 4 ) );
+
+  let startDateOfQuery = new Date( yearOfQuery, monthOfQuery, 1, 0, 0, 0, 0 );
+  let endDateOfQuery = new Date( yearOfQuery, monthOfQuery + 1, 1, 0, 0, 0, 0 );
+  console.log( monthOfQuery, yearOfQuery, startDateOfQuery, endDateOfQuery );
+} );
+
 module.exports = router;
