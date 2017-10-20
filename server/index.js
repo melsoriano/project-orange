@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 
-app.use( bp.json( { extended: true } ) );
+app.use( bp.json() );
 app.use(bp.urlencoded());
 
 app.use(session({
