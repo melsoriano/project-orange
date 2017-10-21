@@ -10,11 +10,14 @@ body {
   padding: 1rem;
   padding-bottom: 2rem; }
 
-#entryText {
+#hiddenText {
   font-size: 10px;
   white-space: nowrap;
   width: 100%;
   overflow: hidden; }
+
+#showText {
+  font-size: 10px; }
 
 #footer {
   position: fixed;

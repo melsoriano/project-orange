@@ -20,9 +20,14 @@ class Weekly extends Component {
     if (Array.isArray(this.props.weekEntries.entries)) {
       return this.props.weekEntries.entries.map(entry => {
         return (
-          <article key={entry.id} className="media" id="entryText">
+          <article
+            key={entry.id}
+            className="media"
+            onClick={this.handleOpenTextClick.bind(this)}
+            id={this.state.bool ? 'showText' : 'hiddenText'}
+          >
             <div className="media-content">
-              <div className="content" onClick={this.handleOpenTextClick}>
+              <div className="content">
                 <p>
                   <small>{entry.createdAt}</small>
                   <br />
@@ -36,9 +41,9 @@ class Weekly extends Component {
     }
   }
 
-  handleOpenTextClick = () => {
-    console.log(this.state);
-  };
+  handleOpenTextClick(bool) {
+    this.setState({ bool: !this.state.bool });
+  }
 
   render() {
     // this.props.weekEntries.entries - all entries for the week
