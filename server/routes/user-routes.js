@@ -8,12 +8,12 @@ const User = db.users;
 
 const saltRounds = 10;
 
-router.route("/login").post(passport.authenticate("local"), (req, res) => {
+router.post("/login", passport.authenticate("local"), (req, res) => {
   console.log(req.body.username);
   res.json({ username: req.body.username });
 });
 
-router.route("/register").post((req, res) => {
+router.post("/register", (req, res) => {
   bcrypt
     .genSalt(saltRounds)
     .then(salt => {
@@ -32,9 +32,15 @@ router.route("/register").post((req, res) => {
   res.json(req.body.username);
 });
 
-router.route("/logout").get((req, res) => {
+router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
+});
+
+router.get("/auth", (req, res) => {
+  if (req.user) {
+    res.json(req.user.username);
+  }
 });
 
 module.exports = router;
