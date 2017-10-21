@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEntries } from '../../actions';
+import { getWeekEntries } from '../../actions';
 import demoGraph from '../../assets/graph.png';
 
 class Weekly extends Component {
@@ -12,24 +12,54 @@ class Weekly extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.getWeekEntries();
+  }
+
+  loadEntries() {
+    if (Array.isArray(this.props.weekEntries.entries)) {
+      return this.props.weekEntries.entries.map(entry => {
+        return (
+          <article key={entry.id} className="media" id="entryText">
+            <div className="media-content">
+              <div className="content" onClick={this.handleOpenTextClick}>
+                <p>
+                  <small>{entry.createdAt}</small>
+                  <br />
+                  {entry.text}
+                </p>
+              </div>
+            </div>
+          </article>
+        );
+      });
+    }
+  }
+
+  handleOpenTextClick = () => {
+    console.log(this.state);
+  };
+
   render() {
+    // this.props.weekEntries.entries - all entries for the week
+    // this.props.weekEntries.keywordSummary -  top five keywords for the week
     return (
       <div className="container is-mobile" id="mainBox">
         <img src={demoGraph} alt="demo graph" />
-        WEEKLY
+        {this.loadEntries()}
       </div>
     );
   }
 }
 
 const mapStatetoProps = state => {
-  return { entries: state.entries };
+  return { weekEntries: state.weekEntries };
 };
 
 const mapDispatchtoProps = dispatch => {
   return {
-    getEntries: () => {
-      dispatch(getEntries());
+    getWeekEntries: () => {
+      dispatch(getWeekEntries());
     }
   };
 };

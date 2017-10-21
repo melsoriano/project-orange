@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEntries } from '../../actions';
-import { Route, Link, Redirect } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
 import Weekly from './Weekly';
 import Monthly from './Monthly';
@@ -24,29 +24,26 @@ class Graph extends Component {
     alert('Swiped right!');
   }
 
-  componentWillMount() {
-    this.props.getEntries();
-  }
-
   render() {
-    console.log(this.props.entries);
     return (
       <Swipeable
         onSwipedLeft={this.handleSwipeLeft}
         onSwipedRight={this.handleSwipeRight}
       >
         <div className="container is-mobile" id="mainBox">
-          <div className="columns is-mobile">
-            <Link to="/graph/weekly">
-              <div className="column">
-                <button className="button is-danger">Current Week</button>
-              </div>
-            </Link>
-            <Link to="/graph/monthly">
-              <div className="column">
-                <button className="button is-danger">Month</button>
-              </div>
-            </Link>
+          <div className="columns is-mobile is-centered">
+            <div className="column">
+              <Link to="/graph/weekly">
+                <button className="button is-danger is-fullwidth">
+                  Current Week
+                </button>
+              </Link>
+            </div>
+            <div className="column">
+              <Link to="/graph/monthly">
+                <button className="button is-danger is-fullwidth">Month</button>
+              </Link>
+            </div>
           </div>
           <Route exact path="/graph" render={() => <Weekly />} />
           <Route path="/graph/weekly/" component={Weekly} />

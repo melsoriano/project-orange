@@ -10,6 +10,12 @@ body {
   padding: 1rem;
   padding-bottom: 2rem; }
 
+#entryText {
+  font-size: 10px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden; }
+
 #footer {
   position: fixed;
   bottom: 0;
