@@ -5,6 +5,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
+//const ontime = require( 'ontime' );  //so server can execute tasks at set times.
 
 const db = require('./models');
 const nlpRoute = require( './routes/nlp-route.js' );
@@ -12,6 +13,7 @@ const userRoute = require( './routes/user-routes.js' );
 const CONFIG = require('./config/config.json');
 const getEntriesRoutes = require( './routes/entriesRoutes.js' );
 const getEntryRoutes = require( './routes/entryRoutes.js' );
+const twitterRoute = require( './routes/twitterRoutes.js' );
 
 const Entry = db.entries;
 const Keyword = db.keywords;
@@ -83,12 +85,14 @@ app.use( '/user/entry/new', nlpRoute );
 app.use( '/user/entries', getEntriesRoutes );
 app.use( '/user/entry', getEntryRoutes );
 
+
 app.use('/recording', require('./watson/speechToTextAPI.js'));
-app.use( '/entry/new', nlpRoute );
 app.use( '/', userRoute );
 
+app.use( '/user/twitter', twitterRoute );
 
 const server = app.listen(PORT, () => {
   db.sequelize.sync();
   console.log(`Server running on ${PORT}`);
-});
+
+} );
