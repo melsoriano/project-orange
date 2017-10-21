@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  let Keywords = sequelize.define('keywords', {
+  let Keywords = sequelize.define("keywords", {
     keyword: DataTypes.TEXT,
     sentimentScore: DataTypes.FLOAT(1),
     relevanceScore: DataTypes.FLOAT(1),
@@ -12,14 +12,14 @@ module.exports = function(sequelize, DataTypes) {
   Keywords.associate = function(models) {
     Keywords.belongsTo(models.entries, {
       foreignKey: {
-        name: 'entry_id',
-        allowNull: true
+        name: "entry_id",
+        allowNull: false
       }
     });
     Keywords.belongsTo(models.users, {
       foreignKey: {
-        name: 'user_id',
-        allowNull: true
+        name: "user_id",
+        allowNull: false
       }
     });
   };
