@@ -20,7 +20,9 @@ const User = db.users;
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+
 app.use(bp.json({ extended: true }));
+
 app.use(bp.urlencoded());
 
 app.use(
