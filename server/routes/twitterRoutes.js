@@ -1,11 +1,11 @@
-const express = require('express');
-const Twitter = require( 'twitter-node-client' ).Twitter;
+const express = require("express");
+const Twitter = require("twitter-node-client").Twitter;
 
-const db = require('../models');
-const config = require( '../config/twitterConfig.json' );
+const db = require("../models");
+const config = require("../config/twitterConfig.json");
 
-const watson = require(  '../natural-lang-processing/nlpAPI.js' );
-const dbHelper = require( './helperFunctions/dbEntryHelpers.js' );
+const watson = require("../natural-lang-processing/nlpAPI.js");
+const dbHelper = require("./helperFunctions/dbEntryHelpers.js");
 
 const router = express.Router();
 
@@ -13,68 +13,64 @@ const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
 
-const twitter = new Twitter( config );
+const twitter = new Twitter(config);
 
-function getMostRecentTweetId(){
-  return new Promise( ( resolve, reject ) => {
-    Entries.findOne( {
-      where : {
-        type: 'tweet'
+function getMostRecentTweetId() {
+  return new Promise((resolve, reject) => {
+    Entries.findOne({
+      where: {
+        type: "tweet"
       },
-      order: [ [ 'createdAt', 'DESC' ] ]
-    } )
-    .then( entry => {
-      let tweetID = entry.dataValues.source_id;
-      console.log( 'got most recent id', tweetId );
-    } )
-    .catch( err => {
-      resolve( null );
-    } );
-
-
-  } );
+      order: [["createdAt", "DESC"]]
+    })
+      .then(entry => {
+        let tweet_id = entry.dataValues.source_id;
+        resolve(tweet_id);
+      })
+      .catch(err => {
+        resolve(null);
+      });
+  });
 }
 
-router.get( '/update/:user_id', ( req, res ) => {
-  let screenName = 'realDonaldTrump';
-  //check what id of last tweet entered into db was.
-
+router.get("/update/:user_id", (req, res) => {
+  let screenName = "honolulupulse";
+  //let user_id = req.params.user_id;
+  let user_id = null;
 
   getMostRecentTweetId()
-    .then( ( tweetId ) => {
-      if( tweetId === null ){
-        res.end();
-        return;
+    .then(tweetId => {
+      let twitterQueryConfig = {
+        screen_name: screenName,
+        count: "1" //remove this when ready, otherwise only gets latest 2 tweets.
+      };
+      if (tweetId !== null) {
+        twitterQueryConfig.since_id = tweetId;
       }
       twitter.getUserTimeline(
-        { screen_name: screenName,
-          count: '2',
-          since_id: tweetId
+        twitterQueryConfig,
+        err => {
+          //error handling branch
+          res.send(err);
         },
-        (err) => { //error handling branch
-          res.send( err );
-        },
-        ( data ) => { //successful GET branch
-          let returnData = JSON.parse( data );
+        data => {
+          //successful GET branch
+          let returnData = JSON.parse(data);
 
-          returnData.forEach( ( tweetObj ) => {   //for each tweet
+          returnData.forEach(tweetObj => {
+            //for each tweet
             let tweetText = tweetObj.text;
             let tweetId = tweetObj.id_str;
-              //send tweet text to watson
-            watson.analyze( tweetText )
-              .then( ( data ) => {
-                console.log( data );
-
-                //then create db entry
-
-
-
-                let nlpData = JSON.parse( data );
+            //send tweet text to watson
+            watson
+              .analyze(tweetText)
+              .then(data => {
+                let nlpData = JSON.parse(data);
 
                 let sentimentData = nlpData.sentiment.document;
                 let emotionData = nlpData.emotion.document.emotion;
 
-                Entries.create( {
+                Entries.create({
                   user_id: user_id,
                   text: tweetText,
                   sentimentScore: sentimentData.score,
@@ -86,55 +82,39 @@ router.get( '/update/:user_id', ( req, res ) => {
                   disgustScore: emotionData.disgust,
                   type: "tweet",
                   source_id: tweetId
+                })
+                  .then(entry => {
+                    let entry_id = entry.dataValues.id;
 
-                } )
-                .then( ( entry ) => {
-                  console.log( '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@new entry @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                  let entry_id = entry.dataValues.id;
-
-                  //then for keywords of tweet
+                    //then for keywords of tweet
                     //run enterKeywordsToDb
-                  dbHelper.enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
-                    .then( ()=> {
-                      res.end();
-                    } )
-                    .catch( ( err ) => {
-                      console.log( 'keyword error@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', err);
-                      res.send( err );
-                    } );
-                } )
-                .catch( ( err ) => {
-                  console.log( 'entry error@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', err);
-                   res.send( err );
-                } );
-
-
-
-
-              } )
-              .catch( ( err ) => {
-
-              } );
-          } );
+                    dbHelper
+                      .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+                      .then(() => {
+                        res.end();
+                      })
+                      .catch(err => {
+                        res.send(err);
+                      });
+                  })
+                  .catch(err => {
+                    res.send(err);
+                  });
+              })
+              .catch(err => {
+                res.send(err);
+              });
+          });
+          res.end();
         }
       );
-    } )
-    .catch( ( err ) => {
-
-    } );
-
-
-  //let user_id = req.params.user_id;
-  let user_id = null;
-  console.log( 'user id', user_id );
-
-  //get tweet timeline
-  //limit to those since last update
-
-} );
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
 
 module.exports = router;
-
 
 /*createdAt is time tweet was made.
 set up so it only processes new tweets.*/
@@ -152,9 +132,6 @@ app.get( '/', ( req, res ) => {
 
 } );
 */
-
-
-
 
 /*  ontime( {
     cycle: '03:01:00' //change this to time of day to run.  can modify from once a day.
