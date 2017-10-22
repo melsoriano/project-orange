@@ -31,7 +31,11 @@ router.get( '/all', ( req, res ) => {
 router.get( '/yearly', ( req, res ) => {
   let timespanInDays = 365;
   let keywordSummaryLength = 20;
-  helperFn.getEntriesAndAggregateKeywordsBetweenDates( timespanInDays, keywordSummaryLength )
+
+  let endDateOfQuery = new Date();
+  let startDateOfQuery = new Date();
+  startDateOfQuery.setDate( startDateOfQuery.getDate() - timespanInDays );
+  helperFn.getEntriesAndAggregateKeywordsBetweenDates( startDateOfQuery, endDateOfQuery, timespanInDays, keywordSummaryLength )
   .then( ( data ) => {
     res.send( data );
   } )
