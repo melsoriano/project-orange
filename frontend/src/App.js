@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import FooterTab from './components/FooterTab';
 import Main from './components/Main';
+import Login from './components/Login';
 //import 'bulma/css/bulma.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 const browserHistory = Router.browserHistory;
 
 class App extends Component {
-  render() {
+  ifLoggedIn() {
     return (
       <Router history={browserHistory}>
         <div className="container">
@@ -17,6 +18,14 @@ class App extends Component {
         </div>
       </Router>
     );
+  }
+
+  ifNotLoggedIn() {
+    return <Login />;
+  }
+
+  render() {
+    return this.ifNotLoggedIn();
   }
 }
 

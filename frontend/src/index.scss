@@ -30,6 +30,10 @@ body {
   background-color: #f9a346;
 }
 
+#loginBox {
+  padding: 2rem;
+}
+
 @import "../node_modules/bulma/sass/utilities/initial-variables";
 $tabs-toggle-link-hover-background-color: #fed156;
 $tabs-link-color: #627586;
