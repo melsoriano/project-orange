@@ -24,7 +24,8 @@ function getMostRecentTweetId(){
       order: [ [ 'createdAt', 'DESC' ] ]
     } )
     .then( entry => {
-      resolve( entry.dataValues.source_id );
+      let tweetID = entry.dataValues.source_id;
+      console.log( 'got most recent id', tweetId );
     } )
     .catch( err => {
       resolve( null );
@@ -35,14 +36,17 @@ function getMostRecentTweetId(){
 }
 
 router.get( '/update/:user_id', ( req, res ) => {
-  let screenName = 'Oahu_DEM';
+  let screenName = 'realDonaldTrump';
   //check what id of last tweet entered into db was.
 
 
   getMostRecentTweetId()
     .then( ( tweetId ) => {
-      console.log( "tweetID@@@@@@@@@@@@@", tweetId );
-      /*twitter.getUserTimeline(
+      if( tweetId === null ){
+        res.end();
+        return;
+      }
+      twitter.getUserTimeline(
         { screen_name: screenName,
           count: '2',
           since_id: tweetId
@@ -85,6 +89,7 @@ router.get( '/update/:user_id', ( req, res ) => {
 
                 } )
                 .then( ( entry ) => {
+                  console.log( '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@new entry @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
                   let entry_id = entry.dataValues.id;
 
                   //then for keywords of tweet
@@ -112,7 +117,7 @@ router.get( '/update/:user_id', ( req, res ) => {
               } );
           } );
         }
-      );*/
+      );
     } )
     .catch( ( err ) => {
 
