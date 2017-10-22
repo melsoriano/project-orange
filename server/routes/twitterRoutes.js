@@ -15,11 +15,111 @@ const Users = db.users;
 
 const twitter = new Twitter( config );
 
+function getMostRecentTweetId(){
+  return new Promise( ( resolve, reject ) => {
+    Entries.findAll( {
+      limit: 1,
+      where : {
+        type: 'tweet'
+      },
+      order: [ [ 'createdAt', 'DESC' ] ]
+    } )
+    .then( entry => {
+      console.log( entry );
+      resolve( entry.source_id );
+    } )
+    .catch( err => {
+      console.log( err );
+      resolve( null );
+    } );
 
+
+  } );
+}
 
 router.get( '/update/:user_id', ( req, res ) => {
   let screenName = 'Oahu_DEM';
   //check what id of last tweet entered into db was.
+
+
+  getMostRecentTweetId()
+    .then( ( tweetId ) => {
+      twitter.getUserTimeline(
+        { screen_name: screenName,
+          count: '2',
+          since_id: tweetId
+        },
+        (err) => { //error handling branch
+          res.send( err );
+        },
+        ( data ) => { //successful GET branch
+          let returnData = JSON.parse( data );
+
+          returnData.forEach( ( tweetObj ) => {   //for each tweet
+            let tweetText = tweetObj.text;
+            let tweetId = tweetObj.id_str;
+              //send tweet text to watson
+            watson.analyze( tweetText )
+              .then( ( data ) => {
+                console.log( data );
+
+                //then create db entry
+
+
+
+                let nlpData = JSON.parse( data );
+
+                let sentimentData = nlpData.sentiment.document;
+                let emotionData = nlpData.emotion.document.emotion;
+
+                Entries.create( {
+                  user_id: user_id,
+                  text: tweetText,
+                  sentimentScore: sentimentData.score,
+                  sentimentLabel: sentimentData.label,
+                  sadnessScore: emotionData.sadness,
+                  fearScore: emotionData.fear,
+                  angerScore: emotionData.anger,
+                  joyScore: emotionData.joy,
+                  disgustScore: emotionData.disgust,
+                  type: "tweet",
+                  source_id: tweetId
+
+                } )
+                .then( ( entry ) => {
+                  let entry_id = entry.dataValues.id;
+
+                  //then for keywords of tweet
+                    //run enterKeywordsToDb
+                  dbHelper.enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
+                    .then( ()=> {
+                      res.end();
+                    } )
+                    .catch( ( err ) => {
+                      console.log( 'keyword error@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', err);
+                      res.send( err );
+                    } );
+                } )
+                .catch( ( err ) => {
+                  console.log( 'entry error@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', err);
+                   res.send( err );
+                } );
+
+
+
+
+              } )
+              .catch( ( err ) => {
+
+              } );
+          } );
+        }
+      );
+    } )
+    .catch( ( err ) => {
+
+    } );
+
 
   //let user_id = req.params.user_id;
   let user_id = null;
@@ -27,76 +127,14 @@ router.get( '/update/:user_id', ( req, res ) => {
 
   //get tweet timeline
   //limit to those since last update
-  twitter.getUserTimeline({ screen_name: screenName, count: '1'},
-    (err) => { //error handling branch
-      res.send( err );
-    },
-    ( data ) => { //successful GET branch
-      let returnData = JSON.parse( data );
 
-      returnData.forEach( ( tweetObj ) => {   //for each tweet
-        let tweetText = tweetObj.text;
-        let tweetId = tweetObj.id_str;
-          //send tweet text to watson
-        watson.analyze( tweetText )
-          .then( ( data ) => {
-            console.log( data );
-
-            //then create db entry
-
-
-
-            let nlpData = JSON.parse( data );
-
-            let sentimentData = nlpData.sentiment.document;
-            let emotionData = nlpData.emotion.document.emotion;
-              //source_id is tweet's id_str
-            Entries.create( {
-              user_id: user_id,
-              text: tweetText,
-              sentimentScore: sentimentData.score,
-              sentimentLabel: sentimentData.label,
-              sadnessScore: emotionData.sadness,
-              fearScore: emotionData.fear,
-              angerScore: emotionData.anger,
-              joyScore: emotionData.joy,
-              disgustScore: emotionData.disgust,
-              type: "tweet",
-              source_id: tweetId
-
-            } )
-            .then( ( entry ) => {
-              let entry_id = entry.dataValues.id;
-
-              //then for keywords of tweet
-                //run enterKeywordsToDb
-              dbHelper.enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
-                .then( ()=> {
-                  res.send( entry );
-                } )
-                .catch( ( err ) => {
-                  console.log( 'keyword error@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', err);
-                  res.send( err );
-                } );
-            } )
-            .catch( ( err ) => {
-              console.log( 'entry error@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', err);
-               res.send( err );
-            } );
-
-
-
-
-          } )
-          .catch( ( err ) => {
-
-          } );
-      } );
-    }
-  );
 } );
 
 module.exports = router;
+
+
+/*createdAt is time tweet was made.
+set up so it only processes new tweets.*/
 
 /*
 
