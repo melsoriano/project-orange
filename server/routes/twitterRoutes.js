@@ -17,19 +17,16 @@ const twitter = new Twitter( config );
 
 function getMostRecentTweetId(){
   return new Promise( ( resolve, reject ) => {
-    Entries.findAll( {
-      limit: 1,
+    Entries.findOne( {
       where : {
         type: 'tweet'
       },
       order: [ [ 'createdAt', 'DESC' ] ]
     } )
     .then( entry => {
-      console.log( entry );
-      resolve( entry.source_id );
+      resolve( entry.dataValues.source_id );
     } )
     .catch( err => {
-      console.log( err );
       resolve( null );
     } );
 
@@ -44,7 +41,8 @@ router.get( '/update/:user_id', ( req, res ) => {
 
   getMostRecentTweetId()
     .then( ( tweetId ) => {
-      twitter.getUserTimeline(
+      console.log( "tweetID@@@@@@@@@@@@@", tweetId );
+      /*twitter.getUserTimeline(
         { screen_name: screenName,
           count: '2',
           since_id: tweetId
@@ -114,7 +112,7 @@ router.get( '/update/:user_id', ( req, res ) => {
               } );
           } );
         }
-      );
+      );*/
     } )
     .catch( ( err ) => {
 
