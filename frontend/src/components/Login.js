@@ -85,7 +85,7 @@ class Login extends Component {
 }
 
 const mapStatetoProps = state => {
-  return { entries: state.entries };
+  return { auth: state.auth };
 };
 
 const mapDispatchtoProps = dispatch => {

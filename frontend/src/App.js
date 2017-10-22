@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { sessionService } from 'redux-react-session';
 import FooterTab from './components/FooterTab';
 import Main from './components/Main';
 import Login from './components/Login';
-//import 'bulma/css/bulma.css';
+import { checkUser } from './actions';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 const browserHistory = Router.browserHistory;
 
 class App extends Component {
+  componentWillMount() {
+    this.props.checkUser();
+  }
   ifLoggedIn() {
     return (
       <Router history={browserHistory}>
@@ -25,16 +29,25 @@ class App extends Component {
   }
 
   render() {
-    return this.ifNotLoggedIn();
+    console.log(this.props);
+    return this.props.authenticated ? this.ifLoggedIn() : this.ifNotLoggedIn();
   }
 }
 
 const mapStatetoProps = state => {
-  return { entries: state.entries };
+  return {
+    auth: state.auth,
+    checked: state.session.checked,
+    authenticated: state.session.authenticated
+  };
 };
 
 const mapDispatchtoProps = dispatch => {
-  return {};
+  return {
+    checkUser: () => {
+      dispatch(checkUser());
+    }
+  };
 };
 
 const ConnectedApp = connect(mapStatetoProps, mapDispatchtoProps)(App);
