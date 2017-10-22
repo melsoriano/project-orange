@@ -5,7 +5,7 @@ export const ADD_ENTRY = 'ADD_ENTRY';
 export const GET_ONE_ENTRY = 'GET_ONE_ENTRY';
 export const GET_WEEK_ENTRIES = 'GET_WEEK_ENTRIES';
 export const LOAD_AUTH = 'LOAD_AUTH';
-export const CHECK_AUTH = 'CHECK_AUTH';
+export const LOGIN_USER = 'LOGIN_USER';
 
 export const addEntry = entry => {
   return dispatch => {
@@ -45,6 +45,13 @@ export const getWeekEntries = () => {
   };
 };
 
-export const loginUser = (user, password) => {
-  return null;
+export const loginUser = user => {
+  return dispatch => {
+    axios.post('/login', querystring.stringify(user)).then(res => {
+      dispatch({
+        type: LOGIN_USER,
+        auth: res.data
+      });
+    });
+  };
 };
