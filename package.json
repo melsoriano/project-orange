@@ -20,18 +20,19 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "connect-redis": "^3.3.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "oauth": "^0.9.15",
     "passport": "^0.4.0",
-    "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.4",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "request": "^2.83.0",
     "sequelize": "^4.13.8",
     "sequelize-cli": "^3.0.0",
     "swagger": "^0.7.5",
+    "util-inspect": "^0.1.8",
     "watson-developer-cloud": "^2.41.1"
   }
 }
