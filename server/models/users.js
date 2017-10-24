@@ -1,7 +1,14 @@
 module.exports = function(sequelize, DataTypes) {
-  let Users = sequelize.define('users', {
-    username: DataTypes.STRING,
-    password: DataTypes.TEXT,
+  let Users = sequelize.define("users", {
+    username: {
+      type: DataTypes.STRING,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      required: true
+    },
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     birthDate: DataTypes.DATE,
@@ -13,14 +20,14 @@ module.exports = function(sequelize, DataTypes) {
   Users.associate = function(models) {
     Users.hasMany(models.entries, {
       foreignKey: {
-        name: 'user_id',
-        allowNull: true
+        name: "user_id",
+        allowNull: false
       }
     });
     Users.hasMany(models.keywords, {
       foreignKey: {
-        name: 'user_id',
-        allowNull: true
+        name: "user_id",
+        allowNull: false
       }
     });
   };

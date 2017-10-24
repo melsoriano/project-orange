@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getEntries, addEntry } from '../actions';
 import { Redirect } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
-import Logo from '../assets/orange_logo.svg';
+import Logo from '../assets/orangelogo.png';
 
 class Home extends Component {
   constructor(props) {

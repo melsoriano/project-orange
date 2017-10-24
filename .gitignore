@@ -3,3 +3,4 @@ server/config/config.json
 server/config/speechToText.json
 server/config/nlp.json
 server/config/twitterAppConfig.json
+.vscode/
