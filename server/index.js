@@ -14,6 +14,7 @@ const getEntriesRoutes = require("./routes/entriesRoutes.js");
 const getEntryRoutes = require("./routes/entryRoutes.js");
 const oauthRoute = require("./routes/oauth.js");
 
+
 const Entry = db.entries;
 const Keyword = db.keywords;
 const User = db.users;
@@ -21,7 +22,9 @@ const User = db.users;
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+
 app.use(bp.json());
+
 app.use(bp.urlencoded());
 
 app.use(
@@ -101,7 +104,8 @@ app.use("/entry/new", nlpRoute);
 app.use("/", userRoute);
 app.use("/twitterauth", oauthRoute);
 
+
 const server = app.listen(PORT, () => {
-  db.sequelize.sync();
+  // db.sequelize.sync({ force: true });
   console.log(`Server running on ${PORT}`);
 });

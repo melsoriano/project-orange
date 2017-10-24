@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Home from './Home';
-import Graph from './Graph';
+import Graph from './Graph/Graph';
 
 class Main extends Component {
   render() {

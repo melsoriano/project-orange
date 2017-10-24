@@ -8,7 +8,19 @@ body {
 
 #mainBox {
   background-color: #f9a346;
+  padding: 1rem;
   padding-bottom: 2rem;
+}
+
+#hiddenText {
+  font-size: 10px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+#showText {
+  font-size: 10px;
 }
 
 #footer {
@@ -18,9 +30,9 @@ body {
   background-color: #f9a346;
 }
 
-// #entryText {
-//   font-size: 12px;
-// }
+#loginBox {
+  padding: 2rem;
+}
 
 @import "../node_modules/bulma/sass/utilities/initial-variables";
 $tabs-toggle-link-hover-background-color: #fed156;
@@ -28,5 +40,6 @@ $tabs-link-color: #627586;
 $body-background-color: #f9a346;
 $tabs-toggle-link-border-color: #627586;
 $primary: #f47f70;
+$danger: #f47f70;
 
 @import "../node_modules/bulma/bulma.sass";
