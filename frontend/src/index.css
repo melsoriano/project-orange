@@ -28,6 +28,9 @@ body {
 #loginBox {
   padding: 2rem; }
 
+#burger {
+  background-color: #f9a346; }
+
 /*! bulma.io v0.6.0 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {
@@ -3904,7 +3907,7 @@ a.dropdown-item {
   padding: 20px; }
 
 .navbar {
-  background-color: white;
+  background-color: #f9a346;
   min-height: 3.25rem;
   position: relative; }
   .navbar.is-white {
@@ -4479,7 +4482,7 @@ a.navbar-item:hover, a.navbar-item.is-active,
     justify-content: flex-end;
     margin-left: auto; }
   .navbar-dropdown {
-    background-color: white;
+    background-color: #f9a346;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-top: 1px solid #dbdbdb;
