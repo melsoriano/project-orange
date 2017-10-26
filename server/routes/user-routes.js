@@ -14,7 +14,6 @@ router
     res.send("login");
   })
   .post(passport.authenticate("local"), (req, res) => {
-    console.log(req.body.username);
     res.json({ username: req.body.username });
   });
 
@@ -48,10 +47,10 @@ router.get("/logout", checkAuthentication, (req, res) => {
 });
 
 function checkAuthentication(req, res, next) {
+  // console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     return next();
   } else {
-    // res.send("NOT AUTHORIZED!!! BYE FELICIA");
     res.redirect("/login");
   }
 }
