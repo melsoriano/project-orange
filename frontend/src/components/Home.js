@@ -4,6 +4,7 @@ import { getEntries, addEntry } from '../actions';
 import { Redirect } from 'react-router-dom';
 import Logo from '../assets/orangelogo.png';
 import { sessionService } from 'redux-react-session';
+import axios from 'axios';
 
 class Home extends Component {
   constructor(props) {
@@ -30,11 +31,13 @@ class Home extends Component {
   };
 
   handleLogout = () => {
-    sessionService.deleteSession();
-    sessionService.deleteUser();
-    this.setState = {
-      redirectToGraph: false
-    };
+    axios.get('/logout').then(() => {
+      sessionService.deleteSession();
+      sessionService.deleteUser();
+      this.setState = {
+        redirectToGraph: false
+      };
+    });
   };
 
   render() {
