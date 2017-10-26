@@ -1,3 +1,4 @@
+const Op = require("sequelize").Op;
 const db = require("../../models");
 
 const Entries = db.entries;
@@ -105,7 +106,7 @@ function getEntriesAndAggregateKeywordsBetweenDates(
     Entries.findAll({
       where: {
         createdAt: {
-          $between: [startDate, endDate]
+          [Op.between]: [startDate, endDate]
         },
         user_id: user_id
       },
@@ -123,7 +124,7 @@ function getEntriesAndAggregateKeywordsBetweenDates(
         Keywords.findAll({
           where: {
             createdAt: {
-              $between: [startDate, endDate]
+              [Op.between]: [startDate, endDate]
             },
             user_id: user_id
           }
