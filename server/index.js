@@ -15,7 +15,6 @@ const getEntriesRoutes = require("./routes/entriesRoutes.js");
 const getEntryRoutes = require("./routes/entryRoutes.js");
 const oauthRoute = require("./routes/oauth.js");
 
-
 const Entry = db.entries;
 const Keyword = db.keywords;
 const User = db.users;
@@ -23,10 +22,8 @@ const User = db.users;
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-
 app.use(bp.json({ extended: true }));
 app.use(bp.urlencoded({ extended: true }));
-
 
 app.use(
   session({
@@ -107,7 +104,6 @@ app.use("/recording", checkAuthentication, speechToText);
 app.use("/entry/new", checkAuthentication, nlpRoute);
 app.use("/", userRoute);
 app.use("/twitterauth", oauthRoute);
-
 
 function checkAuthentication(req, res, next) {
   if (req.isAuthenticated()) {
