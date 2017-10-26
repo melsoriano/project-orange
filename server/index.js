@@ -45,8 +45,7 @@ passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({
       where: {
-        username: username,
-        limit: 1
+        username: username
       }
     })
       .then(user => {
@@ -106,6 +105,7 @@ app.use("/", userRoute);
 app.use("/twitterauth", oauthRoute);
 
 function checkAuthentication(req, res, next) {
+  console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     return next();
   } else {
