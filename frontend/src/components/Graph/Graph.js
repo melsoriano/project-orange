@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEntries } from '../../actions';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 import Weekly from './Weekly';
 import Monthly from './Monthly';
 
@@ -32,9 +32,11 @@ class Graph extends Component {
             </Link>
           </div>
         </div>
-        <Route exact path="/graph" render={() => <Weekly />} />
-        <Route path="/graph/weekly/" component={Weekly} />
-        <Route path="/graph/monthly/" component={Monthly} />
+        <Switch>
+          <Route exact path="/graph" render={() => <Weekly />} />
+          <Route path="/graph/weekly/" component={Weekly} />
+          <Route path="/graph/monthly/" component={Monthly} />
+        </Switch>
       </div>
     );
   }

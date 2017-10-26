@@ -2,25 +2,37 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getWeekEntries } from '../../actions';
 import demoGraph from '../../assets/graph.png';
+import SingleEntry from './SingleEntry';
 
 class Weekly extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      entries: []
+      entries: [],
+      currentView: null,
+      activeModal: null
     };
+
+    this.modalHander = this.modalHander.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
   componentDidMount() {
     this.props.getWeekEntries();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.weekEntries.entries !== nextProps.weekEntries.entries) {
-  //     this.props.getWeekEntries();
-  //   }
-  // }
+  modalHander(e, index) {
+    this.setState({
+      activeModal: index
+    });
+  }
+
+  hideModal() {
+    this.setState({
+      activeModal: null
+    });
+  }
 
   loadEntries() {
     if (Array.isArray(this.props.weekEntries.entries)) {
@@ -54,7 +66,7 @@ class Weekly extends Component {
   render() {
     // this.props.weekEntries.entries - all entries for the week
     // this.props.weekEntries.keywordSummary -  top five keywords for the week
-    console.log(this.props.weekEntries.entries.length);
+    console.log(this.props.weekEntries.entries);
     return (
       <div className="container is-mobile" id="mainBox">
         <img src={demoGraph} alt="demo graph" />
