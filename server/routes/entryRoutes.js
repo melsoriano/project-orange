@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 
-const db = require('../models');
+const db = require("../models");
 
 const router = express.Router();
 
@@ -8,28 +8,24 @@ const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
 
-router.get( '/:id', ( req, res ) => {
+router.get("/:id", (req, res) => {
   let entry_id = req.params.id;
-  Entries.findOne( {
+  Entries.findOne({
     where: {
       id: entry_id
     },
     include: [
       {
-        model: Keywords,
+        model: Keywords
       }
     ]
-  } )
-  .then( ( entry ) => {
-    res.send( entry );
-  } )
-  .catch( ( err ) => {
-    res.send( err );
-  } );
-} );
-
-router.get( '/:edit', ( req, res ) => {
-
-} );
+  })
+    .then(entry => {
+      res.send(entry);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
 
 module.exports = router;
