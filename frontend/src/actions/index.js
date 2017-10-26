@@ -1,5 +1,6 @@
 import axios from 'axios';
 import querystring from 'querystring';
+import { sessionService } from 'redux-react-session';
 export const LOAD_ENTRIES = 'LOAD_ENTRIES';
 export const ADD_ENTRY = 'ADD_ENTRY';
 export const GET_ONE_ENTRY = 'GET_ONE_ENTRY';
@@ -49,6 +50,11 @@ export const getWeekEntries = () => {
 export const loginUser = user => {
   return dispatch => {
     axios.post('/login', querystring.stringify(user)).then(res => {
+      const { token } = res;
+      console.log(res);
+      sessionService.saveSession({ token }).then(() => {
+        sessionService.saveUser(res.data);
+      });
       dispatch({
         type: LOGIN_USER,
         auth: res.data

@@ -21,7 +21,7 @@ class Login extends Component {
     };
 
     this.props.loginUser(userLogin);
-    sessionService.saveSession(userLogin);
+    //sessionService.saveSession(userLogin);
   };
 
   handleUsername = e => {
