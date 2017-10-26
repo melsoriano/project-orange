@@ -31,7 +31,8 @@ function getMostRecentTweetId() {
   });
 }
 
-router.get("/update/:user_id", (req, res) => {
+router.get("/update", (req, res) => {
+  console.log(req);
   let configTwitter = {
     accessToken: req.session.oauthRequestToken,
     accessTokenSecret: req.session.oauthRequestTokenSecret,
@@ -40,12 +41,11 @@ router.get("/update/:user_id", (req, res) => {
     callBackUrl: "callBackURL"
   };
   let twitter = new Twitter(configTwitter);
-  //input should be user_id( for db input), token and secret?
-  //how get screenName?  possibly through session.
+  //input should be user_id( for db input)
   //let screenName = "honolulupulse";
   let screenName = req.session.screen_name;
-  //let user_id = req.params.user_id;
-  let user_id = null;
+  let user_id = req.user.id;
+  //let user_id = null;
 
   getMostRecentTweetId()
     .then(tweetId => {
@@ -59,23 +59,17 @@ router.get("/update/:user_id", (req, res) => {
       twitter.getUserTimeline(
         twitterQueryConfig,
         err => {
-          //error handling branch
           res.send(err);
         },
         data => {
-          //successful GET branch
           let returnData = JSON.parse(data);
-
           returnData.forEach(tweetObj => {
-            //for each tweet
             let tweetText = tweetObj.text;
             let tweetId = tweetObj.id_str;
-            //send tweet text to watson
             watson
               .analyze(tweetText)
               .then(data => {
                 let nlpData = JSON.parse(data);
-
                 let sentimentData = nlpData.sentiment.document;
                 let emotionData = nlpData.emotion.document.emotion;
 
@@ -94,9 +88,6 @@ router.get("/update/:user_id", (req, res) => {
                 })
                   .then(entry => {
                     let entry_id = entry.dataValues.id;
-
-                    //then for keywords of tweet
-                    //run enterKeywordsToDb
                     dbHelper
                       .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
                       .then(() => {
@@ -124,23 +115,6 @@ router.get("/update/:user_id", (req, res) => {
 });
 
 module.exports = router;
-
-/*createdAt is time tweet was made.
-set up so it only processes new tweets.*/
-
-/*
-
-
-app.get( '/', ( req, res ) => {
-  twitter.getUserTimeline({ screen_name: 'vagueGreenColor', count: '10'}, (err) => {
-    res.send( err );
-  }, ( data ) => {
-    let returnData = JSON.parse( data );
-    res.send( returnData );
-  } );
-
-} );
-*/
 
 /*  ontime( {
     cycle: '03:01:00' //change this to time of day to run.  can modify from once a day.
