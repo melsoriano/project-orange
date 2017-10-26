@@ -2,7 +2,7 @@ const express = require("express");
 const Twitter = require("twitter-node-client").Twitter;
 
 const db = require("../models");
-const config = require("../config/twitterConfig.json");
+const CONFIG = require("../config/twitterConfig.json");
 
 const watson = require("../natural-lang-processing/nlpAPI.js");
 const dbHelper = require("./helperFunctions/dbEntryHelpers.js");
@@ -12,8 +12,6 @@ const router = express.Router();
 const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
-
-const twitter = new Twitter(config);
 
 function getMostRecentTweetId() {
   return new Promise((resolve, reject) => {
@@ -34,7 +32,18 @@ function getMostRecentTweetId() {
 }
 
 router.get("/update/:user_id", (req, res) => {
-  let screenName = "honolulupulse";
+  let configTwitter = {
+    accessToken: req.session.oauthRequestToken,
+    accessTokenSecret: req.session.oauthRequestTokenSecret,
+    consumerKey: CONFIG.CONSUMER_KEY,
+    consumerSecret: CONFIG.CONSUMER_SECRET,
+    callBackUrl: "callBackURL"
+  };
+  let twitter = new Twitter(configTwitter);
+  //input should be user_id( for db input), token and secret?
+  //how get screenName?  possibly through session.
+  //let screenName = "honolulupulse";
+  let screenName = req.session.screen_name;
   //let user_id = req.params.user_id;
   let user_id = null;
 
@@ -42,7 +51,7 @@ router.get("/update/:user_id", (req, res) => {
     .then(tweetId => {
       let twitterQueryConfig = {
         screen_name: screenName,
-        count: "1" //remove this when ready, otherwise only gets latest 2 tweets.
+        count: "1" //remove this when ready, otherwise only gets latest tweet.
       };
       if (tweetId !== null) {
         twitterQueryConfig.since_id = tweetId;

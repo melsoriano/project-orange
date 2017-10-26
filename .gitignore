@@ -2,5 +2,5 @@ node_modules
 server/config/config.json
 server/config/speechToText.json
 server/config/nlp.json
-server/config/twitterAppConfig.json
+server/config/twitterConfig.json
 .vscode/
