@@ -99,7 +99,6 @@ app.use("/user/entries", getEntriesRoutes);
 app.use("/user/entry", getEntryRoutes);
 
 app.use("/recording", require("./watson/speechToTextAPI.js"));
-app.use("/entry/new", nlpRoute);
 app.use("/", userRoute);
 app.use("/user/twitter", twitterRoute);
 app.use("/twitterauth", oauthRoute);
