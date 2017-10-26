@@ -2,44 +2,13 @@ const express = require("express");
 const watson = require("../natural-lang-processing/nlpAPI.js");
 
 const db = require("../models");
+const dbHelper = require("./helperFunctions/dbEntryHelpers.js");
 
 const router = express.Router();
 
 const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
-
-function enterKeywordsToDb(keywordArray, entry_id, user_id) {
-  return new Promise(function(resolve, reject) {
-    function insertKeywordInDb(keywordArray, keywordCount) {
-      if (keywordCount >= keywordArray.length) {
-        resolve();
-      } else {
-        let keyword = keywordArray[keywordCount];
-
-        Keywords.create({
-          keyword: keyword.text,
-          sentimentScore: keyword.sentiment.score,
-          relevanceScore: keyword.relevance,
-          sadnessScore: keyword.emotion.sadness,
-          fearScore: keyword.emotion.fear,
-          angerScore: keyword.emotion.anger,
-          joyScore: keyword.emotion.joy,
-          disgustScore: keyword.emotion.disgust,
-          entry_id: entry_id,
-          user_id: user_id
-        })
-          .then(() => {
-            insertKeywordInDb(keywordArray, ++keywordCount);
-          })
-          .catch(err => {
-            return err;
-          });
-      }
-    }
-    insertKeywordInDb(keywordArray, 0);
-  });
-}
 
 router.post("/", (req, res) => {
   let textEntry = req.body.text;
@@ -56,7 +25,6 @@ router.post("/", (req, res) => {
     .analyze(textEntry)
     .then(data => {
       let nlpData = JSON.parse(data);
-
 
       let sentimentData = nlpData.sentiment.document;
       let emotionData = nlpData.emotion.document.emotion;
@@ -76,37 +44,38 @@ router.post("/", (req, res) => {
         .then(entry => {
           let entry_id = entry.dataValues.id;
 
-      enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
-        .then( ()=> {
-          Entries.findOne( {
-            where: {
-                id: entry_id
-            },
-            include: [
-              {
-                model: Keywords,
-                limit: 5
-              }
-            ]
-          } )
-          .then( ( entries ) => {
-            res.send( entries );
-          } )
-          .catch( ( err ) => {
-            res.send( err );
-          } );
-        } )
-        .catch( ( err ) => {
-          res.send( err );
-        } );
-    } )
-    .catch( ( err ) => {
-       res.send( err );
-    } );
-  } )
-  .catch( ( err ) => {
-    res.send( err );
-  } );
-} );
+          dbHelper
+            .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+            .then(() => {
+              Entries.findOne({
+                where: {
+                  id: entry_id
+                },
+                include: [
+                  {
+                    model: Keywords,
+                    limit: 5
+                  }
+                ]
+              })
+                .then(entries => {
+                  res.send(entries);
+                })
+                .catch(err => {
+                  res.send(err);
+                });
+            })
+            .catch(err => {
+              res.send(err);
+            });
+        })
+        .catch(err => {
+          res.send(err);
+        });
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
 
 module.exports = router;
