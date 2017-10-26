@@ -51,7 +51,7 @@ router.get("/update", (req, res) => {
     .then(tweetId => {
       let twitterQueryConfig = {
         screen_name: screenName,
-        count: "1" //remove this when ready, otherwise only gets latest tweet.
+        count: "5" //remove this when ready, otherwise only gets latest tweet.
       };
       if (tweetId !== null) {
         twitterQueryConfig.since_id = tweetId;
