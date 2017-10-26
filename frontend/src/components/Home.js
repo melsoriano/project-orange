@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEntries, addEntry } from '../actions';
+import { getEntries, addEntry, getWeekEntries } from '../actions';
 import { Redirect } from 'react-router-dom';
 import Logo from '../assets/orangelogo.png';
 import { sessionService } from 'redux-react-session';
@@ -18,6 +18,7 @@ class Home extends Component {
 
   handleSubmit = () => {
     this.props.addEntry(this.state.currentEntry);
+    this.props.getWeekEntries();
     this.setState({
       currentEntry: '',
       redirectToGraph: true
@@ -97,6 +98,9 @@ const mapDispatchtoProps = dispatch => {
     },
     addEntry: entry => {
       dispatch(addEntry(entry));
+    },
+    getWeekEntries: () => {
+      dispatch(getWeekEntries());
     }
   };
 };

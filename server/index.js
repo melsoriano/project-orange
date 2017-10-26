@@ -45,8 +45,7 @@ passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({
       where: {
-        username: username,
-        limit: 1
+        username: username
       }
     })
       .then(user => {

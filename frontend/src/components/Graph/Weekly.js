@@ -12,9 +12,15 @@ class Weekly extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getWeekEntries();
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.weekEntries.entries !== nextProps.weekEntries.entries) {
+  //     this.props.getWeekEntries();
+  //   }
+  // }
 
   loadEntries() {
     if (Array.isArray(this.props.weekEntries.entries)) {
@@ -48,6 +54,7 @@ class Weekly extends Component {
   render() {
     // this.props.weekEntries.entries - all entries for the week
     // this.props.weekEntries.keywordSummary -  top five keywords for the week
+    console.log(this.props.weekEntries.entries.length);
     return (
       <div className="container is-mobile" id="mainBox">
         <img src={demoGraph} alt="demo graph" />
