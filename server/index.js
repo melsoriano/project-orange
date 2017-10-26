@@ -8,7 +8,6 @@ const RedisStore = require("connect-redis")(session);
 
 const db = require("./models");
 const nlpRoute = require("./routes/nlp-route.js");
-const speechToText = require("./routes/speechToTextAPI.js");
 const userRoute = require("./routes/user-routes.js");
 const CONFIG = require("./config/config.json");
 const getEntriesRoutes = require("./routes/entriesRoutes.js");
@@ -21,8 +20,9 @@ const User = db.users;
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-app.use(bp.json({ extended: true }));
 app.use(bp.urlencoded({ extended: true }));
+
+app.use(bp.urlencoded());
 
 app.use(
   session({
