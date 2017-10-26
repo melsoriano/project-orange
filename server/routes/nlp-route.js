@@ -43,7 +43,7 @@ function enterKeywordsToDb(keywordArray, entry_id, user_id) {
 
 router.post("/", (req, res) => {
   let textEntry = req.body.text;
-  let user_id = req.body.userId;
+  let user_id = req.user.id;
   let entryType = req.body.type;
 
   //validate input somehow.
@@ -56,7 +56,6 @@ router.post("/", (req, res) => {
     .analyze(textEntry)
     .then(data => {
       let nlpData = JSON.parse(data);
-
 
       let sentimentData = nlpData.sentiment.document;
       let emotionData = nlpData.emotion.document.emotion;
@@ -76,37 +75,37 @@ router.post("/", (req, res) => {
         .then(entry => {
           let entry_id = entry.dataValues.id;
 
-      enterKeywordsToDb( nlpData.keywords, entry_id, user_id )
-        .then( ()=> {
-          Entries.findOne( {
-            where: {
-                id: entry_id
-            },
-            include: [
-              {
-                model: Keywords,
-                limit: 5
-              }
-            ]
-          } )
-          .then( ( entries ) => {
-            res.send( entries );
-          } )
-          .catch( ( err ) => {
-            res.send( err );
-          } );
-        } )
-        .catch( ( err ) => {
-          res.send( err );
-        } );
-    } )
-    .catch( ( err ) => {
-       res.send( err );
-    } );
-  } )
-  .catch( ( err ) => {
-    res.send( err );
-  } );
-} );
+          enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+            .then(() => {
+              Entries.findOne({
+                where: {
+                  id: entry_id
+                },
+                include: [
+                  {
+                    model: Keywords,
+                    limit: 5
+                  }
+                ]
+              })
+                .then(entries => {
+                  res.send(entries);
+                })
+                .catch(err => {
+                  res.send(err);
+                });
+            })
+            .catch(err => {
+              res.send(err);
+            });
+        })
+        .catch(err => {
+          res.send(err);
+        });
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
 
 module.exports = router;
