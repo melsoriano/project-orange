@@ -41,11 +41,8 @@ router.get("/update", (req, res) => {
     callBackUrl: "callBackURL"
   };
   let twitter = new Twitter(configTwitter);
-  //input should be user_id( for db input)
-  //let screenName = "honolulupulse";
   let screenName = req.session.screen_name;
   let user_id = req.user.id;
-  //let user_id = null;
 
   getMostRecentTweetId()
     .then(tweetId => {
@@ -115,20 +112,3 @@ router.get("/update", (req, res) => {
 });
 
 module.exports = router;
-
-/*  ontime( {
-    cycle: '03:01:00' //change this to time of day to run.  can modify from once a day.
-  }, function (ot) {
-    //make a function that does below stuff and run it here.
-      //cycle through users
-      //for each user
-        //get tweet timeline
-          //for each tweet
-            //send tweet text to watson
-              //then create db entry
-                //source_id is tweet's id_str
-                //then for keywords of tweet
-                  //run enterKeywordsToDb
-    ot.done();
-    return;
-  } );*/
