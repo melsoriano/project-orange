@@ -30,6 +30,4 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.get("/:edit", (req, res) => {});
-
 module.exports = router;
