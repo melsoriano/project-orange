@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import FooterTab from './components/FooterTab';
 import Main from './components/Main';
 import Login from './components/Login';
-import { checkUser } from './actions';
+import { getWeekEntries } from './actions';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 const browserHistory = Router.browserHistory;
 
@@ -44,8 +44,8 @@ const mapStatetoProps = state => {
 
 const mapDispatchtoProps = dispatch => {
   return {
-    checkUser: () => {
-      dispatch(checkUser());
+    getWeekEntries: () => {
+      dispatch(getWeekEntries());
     }
   };
 };
