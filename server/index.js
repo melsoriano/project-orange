@@ -8,6 +8,7 @@ const RedisStore = require("connect-redis")(session);
 
 const db = require("./models");
 const nlpRoute = require("./routes/nlp-route.js");
+const speechToText = require("./routes/speechToTextAPI.js");
 const userRoute = require("./routes/user-routes.js");
 const CONFIG = require("./config/config.json");
 const getEntriesRoutes = require("./routes/entriesRoutes.js");
@@ -21,7 +22,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(bp.json({ extended: true }));
-app.use(bp.urlencoded());
+app.use(bp.urlencoded({ extended: true }));
 
 app.use(
   session({
@@ -30,7 +31,9 @@ app.use(
     name: "orange_sessions",
     cookie: {
       maxAge: 10000000
-    }
+    },
+    resave: false,
+    saveUninitialized: true
   })
 );
 
@@ -41,7 +44,8 @@ passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({
       where: {
-        username: username
+        username: username,
+        limit: 1
       }
     })
       .then(user => {
@@ -75,7 +79,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((userId, done) => {
-  User.find({
+  User.findOne({
     where: {
       id: userId
     }
@@ -91,13 +95,21 @@ passport.deserializeUser((userId, done) => {
     });
 });
 
-app.use("/user/entry/new", nlpRoute);
-app.use("/user/entries", getEntriesRoutes);
-app.use("/user/entry", getEntryRoutes);
+app.use("/user/entry/new", checkAuthentication, nlpRoute);
+app.use("/user/entries", checkAuthentication, getEntriesRoutes);
+app.use("/user/entry", checkAuthentication, getEntryRoutes);
 
-app.use("/recording", require("./watson/speechToTextAPI.js"));
-app.use("/entry/new", nlpRoute);
+app.use("/recording", checkAuthentication, speechToText);
+app.use("/entry/new", checkAuthentication, nlpRoute);
 app.use("/", userRoute);
+
+function checkAuthentication(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect("/login");
+  }
+}
 
 const server = app.listen(PORT, () => {
   // db.sequelize.sync({ force: true });
