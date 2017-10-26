@@ -10,9 +10,10 @@ const Keywords = db.keywords;
 const Users = db.users;
 
 router.get("/all", (req, res) => {
+  let user_id = req.user.id;
   Entries.findAll({
     where: {
-      user_id: req.user.id
+      user_id: user_id
     },
     include: [
       {
@@ -31,7 +32,7 @@ router.get("/all", (req, res) => {
 router.get("/yearly", (req, res) => {
   let timespanInDays = 365;
   let keywordSummaryLength = 20;
-
+  let user_id = req.user.id;
   let endDateOfQuery = new Date();
   let startDateOfQuery = new Date();
   startDateOfQuery.setDate(startDateOfQuery.getDate() - timespanInDays);
@@ -39,8 +40,8 @@ router.get("/yearly", (req, res) => {
     .getEntriesAndAggregateKeywordsBetweenDates(
       startDateOfQuery,
       endDateOfQuery,
-      timespanInDays,
-      keywordSummaryLength
+      keywordSummaryLength,
+      user_id
     )
     .then(data => {
       res.send(data);
@@ -53,6 +54,7 @@ router.get("/yearly", (req, res) => {
 router.get("/monthly", (req, res) => {
   let timespanInDays = 30;
   let keywordSummaryLength = 10;
+  let user_id = req.user.id;
 
   let endDateOfQuery = new Date();
   let startDateOfQuery = new Date();
@@ -62,7 +64,8 @@ router.get("/monthly", (req, res) => {
     .getEntriesAndAggregateKeywordsBetweenDates(
       startDateOfQuery,
       endDateOfQuery,
-      keywordSummaryLength
+      keywordSummaryLength,
+      user_id
     )
     .then(data => {
       res.send(data);
@@ -75,6 +78,7 @@ router.get("/monthly", (req, res) => {
 router.get("/weekly", (req, res) => {
   let timespanInDays = 7;
   let keywordSummaryLength = 5;
+  let user_id = req.user.id;
 
   let endDateOfQuery = new Date();
   let startDateOfQuery = new Date();
@@ -84,7 +88,8 @@ router.get("/weekly", (req, res) => {
     .getEntriesAndAggregateKeywordsBetweenDates(
       startDateOfQuery,
       endDateOfQuery,
-      keywordSummaryLength
+      keywordSummaryLength,
+      user_id
     )
     .then(data => {
       res.send(data);
@@ -97,6 +102,7 @@ router.get("/weekly", (req, res) => {
 router.get("/daily", (req, res) => {
   let timespanInDays = 1;
   let keywordSummaryLength = 3;
+  let user_id = req.user.id;
 
   let endDateOfQuery = new Date();
   let startDateOfQuery = new Date();
@@ -106,7 +112,8 @@ router.get("/daily", (req, res) => {
     .getEntriesAndAggregateKeywordsBetweenDates(
       startDateOfQuery,
       endDateOfQuery,
-      keywordSummaryLength
+      keywordSummaryLength,
+      user_id
     )
     .then(data => {
       res.send(data);
@@ -118,6 +125,7 @@ router.get("/daily", (req, res) => {
 
 router.get("/month/:mmyyDate", (req, res) => {
   let keywordSummaryLength = 10;
+  let user_id = req.user.id;
 
   let timespan = req.params.mmyyDate;
   let monthOfQuery = parseInt(timespan.slice(0, 2)) - 1; //date object takes 0-11 for month arguement.
@@ -129,7 +137,8 @@ router.get("/month/:mmyyDate", (req, res) => {
     .getEntriesAndAggregateKeywordsBetweenDates(
       startDateOfQuery,
       endDateOfQuery,
-      keywordSummaryLength
+      keywordSummaryLength,
+      user_id
     )
     .then(data => {
       res.send(data);
