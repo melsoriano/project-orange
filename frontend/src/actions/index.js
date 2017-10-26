@@ -1,8 +1,11 @@
 import axios from 'axios';
+import querystring from 'querystring';
 export const LOAD_ENTRIES = 'LOAD_ENTRIES';
 export const ADD_ENTRY = 'ADD_ENTRY';
 export const GET_ONE_ENTRY = 'GET_ONE_ENTRY';
 export const GET_WEEK_ENTRIES = 'GET_WEEK_ENTRIES';
+export const LOAD_AUTH = 'LOAD_AUTH';
+export const CHECK_AUTH = 'CHECK_AUTH';
 
 export const addEntry = entry => {
   return dispatch => {
@@ -40,4 +43,8 @@ export const getWeekEntries = () => {
       });
     });
   };
+};
+
+export const loginUser = (user, password) => {
+  return null;
 };
