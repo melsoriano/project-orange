@@ -42,7 +42,7 @@ class Home extends Component {
 
   render() {
     if (this.state.redirectToGraph) {
-      return <Redirect to="/graph" />;
+      return <Redirect to="/graph/weekly/" />;
     }
     return (
       <div className="container">
