@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEntries } from '../../actions';
-import { Route, Link } from 'react-router-dom';
-import Swipeable from 'react-swipeable';
+import { Route, Link, Switch } from 'react-router-dom';
 import Weekly from './Weekly';
 import Monthly from './Monthly';
 
@@ -16,40 +15,29 @@ class Graph extends Component {
     };
   }
 
-  handleSwipeLeft() {
-    alert('Swiped left!');
-  }
-
-  handleSwipeRight() {
-    alert('Swiped right!');
-  }
-
   render() {
     return (
-      <Swipeable
-        onSwipedLeft={this.handleSwipeLeft}
-        onSwipedRight={this.handleSwipeRight}
-      >
-        <div className="container is-mobile" id="mainBox">
-          <div className="columns is-mobile is-centered">
-            <div className="column">
-              <Link to="/graph/weekly">
-                <button className="button is-danger is-fullwidth">
-                  Current Week
-                </button>
-              </Link>
-            </div>
-            <div className="column">
-              <Link to="/graph/monthly">
-                <button className="button is-danger is-fullwidth">Month</button>
-              </Link>
-            </div>
+      <div className="container is-mobile" id="mainBox">
+        <div className="columns is-mobile is-centered">
+          <div className="column">
+            <Link to="/graph/weekly">
+              <button className="button is-danger is-fullwidth">
+                Current Week
+              </button>
+            </Link>
           </div>
+          <div className="column">
+            <Link to="/graph/monthly">
+              <button className="button is-danger is-fullwidth">Month</button>
+            </Link>
+          </div>
+        </div>
+        <Switch>
           <Route exact path="/graph" render={() => <Weekly />} />
           <Route path="/graph/weekly/" component={Weekly} />
           <Route path="/graph/monthly/" component={Monthly} />
-        </div>
-      </Swipeable>
+        </Switch>
+      </div>
     );
   }
 }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEntries, addEntry } from '../actions';
+import { getEntries, addEntry, getWeekEntries } from '../actions';
 import { Redirect } from 'react-router-dom';
-import Swipeable from 'react-swipeable';
 import Logo from '../assets/orangelogo.png';
+import { sessionService } from 'redux-react-session';
+import axios from 'axios';
 
 class Home extends Component {
   constructor(props) {
@@ -15,16 +16,9 @@ class Home extends Component {
     };
   }
 
-  handleSwipeLeft() {
-    alert('Swiped left!');
-  }
-
-  handleSwipeRight() {
-    alert('Swiped right!');
-  }
-
   handleSubmit = () => {
     this.props.addEntry(this.state.currentEntry);
+    this.props.getWeekEntries();
     this.setState({
       currentEntry: '',
       redirectToGraph: true
@@ -37,15 +31,30 @@ class Home extends Component {
     });
   };
 
+  handleLogout = () => {
+    axios.get('/logout').then(() => {
+      sessionService.deleteSession();
+      sessionService.deleteUser();
+      this.setState = {
+        redirectToGraph: false
+      };
+    });
+  };
+
   render() {
     if (this.state.redirectToGraph) {
-      return <Redirect to="/graph" />;
+      return <Redirect to="/graph/weekly/" />;
     }
     return (
-      <Swipeable
-        onSwipedLeft={this.handleSwipeLeft}
-        onSwipedRight={this.handleSwipeRight}
-      >
+      <div className="container">
+        <nav className="level is-mobile">
+          <div className="level-left" />
+          <div className="level-right">
+            <button className="button is-danger" onClick={this.handleLogout}>
+              Logout
+            </button>
+          </div>
+        </nav>
         <div className="container" id="mainBox">
           <img src={Logo} alt="Logo" />
           <div className="level">
@@ -64,7 +73,7 @@ class Home extends Component {
             <div className="level-item">
               <div className="control">
                 <button
-                  className="button is-primary"
+                  className="button is-danger is-fullwidth"
                   onClick={this.handleSubmit}
                 >
                   Submit
@@ -73,7 +82,7 @@ class Home extends Component {
             </div>
           </div>
         </div>
-      </Swipeable>
+      </div>
     );
   }
 }
@@ -89,6 +98,9 @@ const mapDispatchtoProps = dispatch => {
     },
     addEntry: entry => {
       dispatch(addEntry(entry));
+    },
+    getWeekEntries: () => {
+      dispatch(getWeekEntries());
     }
   };
 };

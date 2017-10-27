@@ -12,7 +12,7 @@ class FooterTab extends Component {
           <li>
             <Link to="/graph">
               <span className="icon is-small">
-                <i className="fa fa-home" />
+                <i className="fa fa-pie-chart" />
               </span>
               <span>Graph</span>
             </Link>
@@ -20,7 +20,7 @@ class FooterTab extends Component {
           <li>
             <Link to="/">
               <span className="icon is-small">
-                <i className="fa fa-pie-chart" />
+                <i className="fa fa-home" />
               </span>
               <span>Home</span>
             </Link>
