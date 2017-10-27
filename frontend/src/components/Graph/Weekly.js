@@ -37,22 +37,24 @@ class Weekly extends Component {
   loadEntries() {
     if (Array.isArray(this.props.weekEntries.entries)) {
       return this.props.weekEntries.entries.map(entry => {
+        let newDate = new Date(entry.createdAt);
         return (
-          <article
-            key={entry.id}
-            className="media"
-            onClick={this.handleOpenTextClick.bind(this)}
-            id={this.state.bool ? 'showText' : 'hiddenText'}
-          >
+          <article key={entry.id} className="media" id="showText">
             <div className="media-content">
               <div className="content">
-                <p>
-                  <small>{entry.createdAt}</small>
+                <p id={entry.id} onClick={e => this.modalHander(e, entry.id)}>
+                  <small>{newDate.toLocaleString()}</small>
                   <br />
                   {entry.text}
                 </p>
               </div>
             </div>
+            <SingleEntry
+              show={this.state.activeModal === entry.id}
+              onHide={this.hideModal}
+              entry={entry}
+              date={newDate.toLocaleString()}
+            />
           </article>
         );
       });
@@ -66,7 +68,6 @@ class Weekly extends Component {
   render() {
     // this.props.weekEntries.entries - all entries for the week
     // this.props.weekEntries.keywordSummary -  top five keywords for the week
-    console.log(this.props.weekEntries.entries);
     return (
       <div className="container is-mobile" id="mainBox">
         <img src={demoGraph} alt="demo graph" />
