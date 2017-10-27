@@ -38,18 +38,14 @@ router.post("/", (req, res) => {
         angerScore: emotionData.anger,
         joyScore: emotionData.joy,
         disgustScore: emotionData.disgust,
-        type: entryType,
+        type: "entry",
         source_id: null
       })
         .then(entry => {
           let entry_id = entry.dataValues.id;
 
-<<<<<<< HEAD
-          enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
-=======
           dbHelper
             .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
->>>>>>> development
             .then(() => {
               Entries.findOne({
                 where: {
