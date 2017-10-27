@@ -1,13 +1,10 @@
-const express = require("express");
 const Twitter = require("twitter-node-client").Twitter;
 
-const db = require("../models");
-const CONFIG = require("../config/twitterConfig.json");
+const db = require("../../models");
+const CONFIG = require("../../config/twitterConfig.json");
 
-const watson = require("../natural-lang-processing/nlpAPI.js");
-const dbHelper = require("./helperFunctions/dbEntryHelpers.js");
-
-const router = express.Router();
+const watson = require("../../natural-lang-processing/nlpAPI.js");
+const dbHelper = require("./dbEntryHelpers.js");
 
 const Entries = db.entries;
 const Keywords = db.keywords;
@@ -31,18 +28,17 @@ function getMostRecentTweetId() {
   });
 }
 
-router.get("/update", (req, res) => {
-  console.log(req);
+function getRecentUserTweets(userInfoObj) {
   let configTwitter = {
-    accessToken: req.session.oauthRequestToken,
-    accessTokenSecret: req.session.oauthRequestTokenSecret,
+    accessToken: userInfoObj.accessToken,
+    accessTokenSecret: userInfoObj.accessTokenSecret,
     consumerKey: CONFIG.CONSUMER_KEY,
     consumerSecret: CONFIG.CONSUMER_SECRET,
     callBackUrl: "callBackURL"
   };
   let twitter = new Twitter(configTwitter);
-  let screenName = req.session.screen_name;
-  let user_id = req.user.id;
+  let screenName = userInfoObj.screenName;
+  let user_id = userInfoObj.user_id;
 
   getMostRecentTweetId()
     .then(tweetId => {
@@ -56,13 +52,15 @@ router.get("/update", (req, res) => {
       twitter.getUserTimeline(
         twitterQueryConfig,
         err => {
-          res.send(err);
+          console.log(err);
         },
         data => {
+          console.log(data);
           let returnData = JSON.parse(data);
           returnData.forEach(tweetObj => {
             let tweetText = tweetObj.text;
             let tweetId = tweetObj.id_str;
+            let tweetCreatedAt = tweetObj.created_at;
             watson
               .analyze(tweetText)
               .then(data => {
@@ -81,34 +79,44 @@ router.get("/update", (req, res) => {
                   joyScore: emotionData.joy,
                   disgustScore: emotionData.disgust,
                   type: "tweet",
-                  source_id: tweetId
+                  source_id: tweetId,
+                  createdAt: tweetCreatedAt
                 })
                   .then(entry => {
                     let entry_id = entry.dataValues.id;
                     dbHelper
                       .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
                       .then(() => {
-                        res.end();
+                        return;
                       })
                       .catch(err => {
-                        res.send(err);
+                        console.log(err);
                       });
                   })
                   .catch(err => {
-                    res.send(err);
+                    console.log(err);
                   });
               })
               .catch(err => {
-                res.send(err);
+                console.log(err);
               });
           });
-          res.end();
+          return;
         }
       );
     })
     .catch(err => {
-      res.send(err);
+      console.log(err);
     });
-});
+}
 
-module.exports = router;
+module.exports = {
+  getRecentUserTweets
+};
+// // feed it
+// {
+//   accessToken: req.session.oauthRequestToken,
+//   accessTokenSecret: req.session.oauthRequestTokenSecret,
+//   user_id: req.user.id,
+//   screenName: req.session.screen_name
+// }
