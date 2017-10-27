@@ -30,8 +30,6 @@ class Settings extends Component {
       username: this.state.twitterUsername,
       password: this.state.twitterPassword
     };
-
-    console.log(twitterLogin);
   };
 
   render() {
