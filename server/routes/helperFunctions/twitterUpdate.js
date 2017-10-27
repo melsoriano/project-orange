@@ -1,10 +1,10 @@
 const Twitter = require("twitter-node-client").Twitter;
 
-const db = require("../models");
-const CONFIG = require("../config/twitterConfig.json");
+const db = require("../../models");
+const CONFIG = require("../../config/twitterConfig.json");
 
-const watson = require("../natural-lang-processing/nlpAPI.js");
-const dbHelper = require("./helperFunctions/dbEntryHelpers.js");
+const watson = require("../../natural-lang-processing/nlpAPI.js");
+const dbHelper = require("./dbEntryHelpers.js");
 
 const Entries = db.entries;
 const Keywords = db.keywords;
@@ -55,6 +55,7 @@ function getRecentUserTweets(userInfoObj) {
           console.log(err);
         },
         data => {
+          console.log(data);
           let returnData = JSON.parse(data);
           returnData.forEach(tweetObj => {
             let tweetText = tweetObj.text;
@@ -109,6 +110,9 @@ function getRecentUserTweets(userInfoObj) {
     });
 }
 
+module.exports = {
+  getRecentUserTweets
+};
 // // feed it
 // {
 //   accessToken: req.session.oauthRequestToken,
@@ -116,11 +120,3 @@ function getRecentUserTweets(userInfoObj) {
 //   user_id: req.user.id,
 //   screenName: req.session.screen_name
 // }
-
-let testConfig = {
-  accessToken: req.session.oauthRequestToken,
-  accessTokenSecret: req.session.oauthRequestTokenSecret,
-  user_id: req.user.id,
-  screenName: req.session.screen_name
-};
-getRecentUserTweets(testConfig);
