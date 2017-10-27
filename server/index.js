@@ -13,6 +13,7 @@ const userRoute = require("./routes/user-routes.js");
 const CONFIG = require("./config/config.json");
 const getEntriesRoutes = require("./routes/entriesRoutes.js");
 const getEntryRoutes = require("./routes/entryRoutes.js");
+const twitterRoute = require("./routes/twitterRoutes.js");
 const oauthRoute = require("./routes/oauth.js");
 
 const Entry = db.entries;
@@ -100,11 +101,12 @@ app.use("/user/entries", checkAuthentication, getEntriesRoutes);
 app.use("/user/entry", checkAuthentication, getEntryRoutes);
 
 app.use("/recording", checkAuthentication, speechToText);
-app.use("/entry/new", checkAuthentication, nlpRoute);
 app.use("/", userRoute);
+app.use("/user/twitter", twitterRoute);
 app.use("/twitterauth", oauthRoute);
 
 function checkAuthentication(req, res, next) {
+  console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     return next();
   } else {
