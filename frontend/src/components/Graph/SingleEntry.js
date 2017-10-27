@@ -16,10 +16,12 @@ class SingleEntry extends Component {
             <button className="delete" onClick={this.props.onHide} />
           </header>
           <section className="modal-card-body">
-            <div className="content">{this.props.entry.text}</div>
+            <div className="content" id="entryText">
+              {this.props.entry.text}
+            </div>
           </section>
           <footer className="modal-card-foot">
-            <button className="button is-primary" onClick={this.props.onHide}>
+            <button className="button is-danger" onClick={this.props.onHide}>
               Close
             </button>
           </footer>

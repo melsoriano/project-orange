@@ -50,7 +50,7 @@ class Home extends Component {
         <nav className="level is-mobile">
           <div className="level-left" />
           <div className="level-right">
-            <button className="button is-primary" onClick={this.handleLogout}>
+            <button className="button is-danger" onClick={this.handleLogout}>
               Logout
             </button>
           </div>
@@ -73,7 +73,7 @@ class Home extends Component {
             <div className="level-item">
               <div className="control">
                 <button
-                  className="button is-primary"
+                  className="button is-danger is-fullwidth"
                   onClick={this.handleSubmit}
                 >
                   Submit

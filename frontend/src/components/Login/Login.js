@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loginUser } from '../actions';
+import { loginUser } from '../../actions';
+import Register from './Register';
 
 class Login extends Component {
   constructor(props) {
@@ -9,8 +10,24 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      newUser: null
+      newUser: null,
+      activeModal: null
     };
+
+    this.modalHandler = this.modalHandler.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+  }
+
+  modalHandler(e) {
+    this.setState({
+      activeModal: 'register'
+    });
+  }
+
+  hideModal() {
+    this.setState({
+      activeModal: null
+    });
   }
 
   handleLoginClick = () => {
@@ -75,9 +92,15 @@ class Login extends Component {
             </button>
           </div>
           <div className="control">
-            <button className="button is-text">Cancel</button>
+            <button
+              className="button is-text"
+              onClick={e => this.modalHandler(e)}
+            >
+              New User?
+            </button>
           </div>
         </div>
+        <Register show={this.state.activeModal} onHide={this.hideModal} />
       </div>
     );
   }

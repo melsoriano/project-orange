@@ -20,11 +20,6 @@ body {
   overflow: hidden;
 }
 
-#showText {
-  font-size: 12px;
-  font-weight: bold;
-}
-
 #footer {
   position: fixed;
   bottom: 0;
@@ -40,12 +35,48 @@ body {
   background-color: #f9a346;
 }
 
+#entryText {
+  font-family: "Heebo", sans-serif;
+  font-size: 12px;
+}
+
+.modal {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
 @import "../node_modules/bulma/sass/utilities/initial-variables";
 $tabs-toggle-link-hover-background-color: #fed156;
 $tabs-link-color: #627586;
 $body-background-color: #f9a346;
 $tabs-toggle-link-border-color: #627586;
-$primary: #f47f70;
+$primary: #627586;
 $danger: #f47f70;
 $navbar-background-color: #f9a346;
 $navbar-dropdown-background-color: #f9a346;
