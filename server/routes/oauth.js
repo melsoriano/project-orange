@@ -7,7 +7,7 @@ const OAuth = require("oauth").OAuth;
 const app = express();
 
 const CONFIG = require("../config/twitterConfig.json");
-//const twitter = require( './helperFunctions/twitterUpdate.js' );
+const twitter = require("./helperFunctions/twitterUpdate.js");
 
 const configOAuth = new OAuth(
   "https://api.twitter.com/oauth/request_token",
@@ -89,6 +89,14 @@ app.get("/home", (req, res) => {
       } else {
         let parsedData = JSON.parse(data);
         res.send(`You are logged in as ${parsedData.screen_name}`);
+
+        let twitterUpdateConfig = {
+          accessToken: req.session.oauthRequestToken,
+          accessTokenSecret: req.session.oauthRequestTokenSecret,
+          user_id: req.user.id,
+          screenName: req.session.screen_name
+        };
+        twitter.getRecentUserTweets(twitterUpdateConfig);
       }
     }
   );
