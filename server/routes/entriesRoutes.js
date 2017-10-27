@@ -154,4 +154,29 @@ router.get("/month/:mmyyDate", (req, res) => {
     });
 });
 
+router.get("/twitter", (req, res) => {
+  let timespanInDays = 10; //this number is arbitrary.
+  let keywordSummaryLength = 3;
+  let user_id = req.user.id;
+
+  let endDateOfQuery = new Date();
+  let startDateOfQuery = new Date();
+  startDateOfQuery.setDate(startDateOfQuery.getDate() - timespanInDays);
+
+  helperFn
+    .getEntriesAndAggregateKeywordsBetweenDates(
+      startDateOfQuery,
+      endDateOfQuery,
+      keywordSummaryLength,
+      user_id,
+      "tweet"
+    )
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
+
 module.exports = router;
