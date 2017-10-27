@@ -103,7 +103,7 @@ app.use("/user/entry", checkAuthentication, getEntryRoutes);
 app.use("/recording", checkAuthentication, speechToText);
 app.use("/", userRoute);
 app.use("/user/twitter", twitterRoute);
-app.use("/twitterauth", oauthRoute);
+app.use("/twitterlogin", oauthRoute);
 
 function checkAuthentication(req, res, next) {
   console.log(req.isAuthenticated());
