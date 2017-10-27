@@ -25,8 +25,7 @@ export const addEntry = entry => {
     axios
       .post('/user/entry/new', {
         text: entry,
-        type: 'text-entry',
-        userId: 1
+        type: 'text-entry'
       })
       .then(oneEntry => {
         dispatch({
