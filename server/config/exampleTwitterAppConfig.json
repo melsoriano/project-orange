@@ -1,0 +1,7 @@
+{
+  "consumerKey": "your app consumer key",
+  "consumerSecret": "your app consumer secret",
+  "accessToken": "enter access token here",
+  "accessTokenSecret": "enter Access Token Secret Here",
+  "callBackUrl": "callBackURL"
+}

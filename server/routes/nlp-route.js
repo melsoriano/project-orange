@@ -2,44 +2,13 @@ const express = require("express");
 const watson = require("../natural-lang-processing/nlpAPI.js");
 
 const db = require("../models");
+const dbHelper = require("./helperFunctions/dbEntryHelpers.js");
 
 const router = express.Router();
 
 const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
-
-function enterKeywordsToDb(keywordArray, entry_id, user_id) {
-  return new Promise(function(resolve, reject) {
-    function insertKeywordInDb(keywordArray, keywordCount) {
-      if (keywordCount >= keywordArray.length) {
-        resolve();
-      } else {
-        let keyword = keywordArray[keywordCount];
-
-        Keywords.create({
-          keyword: keyword.text,
-          sentimentScore: keyword.sentiment.score,
-          relevanceScore: keyword.relevance,
-          sadnessScore: keyword.emotion.sadness,
-          fearScore: keyword.emotion.fear,
-          angerScore: keyword.emotion.anger,
-          joyScore: keyword.emotion.joy,
-          disgustScore: keyword.emotion.disgust,
-          entry_id: entry_id,
-          user_id: user_id
-        })
-          .then(() => {
-            insertKeywordInDb(keywordArray, ++keywordCount);
-          })
-          .catch(err => {
-            return err;
-          });
-      }
-    }
-    insertKeywordInDb(keywordArray, 0);
-  });
-}
 
 router.post("/", (req, res) => {
   let textEntry = req.body.text;
@@ -75,7 +44,12 @@ router.post("/", (req, res) => {
         .then(entry => {
           let entry_id = entry.dataValues.id;
 
+<<<<<<< HEAD
           enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+=======
+          dbHelper
+            .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+>>>>>>> development
             .then(() => {
               Entries.findOne({
                 where: {
