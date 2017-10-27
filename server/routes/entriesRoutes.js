@@ -13,7 +13,8 @@ router.get("/all", (req, res) => {
   let user_id = req.user.id;
   Entries.findAll({
     where: {
-      user_id: user_id
+      user_id: user_id,
+      type: "entry"
     },
     include: [
       {
@@ -41,7 +42,8 @@ router.get("/yearly", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -65,7 +67,8 @@ router.get("/monthly", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -89,7 +92,8 @@ router.get("/weekly", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -113,7 +117,8 @@ router.get("/daily", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -138,7 +143,8 @@ router.get("/month/:mmyyDate", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
