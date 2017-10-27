@@ -30,6 +30,9 @@ class Settings extends Component {
       username: this.state.twitterUsername,
       password: this.state.twitterPassword
     };
+    axios.get('/twitterlogin/connect').then(() => {
+      console.log('test');
+    });
   };
 
   render() {
