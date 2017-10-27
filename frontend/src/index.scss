@@ -4,6 +4,7 @@ body {
   font-family: sans-serif;
   height: 100%;
   color: black;
+  font-family: "Poiret One", cursive;
 }
 
 #mainBox {
@@ -20,7 +21,8 @@ body {
 }
 
 #showText {
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 #footer {
@@ -47,5 +49,6 @@ $primary: #f47f70;
 $danger: #f47f70;
 $navbar-background-color: #f9a346;
 $navbar-dropdown-background-color: #f9a346;
+$family-sans-serif: "Poiret One", cursive;
 
 @import "../node_modules/bulma/bulma.sass";
