@@ -12,7 +12,7 @@ const Users = db.users;
 
 router.post("/", (req, res) => {
   let textEntry = req.body.text;
-  let user_id = req.body.userId;
+  let user_id = req.user.id;
   let entryType = req.body.type;
 
   //validate input somehow.
@@ -44,8 +44,12 @@ router.post("/", (req, res) => {
         .then(entry => {
           let entry_id = entry.dataValues.id;
 
+<<<<<<< HEAD
+          enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+=======
           dbHelper
             .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+>>>>>>> development
             .then(() => {
               Entries.findOne({
                 where: {

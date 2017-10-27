@@ -9,10 +9,12 @@ const Keywords = db.keywords;
 const Users = db.users;
 
 router.get("/:id", (req, res) => {
+  let user_id = req.user.id;
   let entry_id = req.params.id;
   Entries.findOne({
     where: {
-      id: entry_id
+      id: entry_id,
+      user_id: user_id
     },
     include: [
       {
