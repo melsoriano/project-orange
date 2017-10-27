@@ -63,6 +63,7 @@ router.get("/update", (req, res) => {
           returnData.forEach(tweetObj => {
             let tweetText = tweetObj.text;
             let tweetId = tweetObj.id_str;
+            let tweetCreatedAt = tweetObj.created_at;
             watson
               .analyze(tweetText)
               .then(data => {
@@ -81,7 +82,8 @@ router.get("/update", (req, res) => {
                   joyScore: emotionData.joy,
                   disgustScore: emotionData.disgust,
                   type: "tweet",
-                  source_id: tweetId
+                  source_id: tweetId,
+                  createdAt: tweetCreatedAt
                 })
                   .then(entry => {
                     let entry_id = entry.dataValues.id;
