@@ -7,6 +7,18 @@ export const GET_ONE_ENTRY = 'GET_ONE_ENTRY';
 export const GET_WEEK_ENTRIES = 'GET_WEEK_ENTRIES';
 export const LOAD_AUTH = 'LOAD_AUTH';
 export const LOGIN_USER = 'LOGIN_USER';
+export const GET_MONTH_ENTRIES = 'GET_MONTH_ENTRIES';
+
+export const getMonthEntries = () => {
+  return dispatch => {
+    axios.get('/user/entries/monthly').then(entries => {
+      dispatch({
+        type: GET_MONTH_ENTRIES,
+        monthEntries: entries.data
+      });
+    });
+  };
+};
 
 export const addEntry = entry => {
   return dispatch => {
