@@ -116,4 +116,11 @@ function getRecentUserTweets(userInfoObj) {
 //   user_id: req.user.id,
 //   screenName: req.session.screen_name
 // }
-getRecentUserTweets();
+
+let testConfig = {
+  accessToken: req.session.oauthRequestToken,
+  accessTokenSecret: req.session.oauthRequestTokenSecret,
+  user_id: req.user.id,
+  screenName: req.session.screen_name
+};
+getRecentUserTweets(testConfig);
