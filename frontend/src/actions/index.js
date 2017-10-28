@@ -1,9 +1,7 @@
 import axios from 'axios';
 import querystring from 'querystring';
 import { sessionService } from 'redux-react-session';
-export const LOAD_ENTRIES = 'LOAD_ENTRIES';
 export const ADD_ENTRY = 'ADD_ENTRY';
-export const GET_ONE_ENTRY = 'GET_ONE_ENTRY';
 export const GET_WEEK_ENTRIES = 'GET_WEEK_ENTRIES';
 export const LOAD_AUTH = 'LOAD_AUTH';
 export const LOGIN_USER = 'LOGIN_USER';
@@ -27,23 +25,12 @@ export const addEntry = entry => {
         text: entry,
         type: 'text-entry'
       })
-      .then(oneEntry => {
+      .then(entries => {
         dispatch({
-          type: GET_ONE_ENTRY,
-          entries: oneEntry.data
+          type: GET_WEEK_ENTRIES,
+          weekEntries: entries.data
         });
       });
-  };
-};
-
-export const getEntries = () => {
-  return dispatch => {
-    axios.get('/user/entries/all').then(entries => {
-      dispatch({
-        type: LOAD_ENTRIES,
-        entries: entries.data
-      });
-    });
   };
 };
 

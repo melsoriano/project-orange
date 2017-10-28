@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEntries } from '../../actions';
+import {} from '../../actions';
 import { Route, Link } from 'react-router-dom';
 import Weekly from './Weekly';
 import Monthly from './Monthly';
@@ -46,11 +46,7 @@ const mapStatetoProps = state => {
 };
 
 const mapDispatchtoProps = dispatch => {
-  return {
-    getEntries: () => {
-      dispatch(getEntries());
-    }
-  };
+  return {};
 };
 
 const ConnectedGraph = connect(mapStatetoProps, mapDispatchtoProps)(Graph);
