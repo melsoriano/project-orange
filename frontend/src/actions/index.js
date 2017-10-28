@@ -62,7 +62,6 @@ export const loginUser = user => {
   return dispatch => {
     axios.post('/login', querystring.stringify(user)).then(res => {
       const { token } = res;
-      console.log(res);
       sessionService.saveSession({ token }).then(() => {
         sessionService.saveUser(res.data);
       });

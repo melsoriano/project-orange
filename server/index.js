@@ -115,6 +115,6 @@ function checkAuthentication(req, res, next) {
 }
 
 const server = app.listen(PORT, () => {
-  // db.sequelize.sync({ force: true });
+  db.sequelize.sync({});
   console.log(`Server running on ${PORT}`);
 });

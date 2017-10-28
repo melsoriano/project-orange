@@ -23,7 +23,7 @@ class Weekly extends Component {
     this.hideModal = this.hideModal.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getWeekEntries();
   }
 
@@ -72,9 +72,10 @@ class Weekly extends Component {
   }
 
   loadEntries() {
+    console.log(this.props.weekEntries);
     if (Array.isArray(this.props.weekEntries.entries)) {
-      this.props.weekEntries.entries.reverse();
-      return this.props.weekEntries.entries.map(entry => {
+      let newArr = this.props.weekEntries.entries.reverse();
+      return newArr.map(entry => {
         let newDate = new Date(entry.createdAt);
         return (
           <article key={entry.id} className="media">
@@ -105,13 +106,10 @@ class Weekly extends Component {
     }
   }
 
-  handleOpenTextClick(bool) {
-    this.setState({ bool: !this.state.bool });
-  }
-
   render() {
     // this.props.weekEntries.entries - all entries for the week
     // this.props.weekEntries.keywordSummary -  top five keywords for the week
+    //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile" id="mainBox">
         <img src={demoGraph} alt="demo graph" />
