@@ -132,7 +132,8 @@ function getEntriesAndAggregateKeywordsBetweenDates(
         {
           model: Keywords
         }
-      ]
+      ],
+      order: [["createdAt", "DESC"]]
     })
       .then(entries => {
         let returnData = {
