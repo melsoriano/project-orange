@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
         angerScore: emotionData.anger,
         joyScore: emotionData.joy,
         disgustScore: emotionData.disgust,
-        type: entryType,
+        type: "entry",
         source_id: null
       })
         .then(entry => {
@@ -46,25 +46,8 @@ router.post("/", (req, res) => {
 
           dbHelper
             .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
-
             .then(() => {
-              Entries.findOne({
-                where: {
-                  id: entry_id
-                },
-                include: [
-                  {
-                    model: Keywords,
-                    limit: 5
-                  }
-                ]
-              })
-                .then(entries => {
-                  res.send(entries);
-                })
-                .catch(err => {
-                  res.send(err);
-                });
+              res.redirect("/user/entries/weekly");
             })
             .catch(err => {
               res.send(err);

@@ -13,7 +13,6 @@ const userRoute = require("./routes/user-routes.js");
 const CONFIG = require("./config/config.json");
 const getEntriesRoutes = require("./routes/entriesRoutes.js");
 const getEntryRoutes = require("./routes/entryRoutes.js");
-const twitterRoute = require("./routes/twitterRoutes.js");
 const oauthRoute = require("./routes/oauth.js");
 
 const Entry = db.entries;
@@ -102,7 +101,6 @@ app.use("/user/entry", checkAuthentication, getEntryRoutes);
 
 app.use("/recording", checkAuthentication, speechToText);
 app.use("/", userRoute);
-app.use("/user/twitter", twitterRoute);
 app.use("/twitterlogin", oauthRoute);
 
 function checkAuthentication(req, res, next) {
@@ -115,6 +113,6 @@ function checkAuthentication(req, res, next) {
 }
 
 const server = app.listen(PORT, () => {
-  db.sequelize.sync({});
+  db.sequelize.sync();
   console.log(`Server running on ${PORT}`);
 });
