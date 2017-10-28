@@ -57,17 +57,56 @@ class Weekly extends Component {
     });
     switch (highestEmotion) {
       case 'angerScore':
-        return AngryIcon;
+        return {
+          icon: AngryIcon,
+          style: { backgroundColor: '#F95738', borderColor: '#F95738' }
+        };
       case 'disgustScore':
-        return DisgustIcon;
+        return {
+          icon: DisgustIcon,
+          style: { backgroundColor: '#4a7c59', borderColor: '#4a7c59' }
+        };
       case 'fearScore':
-        return FearIcon;
+        return {
+          icon: FearIcon,
+          style: {
+            backgroundColor: '#353129',
+            borderColor: '#353129',
+            color: '#ecf1fa'
+          }
+        };
       case 'joyScore':
-        return JoyIcon;
+        return {
+          icon: JoyIcon,
+          style: { backgroundColor: '#f7ed83', borderColor: '#f7ed83' }
+        };
       case 'sadnessScore':
-        return SadnessIcon;
+        return {
+          icon: SadnessIcon,
+          style: { backgroundColor: '#084887', borderColor: '#084887' }
+        };
       default:
         return null;
+    }
+  }
+
+  loadKeywords() {
+    if (Array.isArray(this.props.weekEntries.keywordSummary)) {
+      return this.props.weekEntries.keywordSummary.map(keyword => {
+        return (
+          <div key={keyword.sentimentScore}>
+            <button
+              className="button keywordButton"
+              style={this.emotionIcon(keyword).style}
+            >
+              <span className="icon is-small">
+                <i className="fa fa-pie-chart" />
+              </span>
+              <span>{keyword.keyword}</span>
+            </button>
+          </div>
+        );
+      });
     }
   }
 
@@ -81,7 +120,7 @@ class Weekly extends Component {
           <article key={entry.id} className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img src={this.emotionIcon(entry)} alt="" />
+                <img src={this.emotionIcon(entry).icon} alt="" />
               </p>
             </figure>
             <div className="media-content">
@@ -111,8 +150,11 @@ class Weekly extends Component {
     // this.props.weekEntries.keywordSummary -  top five keywords for the week
     //console.log(typeof this.props.weekEntries.entries);
     return (
-      <div className="container is-mobile" id="mainBox">
+      <div className="container is-mobile">
         <img src={demoGraph} alt="demo graph" />
+        <br />
+        <div className="container is-mobile">{this.loadKeywords()}</div>
+        <br />
         {this.loadEntries()}
       </div>
     );

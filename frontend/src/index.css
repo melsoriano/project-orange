@@ -33,6 +33,9 @@ textarea {
   font-family: "Heebo", sans-serif;
   font-size: 12px; }
 
+.keywordButton {
+  font-weight: bold; }
+
 .modal {
   opacity: 1;
   transition: opacity 300ms ease-in-out;
