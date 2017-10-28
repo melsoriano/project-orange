@@ -63,7 +63,7 @@ class Home extends Component {
               <div className="field">
                 <div className="control">
                   <textarea
-                    className="textarea"
+                    className="textarea is-fullwidth"
                     placeholder="Your feelings"
                     onChange={this.handleEntryBox}
                     value={this.state.currentEntry}

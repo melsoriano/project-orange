@@ -74,7 +74,7 @@ class Weekly extends Component {
   loadEntries() {
     console.log(this.props.weekEntries);
     if (Array.isArray(this.props.weekEntries.entries)) {
-      let newArr = this.props.weekEntries.entries.reverse();
+      let newArr = this.props.weekEntries.entries;
       return newArr.map(entry => {
         let newDate = new Date(entry.createdAt);
         return (

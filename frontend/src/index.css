@@ -26,8 +26,8 @@ body {
 #loginBox {
   padding: 2rem; }
 
-#burger {
-  background-color: #f9a346; }
+textarea {
+  width: 100%; }
 
 #entryText {
   font-family: "Heebo", sans-serif;
