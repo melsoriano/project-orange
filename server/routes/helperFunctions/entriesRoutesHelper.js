@@ -19,7 +19,6 @@ function isDuplicateKeyword(keyword, keywordArray) {
 
 function sumKeywordValues(newKeyword, storedKeyword) {
   let originEntry = newKeyword.dataValues.entry.dataValues;
-  console.log(originEntry);
   let newEntry = {
     text: originEntry.text,
     createdAt: originEntry.createdAt
@@ -50,7 +49,6 @@ function combineKeywordsIntoAverage(keywordArray) {
     );
 
     if (indexOfKeyword === -1) {
-      console.log();
       let newKeyword = Object.assign(keywordObj.dataValues);
       let originEntry = newKeyword.entry.dataValues;
       newKeyword.frequency = 1;
