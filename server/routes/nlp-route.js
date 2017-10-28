@@ -47,23 +47,24 @@ router.post("/", (req, res) => {
           dbHelper
             .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
             .then(() => {
-              Entries.findOne({
-                where: {
-                  id: entry_id
-                },
-                include: [
-                  {
-                    model: Keywords,
-                    limit: 5
-                  }
-                ]
-              })
-                .then(entries => {
-                  res.send(entries);
-                })
-                .catch(err => {
-                  res.send(err);
-                });
+              res.redirect("/user/entries/weekly");
+              // Entries.findOne({
+              //   where: {
+              //     id: entry_id
+              //   },
+              //   include: [
+              //     {
+              //       model: Keywords,
+              //       limit: 5
+              //     }
+              //   ]
+              // })
+              //   .then(entries => {
+              //     res.send(entries);
+              //   })
+              //   .catch(err => {
+              //     res.send(err);
+              //   });
             })
             .catch(err => {
               res.send(err);
