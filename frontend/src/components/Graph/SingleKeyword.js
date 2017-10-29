@@ -23,7 +23,7 @@ class SingleKeyword extends Component {
           <div className="media-content">
             <div className="content" id="entryText">
               <p>
-                <small>{newDate.toLocaleDateString()}</small>
+                <small>{newDate.toLocaleString()}</small>
                 <br />
                 {entry.text}
               </p>

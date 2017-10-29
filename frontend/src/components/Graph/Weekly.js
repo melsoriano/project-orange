@@ -157,12 +157,14 @@ class Weekly extends Component {
     //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile">
-        <img src={demoGraph} alt="demo graph" />
+        <figure className="image is-16by9">
+          <img src={demoGraph} alt="demo graph" />
+        </figure>
+
         <br />
         <div className="columns is-multiline is-mobile">
           {this.loadKeywords()}
         </div>
-        <br />
         {this.loadEntries()}
       </div>
     );
