@@ -19,7 +19,8 @@ router.get("/all", (req, res) => {
       {
         model: Keywords
       }
-    ]
+    ],
+    order: [["createdAt", "DESC"]]
   })
     .then(entries => {
       res.send(entries);
