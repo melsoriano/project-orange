@@ -8,6 +8,7 @@ import DisgustIcon from '../../assets/disgust.jpg';
 import FearIcon from '../../assets/fear.jpg';
 import JoyIcon from '../../assets/joy.jpg';
 import SadnessIcon from '../../assets/sadness.jpg';
+import SingleKeyword from './SingleKeyword';
 
 class Weekly extends Component {
   constructor(props) {
@@ -98,12 +99,18 @@ class Weekly extends Component {
             <button
               className="button keywordButton"
               style={this.emotionIcon(keyword).style}
+              onClick={e => this.modalHander(e, keyword.keyword)}
             >
               <span className="icon is-small">
                 <i className="fa fa-pie-chart" />
               </span>
               <span>{keyword.keyword}</span>
             </button>
+            <SingleKeyword
+              show={this.state.activeModal === keyword.keyword}
+              onHide={this.hideModal}
+              keywordData={keyword}
+            />
           </div>
         );
       });
@@ -111,7 +118,6 @@ class Weekly extends Component {
   }
 
   loadEntries() {
-    console.log(this.props.weekEntries);
     if (Array.isArray(this.props.weekEntries.entries)) {
       let newArr = this.props.weekEntries.entries;
       return newArr.map(entry => {
