@@ -84,7 +84,11 @@ class Weekly extends Component {
       case 'sadnessScore':
         return {
           icon: SadnessIcon,
-          style: { backgroundColor: '#084887', borderColor: '#084887' }
+          style: {
+            backgroundColor: '#084887',
+            borderColor: '#084887',
+            color: '#ecf1fa'
+          }
         };
       default:
         return null;
