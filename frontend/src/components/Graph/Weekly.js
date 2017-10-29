@@ -95,7 +95,7 @@ class Weekly extends Component {
     if (Array.isArray(this.props.weekEntries.keywordSummary)) {
       return this.props.weekEntries.keywordSummary.map(keyword => {
         return (
-          <div key={keyword.sentimentScore}>
+          <div key={keyword.sentimentScore} className="column is-narrow">
             <button
               className="button keywordButton"
               style={this.emotionIcon(keyword).style}
@@ -159,7 +159,9 @@ class Weekly extends Component {
       <div className="container is-mobile">
         <img src={demoGraph} alt="demo graph" />
         <br />
-        <div className="container is-mobile">{this.loadKeywords()}</div>
+        <div className="columns is-multiline is-mobile">
+          {this.loadKeywords()}
+        </div>
         <br />
         {this.loadEntries()}
       </div>

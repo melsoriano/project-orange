@@ -4908,7 +4908,7 @@ label.panel-block {
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-  padding: 0.75rem; }
+  padding: 0.5rem; }
   .columns.is-mobile > .column.is-narrow {
     flex: none; }
   .columns.is-mobile > .column.is-full {
@@ -5547,13 +5547,13 @@ label.panel-block {
       margin-left: 100%; } }
 
 .columns {
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
-  margin-top: -0.75rem; }
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  margin-top: -0.5rem; }
   .columns:last-child {
-    margin-bottom: -0.75rem; }
+    margin-bottom: -0.5rem; }
   .columns:not(:last-child) {
-    margin-bottom: calc(1.5rem - 0.75rem); }
+    margin-bottom: calc(1.5rem - 0.5rem); }
   .columns.is-centered {
     justify-content: center; }
   .columns.is-gapless {
