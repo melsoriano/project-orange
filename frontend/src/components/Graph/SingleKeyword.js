@@ -12,11 +12,32 @@ class SingleKeyword extends Component {
     };
   }
 
+  loadRelatedEntries(e) {
+    return e.map(entry => {
+      let newDate = new Date(entry.createdAt);
+      return (
+        // <div className="content" id="entryText" key={entry.createdAt}>
+        //   {entry.text}
+        // </div>
+        <article key={entry.createdAt} className="media">
+          <div className="media-content">
+            <div className="content" id="entryText">
+              <p>
+                <small>{newDate.toLocaleDateString()}</small>
+                <br />
+                {entry.text}
+              </p>
+            </div>
+          </div>
+        </article>
+      );
+    });
+  }
+
   render() {
     if (!this.props.show) {
       return null;
     }
-    console.log(this.props.keywordData);
     return (
       <div className="modal is-active">
         <div className="modal-background" onClick={this.props.onHide} />
@@ -33,32 +54,24 @@ class SingleKeyword extends Component {
                 value={this.progressColor(this.props.keywordData).angerColor}
                 max="100"
               />
-            </div>
-            <div className="content">
               Disgust:
               <progress
                 className="progress is-success"
                 value={this.progressColor(this.props.keywordData).disgustColor}
                 max="100"
               />
-            </div>
-            <div className="content">
               Fear:
               <progress
                 className="progress is-dark"
                 value={this.progressColor(this.props.keywordData).fearColor}
                 max="100"
               />
-            </div>
-            <div className="content">
               Joy:
               <progress
                 className="progress is-warning"
                 value={this.progressColor(this.props.keywordData).joyColor}
                 max="100"
               />
-            </div>
-            <div className="content">
               Sadness:
               <progress
                 className="progress is-link"
@@ -66,6 +79,7 @@ class SingleKeyword extends Component {
                 max="100"
               />
             </div>
+            {this.loadRelatedEntries(this.props.keywordData.entries)}
           </section>
           <footer className="modal-card-foot">
             <button className="button is-danger" onClick={this.props.onHide}>
