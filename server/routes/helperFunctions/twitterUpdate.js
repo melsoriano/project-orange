@@ -55,7 +55,6 @@ function getRecentUserTweets(userInfoObj) {
           console.log(err);
         },
         data => {
-          console.log(data);
           let returnData = JSON.parse(data);
           returnData.forEach(tweetObj => {
             let tweetText = tweetObj.text;
