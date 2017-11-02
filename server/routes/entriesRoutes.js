@@ -155,8 +155,8 @@ router.get("/month/:mmyyDate", (req, res) => {
 });
 
 router.get("/twitter", (req, res) => {
-  let timespanInDays = 10; //this number is arbitrary.
-  let keywordSummaryLength = 3;
+  let timespanInDays = 7; //this number is arbitrary.
+  let keywordSummaryLength = 5;
   let user_id = req.user.id;
 
   let endDateOfQuery = new Date();
