@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getWeekEntries } from '../../actions';
-import demoGraph from '../../assets/graph.png';
 import SingleEntry from './SingleEntry';
 import AngryIcon from '../../assets/anger.jpg';
 import DisgustIcon from '../../assets/disgust.jpg';
@@ -9,6 +8,7 @@ import FearIcon from '../../assets/fear.jpg';
 import JoyIcon from '../../assets/joy.jpg';
 import SadnessIcon from '../../assets/sadness.jpg';
 import SingleKeyword from './SingleKeyword';
+import { VictoryScatter, VictoryChart, VictoryTheme } from 'victory';
 
 class Weekly extends Component {
   constructor(props) {
@@ -38,6 +38,48 @@ class Weekly extends Component {
     this.setState({
       activeModal: null
     });
+  }
+
+  loadVictoryGraph() {
+    if (Array.isArray(this.props.weekEntries.entries)) {
+      let counter = -1;
+      let graphData = this.props.weekEntries.entries.map(data => {
+        let newDate = new Date(data.createdAt);
+        counter++;
+        let point = {
+          x: counter,
+          y: (data.sentimentScore + 1) * 50,
+          date: newDate.toLocaleString(),
+          id: data.id
+        };
+        return point;
+      });
+      console.log(graphData);
+      return (
+        <VictoryChart
+          theme={VictoryTheme.material}
+          domain={{ x: [0, graphData.length], y: [0, 100] }}
+        >
+          <VictoryScatter
+            style={{
+              data: { fill: '#627586' }
+            }}
+            size={7}
+            data={graphData}
+            events={[
+              {
+                target: 'data',
+                eventHandlers: {
+                  onClick: e => {
+                    this.modalHander(e, e.id);
+                  }
+                }
+              }
+            ]}
+          />
+        </VictoryChart>
+      );
+    }
   }
 
   emotionIcon(e) {
@@ -91,15 +133,23 @@ class Weekly extends Component {
           }
         };
       default:
-        return null;
+        return {
+          icon: null,
+          style: {
+            backgroundColor: 'white',
+            borderColor: 'white'
+          }
+        };
     }
   }
 
   loadKeywords() {
     if (Array.isArray(this.props.weekEntries.keywordSummary)) {
+      let counter = -1;
       return this.props.weekEntries.keywordSummary.map(keyword => {
+        counter++;
         return (
-          <div key={keyword.sentimentScore} className="column is-narrow">
+          <div key={counter} className="column is-narrow">
             <button
               className="button keywordButton"
               style={this.emotionIcon(keyword).style}
@@ -161,9 +211,7 @@ class Weekly extends Component {
     //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile">
-        <figure className="image is-16by9">
-          <img src={demoGraph} alt="demo graph" />
-        </figure>
+        <figure className="image">{this.loadVictoryGraph()}</figure>
 
         <br />
         <div className="columns is-multiline is-mobile">
