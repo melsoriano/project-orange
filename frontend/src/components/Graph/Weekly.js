@@ -8,7 +8,12 @@ import FearIcon from '../../assets/fear.jpg';
 import JoyIcon from '../../assets/joy.jpg';
 import SadnessIcon from '../../assets/sadness.jpg';
 import SingleKeyword from './SingleKeyword';
-import { VictoryScatter, VictoryChart, VictoryTheme } from 'victory';
+import {
+  VictoryScatter,
+  VictoryChart,
+  VictoryTheme,
+  VictoryLine
+} from 'victory';
 
 class Weekly extends Component {
   constructor(props) {
@@ -42,36 +47,59 @@ class Weekly extends Component {
 
   loadVictoryGraph() {
     if (Array.isArray(this.props.weekEntries.entries)) {
-      let counter = -1;
-      let graphData = this.props.weekEntries.entries.map(data => {
+      let xAxis = this.props.weekEntries.entries.length;
+      console.log(xAxis);
+      let graphObj = this.props.weekEntries.entries.map(data => {
         let newDate = new Date(data.createdAt);
-        counter++;
         let point = {
-          x: counter,
+          x: xAxis,
           y: (data.sentimentScore + 1) * 50,
-          date: newDate.toLocaleString(),
-          id: data.id
+          date: newDate.toLocaleString()
         };
+        xAxis--;
         return point;
       });
-      console.log(graphData);
+      console.log(graphObj);
       return (
         <VictoryChart
           theme={VictoryTheme.material}
-          domain={{ x: [0, graphData.length], y: [0, 100] }}
+          domain={{ x: [0, graphObj.length], y: [0, 100] }}
         >
+          <VictoryLine
+            data={graphObj}
+            style={{
+              data: { stroke: '#c43a31' }
+            }}
+          />
           <VictoryScatter
             style={{
-              data: { fill: '#627586' }
+              data: { fill: '#c43a31' },
+              labels: { fill: 'black', fontWeight: 'bold' }
             }}
             size={7}
-            data={graphData}
+            data={graphObj}
             events={[
               {
                 target: 'data',
                 eventHandlers: {
-                  onClick: e => {
-                    this.modalHander(e, e.id);
+                  onClick: () => {
+                    return [
+                      {
+                        target: 'data',
+                        mutation: props => {
+                          const fill = props.style && props.style.fill;
+                          return fill === 'black'
+                            ? null
+                            : { style: { fill: 'black' } };
+                        }
+                      },
+                      {
+                        target: 'labels',
+                        mutation: props => {
+                          return props.text ? null : { text: props.datum.date };
+                        }
+                      }
+                    ];
                   }
                 }
               }
@@ -211,7 +239,7 @@ class Weekly extends Component {
     //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile">
-        <figure className="image">{this.loadVictoryGraph()}</figure>
+        {this.loadVictoryGraph()}
 
         <br />
         <div className="columns is-multiline is-mobile">
