@@ -12,7 +12,8 @@ import {
   VictoryScatter,
   VictoryChart,
   VictoryTheme,
-  VictoryLine
+  VictoryLine,
+  VictoryAxis
 } from 'victory';
 
 class Weekly extends Component {
@@ -48,7 +49,6 @@ class Weekly extends Component {
   loadVictoryGraph() {
     if (Array.isArray(this.props.weekEntries.entries)) {
       let xAxis = this.props.weekEntries.entries.length;
-      console.log(xAxis);
       let graphObj = this.props.weekEntries.entries.map(data => {
         let newDate = new Date(data.createdAt);
         let point = {
@@ -59,11 +59,13 @@ class Weekly extends Component {
         xAxis--;
         return point;
       });
-      console.log(graphObj);
       return (
         <VictoryChart
           theme={VictoryTheme.material}
-          domain={{ x: [0, graphObj.length], y: [0, 100] }}
+          domain={{ x: null, y: [0, 100] }}
+          style={{
+            strokeDasharray: { fill: 'black' }
+          }}
         >
           <VictoryLine
             data={graphObj}
@@ -104,6 +106,15 @@ class Weekly extends Component {
                 }
               }
             ]}
+          />
+          <VictoryAxis
+            label="Entries"
+            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Sentiment Score"
+            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
           />
         </VictoryChart>
       );
