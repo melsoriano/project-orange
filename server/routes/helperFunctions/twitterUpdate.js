@@ -101,7 +101,7 @@ function getRecentUserTweets(userInfoObj) {
                 })
                 .catch(err => {
                   console.log(err);
-                  reject( err );
+                  reject(err);
                 });
             });
             resolve();
@@ -112,8 +112,8 @@ function getRecentUserTweets(userInfoObj) {
         console.log(err);
         reject(err);
       });
-  }
-};
+  });
+}
 
 module.exports = {
   getRecentUserTweets
