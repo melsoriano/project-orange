@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEntries } from '../../actions';
+import {} from '../../actions';
 import demoGraph from '../../assets/graph.png';
 
 class Monthly extends Component {
@@ -27,11 +27,7 @@ const mapStatetoProps = state => {
 };
 
 const mapDispatchtoProps = dispatch => {
-  return {
-    getEntries: () => {
-      dispatch(getEntries());
-    }
-  };
+  return {};
 };
 
 const ConnectedMonthly = connect(mapStatetoProps, mapDispatchtoProps)(Monthly);

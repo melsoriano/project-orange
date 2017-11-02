@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEntries, addEntry, getWeekEntries } from '../actions';
+import { addEntry, getWeekEntries } from '../actions';
 import { Redirect } from 'react-router-dom';
 import Logo from '../assets/orangelogo.png';
 import { sessionService } from 'redux-react-session';
@@ -62,7 +62,7 @@ class Home extends Component {
               <div className="field">
                 <div className="control">
                   <textarea
-                    className="textarea"
+                    className="textarea is-fullwidth"
                     placeholder="Your feelings"
                     onChange={this.handleEntryBox}
                     value={this.state.currentEntry}
@@ -93,9 +93,6 @@ const mapStatetoProps = state => {
 
 const mapDispatchtoProps = dispatch => {
   return {
-    getEntries: () => {
-      dispatch(getEntries());
-    },
     addEntry: entry => {
       dispatch(addEntry(entry));
     },

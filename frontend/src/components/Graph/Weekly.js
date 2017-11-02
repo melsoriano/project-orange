@@ -8,6 +8,7 @@ import DisgustIcon from '../../assets/disgust.jpg';
 import FearIcon from '../../assets/fear.jpg';
 import JoyIcon from '../../assets/joy.jpg';
 import SadnessIcon from '../../assets/sadness.jpg';
+import SingleKeyword from './SingleKeyword';
 
 class Weekly extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class Weekly extends Component {
     this.hideModal = this.hideModal.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getWeekEntries();
   }
 
@@ -57,30 +58,79 @@ class Weekly extends Component {
     });
     switch (highestEmotion) {
       case 'angerScore':
-        return AngryIcon;
+        return {
+          icon: AngryIcon,
+          style: { backgroundColor: '#F95738', borderColor: '#F95738' }
+        };
       case 'disgustScore':
-        return DisgustIcon;
+        return {
+          icon: DisgustIcon,
+          style: { backgroundColor: '#4a7c59', borderColor: '#4a7c59' }
+        };
       case 'fearScore':
-        return FearIcon;
+        return {
+          icon: FearIcon,
+          style: {
+            backgroundColor: '#353129',
+            borderColor: '#353129',
+            color: '#ecf1fa'
+          }
+        };
       case 'joyScore':
-        return JoyIcon;
+        return {
+          icon: JoyIcon,
+          style: { backgroundColor: '#f7ed83', borderColor: '#f7ed83' }
+        };
       case 'sadnessScore':
-        return SadnessIcon;
+        return {
+          icon: SadnessIcon,
+          style: {
+            backgroundColor: '#084887',
+            borderColor: '#084887',
+            color: '#ecf1fa'
+          }
+        };
       default:
         return null;
     }
   }
 
+  loadKeywords() {
+    if (Array.isArray(this.props.weekEntries.keywordSummary)) {
+      return this.props.weekEntries.keywordSummary.map(keyword => {
+        return (
+          <div key={keyword.sentimentScore} className="column is-narrow">
+            <button
+              className="button keywordButton"
+              style={this.emotionIcon(keyword).style}
+              onClick={e => this.modalHander(e, keyword.keyword)}
+            >
+              <span className="icon is-small">
+                <i className="fa fa-pie-chart" />
+              </span>
+              <span>{keyword.keyword}</span>
+            </button>
+            <SingleKeyword
+              show={this.state.activeModal === keyword.keyword}
+              onHide={this.hideModal}
+              keywordData={keyword}
+            />
+          </div>
+        );
+      });
+    }
+  }
+
   loadEntries() {
     if (Array.isArray(this.props.weekEntries.entries)) {
-      this.props.weekEntries.entries.reverse();
-      return this.props.weekEntries.entries.map(entry => {
+      let newArr = this.props.weekEntries.entries;
+      return newArr.map(entry => {
         let newDate = new Date(entry.createdAt);
         return (
           <article key={entry.id} className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img src={this.emotionIcon(entry)} alt="" />
+                <img src={this.emotionIcon(entry).icon} alt="" />
               </p>
             </figure>
             <div className="media-content">
@@ -105,16 +155,20 @@ class Weekly extends Component {
     }
   }
 
-  handleOpenTextClick(bool) {
-    this.setState({ bool: !this.state.bool });
-  }
-
   render() {
     // this.props.weekEntries.entries - all entries for the week
     // this.props.weekEntries.keywordSummary -  top five keywords for the week
+    //console.log(typeof this.props.weekEntries.entries);
     return (
-      <div className="container is-mobile" id="mainBox">
-        <img src={demoGraph} alt="demo graph" />
+      <div className="container is-mobile">
+        <figure className="image is-16by9">
+          <img src={demoGraph} alt="demo graph" />
+        </figure>
+
+        <br />
+        <div className="columns is-multiline is-mobile">
+          {this.loadKeywords()}
+        </div>
         {this.loadEntries()}
       </div>
     );
