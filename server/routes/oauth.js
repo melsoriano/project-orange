@@ -87,8 +87,8 @@ app.get("/home", (req, res) => {
       if (error) {
         res.redirect("/connect");
       } else {
-        let parsedData = JSON.parse(data);
-        res.send(`You are logged in as ${parsedData.screen_name}`);
+        //let parsedData = JSON.parse(data);
+        //res.send(`You are logged in as ${parsedData.screen_name}`);
 
         let twitterUpdateConfig = {
           accessToken: req.session.oauthRequestToken,
@@ -96,7 +96,15 @@ app.get("/home", (req, res) => {
           user_id: req.user.id,
           screenName: req.session.screen_name
         };
-        twitter.getRecentUserTweets(twitterUpdateConfig);
+        twitter
+          .getRecentUserTweets(twitterUpdateConfig)
+          .then(() => {
+            res.redirect("/user/entries/twitter");
+          })
+          .catch(err => {
+            console.log(err);
+            res.send(err);
+          });
       }
     }
   );

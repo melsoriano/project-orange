@@ -13,7 +13,8 @@ router.get("/all", (req, res) => {
   let user_id = req.user.id;
   Entries.findAll({
     where: {
-      user_id: user_id
+      user_id: user_id,
+      type: "entry"
     },
     include: [
       {
@@ -42,7 +43,8 @@ router.get("/yearly", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -66,7 +68,8 @@ router.get("/monthly", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -90,7 +93,8 @@ router.get("/weekly", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -114,7 +118,8 @@ router.get("/daily", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
     )
     .then(data => {
       res.send(data);
@@ -139,7 +144,33 @@ router.get("/month/:mmyyDate", (req, res) => {
       startDateOfQuery,
       endDateOfQuery,
       keywordSummaryLength,
-      user_id
+      user_id,
+      "entry"
+    )
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
+
+router.get("/twitter", (req, res) => {
+  let timespanInDays = 7; //this number is arbitrary.
+  let keywordSummaryLength = 5;
+  let user_id = req.user.id;
+
+  let endDateOfQuery = new Date();
+  let startDateOfQuery = new Date();
+  startDateOfQuery.setDate(startDateOfQuery.getDate() - timespanInDays);
+
+  helperFn
+    .getEntriesAndAggregateKeywordsBetweenDates(
+      startDateOfQuery,
+      endDateOfQuery,
+      keywordSummaryLength,
+      user_id,
+      "tweet"
     )
     .then(data => {
       res.send(data);

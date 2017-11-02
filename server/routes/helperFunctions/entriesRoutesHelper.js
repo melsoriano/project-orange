@@ -116,7 +116,8 @@ function getEntriesAndAggregateKeywordsBetweenDates(
   startDate,
   endDate,
   keywordSummaryListLength,
-  user_id
+  user_id,
+  entryType
 ) {
   return new Promise(function(resolve, reject) {
     Entries.findAll({
@@ -124,7 +125,8 @@ function getEntriesAndAggregateKeywordsBetweenDates(
         createdAt: {
           [Op.between]: [startDate, endDate]
         },
-        user_id: user_id
+        user_id: user_id,
+        type: entryType
       },
       include: [
         {
