@@ -2,6 +2,7 @@ module.exports = function(sequelize, DataTypes) {
   let Keywords = sequelize.define("keywords", {
     keyword: DataTypes.TEXT,
     sentimentScore: DataTypes.FLOAT(1),
+    sentimentLabel: DataTypes.STRING,
     relevanceScore: DataTypes.FLOAT(1),
     sadnessScore: DataTypes.FLOAT(1),
     fearScore: DataTypes.FLOAT(1),
