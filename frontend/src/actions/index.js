@@ -7,17 +7,6 @@ export const LOAD_AUTH = 'LOAD_AUTH';
 export const LOGIN_USER = 'LOGIN_USER';
 export const GET_MONTH_ENTRIES = 'GET_MONTH_ENTRIES';
 
-export const getMonthEntries = () => {
-  return dispatch => {
-    axios.get('/user/entries/monthly').then(entries => {
-      dispatch({
-        type: GET_MONTH_ENTRIES,
-        monthEntries: entries.data
-      });
-    });
-  };
-};
-
 export const addEntry = entry => {
   return dispatch => {
     axios
@@ -45,6 +34,17 @@ export const getWeekEntries = () => {
   };
 };
 
+export const getMonthEntries = () => {
+  return dispatch => {
+    axios.get('/user/entries/monthly').then(entries => {
+      dispatch({
+        type: GET_WEEK_ENTRIES,
+        weekEntries: entries.data
+      });
+    });
+  };
+};
+
 export const loginUser = user => {
   return dispatch => {
     axios.post('/login', querystring.stringify(user)).then(res => {
@@ -54,17 +54,6 @@ export const loginUser = user => {
       });
       dispatch({
         type: LOGIN_USER,
-        auth: res.data
-      });
-    });
-  };
-};
-
-export const checkUser = () => {
-  return dispatch => {
-    axios.get('/auth').then(res => {
-      dispatch({
-        type: LOAD_AUTH,
         auth: res.data
       });
     });

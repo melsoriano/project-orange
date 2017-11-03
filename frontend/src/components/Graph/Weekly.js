@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getWeekEntries } from '../../actions';
+import { getWeekEntries, getMonthEntries } from '../../actions';
 import SingleEntry from './SingleEntry';
 import AngryIcon from '../../assets/anger.jpg';
 import DisgustIcon from '../../assets/disgust.jpg';
@@ -45,6 +45,16 @@ class Weekly extends Component {
       activeModal: null
     });
   }
+
+  handleMonthButton = () => {
+    this.props.getMonthEntries();
+    console.log(this.props.weekEntries.entries);
+  };
+
+  handleWeekButton = () => {
+    this.props.getWeekEntries();
+    console.log(this.props.weekEntries.entries);
+  };
 
   loadVictoryGraph() {
     if (Array.isArray(this.props.weekEntries.entries)) {
@@ -259,6 +269,24 @@ class Weekly extends Component {
     //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile">
+        <div className="columns is-mobile is-centered">
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleWeekButton}
+            >
+              Current Week
+            </button>
+          </div>
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleMonthButton}
+            >
+              Month
+            </button>
+          </div>
+        </div>
         {this.loadVictoryGraph()}
 
         <br />
@@ -279,6 +307,9 @@ const mapDispatchtoProps = dispatch => {
   return {
     getWeekEntries: () => {
       dispatch(getWeekEntries());
+    },
+    getMonthEntries: () => {
+      dispatch(getMonthEntries());
     }
   };
 };
