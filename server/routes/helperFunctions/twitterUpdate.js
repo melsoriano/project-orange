@@ -31,11 +31,11 @@ function getMostRecentTweetId() {
 function getRecentUserTweets(userInfoObj) {
   return new Promise(function(resolve, reject) {
     let configTwitter = {
+      callBackUrl: "XXX",
       accessToken: userInfoObj.accessToken,
       accessTokenSecret: userInfoObj.accessTokenSecret,
       consumerKey: CONFIG.CONSUMER_KEY,
-      consumerSecret: CONFIG.CONSUMER_SECRET,
-      callBackUrl: "callBackURL"
+      consumerSecret: CONFIG.CONSUMER_SECRET
     };
     let twitter = new Twitter(configTwitter);
     let screenName = userInfoObj.screenName;
@@ -50,6 +50,7 @@ function getRecentUserTweets(userInfoObj) {
         if (tweetId !== null) {
           twitterQueryConfig.since_id = tweetId;
         }
+        console.log(twitterQueryConfig);
         twitter.getUserTimeline(
           twitterQueryConfig,
           err => {
@@ -57,6 +58,9 @@ function getRecentUserTweets(userInfoObj) {
           },
           data => {
             let returnData = JSON.parse(data);
+            if (returnData.length === 0) {
+              resolve();
+            }
             returnData.forEach(tweetObj => {
               let tweetText = tweetObj.text;
               let tweetId = tweetObj.id_str;
@@ -67,7 +71,6 @@ function getRecentUserTweets(userInfoObj) {
                   let nlpData = JSON.parse(data);
                   let sentimentData = nlpData.sentiment.document;
                   let emotionData = nlpData.emotion.document.emotion;
-
                   Entries.create({
                     user_id: user_id,
                     text: tweetText,
@@ -104,7 +107,6 @@ function getRecentUserTweets(userInfoObj) {
                   reject(err);
                 });
             });
-            resolve();
           }
         );
       })
