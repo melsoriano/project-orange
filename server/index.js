@@ -31,7 +31,7 @@ app.use(
     secret: CONFIG.SESSION_SECRET,
     name: "orange_sessions",
     cookie: {
-      maxAge: 10000000
+      maxAge: 1000000000
     },
     resave: false,
     saveUninitialized: true
@@ -91,7 +91,7 @@ passport.deserializeUser((userId, done) => {
       });
     })
     .catch(err => {
-      done(err, user);
+      done(err);
     });
 });
 
@@ -101,8 +101,7 @@ app.use("/user/entry", checkAuthentication, getEntryRoutes);
 
 app.use("/recording", checkAuthentication, speechToText);
 app.use("/", userRoute);
-app.use("/user/twitter", twitterRoute);
-app.use("/twitterlogin", oauthRoute);
+app.use("/auth", oauthRoute);
 
 function checkAuthentication(req, res, next) {
   console.log(req.isAuthenticated());

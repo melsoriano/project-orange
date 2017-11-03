@@ -34,7 +34,7 @@ function getRecentUserTweets(userInfoObj) {
     accessTokenSecret: userInfoObj.accessTokenSecret,
     consumerKey: CONFIG.CONSUMER_KEY,
     consumerSecret: CONFIG.CONSUMER_SECRET,
-    callBackUrl: "callBackURL"
+    callBackUrl: "http%3A%2F%2Flocalhost%3A3000%2Ftwitter-callback"
   };
   let twitter = new Twitter(configTwitter);
   let screenName = userInfoObj.screenName;
