@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getWeekEntries } from '../../actions';
-import demoGraph from '../../assets/graph.png';
 import SingleEntry from './SingleEntry';
 import AngryIcon from '../../assets/anger.jpg';
 import DisgustIcon from '../../assets/disgust.jpg';
@@ -9,6 +8,13 @@ import FearIcon from '../../assets/fear.jpg';
 import JoyIcon from '../../assets/joy.jpg';
 import SadnessIcon from '../../assets/sadness.jpg';
 import SingleKeyword from './SingleKeyword';
+import {
+  VictoryScatter,
+  VictoryChart,
+  VictoryTheme,
+  VictoryLine,
+  VictoryAxis
+} from 'victory';
 
 class Weekly extends Component {
   constructor(props) {
@@ -38,6 +44,81 @@ class Weekly extends Component {
     this.setState({
       activeModal: null
     });
+  }
+
+  loadVictoryGraph() {
+    if (Array.isArray(this.props.weekEntries.entries)) {
+      let xAxis = this.props.weekEntries.entries.length;
+      let graphObj = this.props.weekEntries.entries.map(data => {
+        let newDate = new Date(data.createdAt);
+        let point = {
+          x: xAxis,
+          y: (data.sentimentScore + 1) * 50,
+          date: newDate.toLocaleString()
+        };
+        xAxis--;
+        return point;
+      });
+      return (
+        <VictoryChart
+          theme={VictoryTheme.material}
+          domain={{ x: null, y: [0, 100] }}
+          style={{
+            strokeDasharray: { fill: 'black' }
+          }}
+        >
+          <VictoryLine
+            data={graphObj}
+            style={{
+              data: { stroke: '#c43a31' }
+            }}
+          />
+          <VictoryScatter
+            style={{
+              data: { fill: '#c43a31' },
+              labels: { fill: 'black', fontWeight: 'bold' }
+            }}
+            size={7}
+            data={graphObj}
+            events={[
+              {
+                target: 'data',
+                eventHandlers: {
+                  onClick: () => {
+                    return [
+                      {
+                        target: 'data',
+                        mutation: props => {
+                          const fill = props.style && props.style.fill;
+                          return fill === 'black'
+                            ? null
+                            : { style: { fill: 'black' } };
+                        }
+                      },
+                      {
+                        target: 'labels',
+                        mutation: props => {
+                          return props.text ? null : { text: props.datum.date };
+                        }
+                      }
+                    ];
+                  }
+                }
+              }
+            ]}
+          />
+          <VictoryAxis
+            label="Entries"
+            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Sentiment Score"
+            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
+          />
+        </VictoryChart>
+      );
+    }
   }
 
   emotionIcon(e) {
@@ -91,15 +172,23 @@ class Weekly extends Component {
           }
         };
       default:
-        return null;
+        return {
+          icon: null,
+          style: {
+            backgroundColor: 'white',
+            borderColor: 'white'
+          }
+        };
     }
   }
 
   loadKeywords() {
     if (Array.isArray(this.props.weekEntries.keywordSummary)) {
+      let counter = -1;
       return this.props.weekEntries.keywordSummary.map(keyword => {
+        counter++;
         return (
-          <div key={keyword.sentimentScore} className="column is-narrow">
+          <div key={counter} className="column is-narrow">
             <button
               className="button keywordButton"
               style={this.emotionIcon(keyword).style}
@@ -161,9 +250,7 @@ class Weekly extends Component {
     //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile">
-        <figure className="image is-16by9">
-          <img src={demoGraph} alt="demo graph" />
-        </figure>
+        {this.loadVictoryGraph()}
 
         <br />
         <div className="columns is-multiline is-mobile">
