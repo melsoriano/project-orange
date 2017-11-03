@@ -64,21 +64,28 @@ class Weekly extends Component {
           theme={VictoryTheme.material}
           domain={{ x: null, y: [0, 100] }}
           style={{
-            strokeDasharray: { fill: 'black' }
+            stroke: { fill: 'black' }
           }}
         >
           <VictoryLine
+            interpolation="monotoneX"
+            animate={{
+              onLoad: { duration: 1500 }
+            }}
             data={graphObj}
             style={{
               data: { stroke: '#c43a31' }
             }}
           />
           <VictoryScatter
+            animate={{
+              onLoad: { duration: 2000 }
+            }}
             style={{
               data: { fill: '#c43a31' },
               labels: { fill: 'black', fontWeight: 'bold' }
             }}
-            size={7}
+            size={5}
             data={graphObj}
             events={[
               {
