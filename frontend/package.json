@@ -18,6 +18,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "react-swipeable": "^4.1.0",
+    "react-twitter-auth": "0.0.9",
     "redux": "^3.7.2",
     "redux-react-session": "^2.1.0",
     "redux-thunk": "^2.2.0",
@@ -25,7 +26,8 @@
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
