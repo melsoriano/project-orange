@@ -3,7 +3,6 @@ body {
   padding: 0;
   font-family: sans-serif;
   height: 100%;
-  color: black;
   font-family: "Poiret One", cursive;
 }
 
@@ -31,13 +30,18 @@ body {
   padding: 2rem;
 }
 
-#burger {
-  background-color: #f9a346;
+textarea {
+  width: 100%;
 }
 
 #entryText {
   font-family: "Heebo", sans-serif;
   font-size: 12px;
+}
+
+.keywordButton {
+  font-weight: bold;
+  // text-shadow: 0px 0px 6px white;
 }
 
 .modal {
@@ -76,10 +80,15 @@ $tabs-toggle-link-hover-background-color: #fed156;
 $tabs-link-color: #627586;
 $body-background-color: #f9a346;
 $tabs-toggle-link-border-color: #627586;
-$primary: #627586;
 $danger: #f47f70;
 $navbar-background-color: #f9a346;
 $navbar-dropdown-background-color: #f9a346;
 $family-sans-serif: "Poiret One", cursive;
+$warning: #f7ed83;
+$link: #084887;
+$dark: #353129;
+$success: #4a7c59;
+$light: #f95738;
+$column-gap: 0.5rem;
 
 @import "../node_modules/bulma/bulma.sass";

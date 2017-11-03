@@ -18,6 +18,11 @@ function isDuplicateKeyword(keyword, keywordArray) {
 }
 
 function sumKeywordValues(newKeyword, storedKeyword) {
+  let originEntry = newKeyword.dataValues.entry.dataValues;
+  let newEntry = {
+    text: originEntry.text,
+    createdAt: originEntry.createdAt
+  };
   let combinedKeyword = {
     keyword: storedKeyword.keyword,
     sentimentScore: newKeyword.sentimentScore + storedKeyword.sentimentScore,
@@ -27,7 +32,8 @@ function sumKeywordValues(newKeyword, storedKeyword) {
     angerScore: newKeyword.angerScore + storedKeyword.angerScore,
     joyScore: newKeyword.joyScore + storedKeyword.joyScore,
     disgustScore: newKeyword.disgustScore + storedKeyword.disgustScore,
-    frequency: storedKeyword.frequency + 1
+    frequency: storedKeyword.frequency + 1,
+    entries: [...storedKeyword.entries, newEntry]
   };
   return combinedKeyword;
 }
@@ -44,7 +50,16 @@ function combineKeywordsIntoAverage(keywordArray) {
 
     if (indexOfKeyword === -1) {
       let newKeyword = Object.assign(keywordObj.dataValues);
+      let originEntry = newKeyword.entry.dataValues;
       newKeyword.frequency = 1;
+
+      newKeyword.entries = [
+        {
+          text: originEntry.text,
+          createdAt: originEntry.createdAt
+        }
+      ];
+      delete newKeyword.entry;
       arrayOfKeywordSums.push(newKeyword);
     } else {
       let keywordBeingStored = arrayOfKeywordSums[indexOfKeyword];
@@ -62,7 +77,8 @@ function combineKeywordsIntoAverage(keywordArray) {
       angerScore: keywordObj.angerScore / keywordObj.frequency,
       joyScore: keywordObj.joyScore / keywordObj.frequency,
       disgustScore: keywordObj.disgustScore / keywordObj.frequency,
-      frequency: keywordObj.frequency
+      frequency: keywordObj.frequency,
+      entries: keywordObj.entries
     };
   });
   return summaryOfKeywords;
@@ -100,7 +116,8 @@ function getEntriesAndAggregateKeywordsBetweenDates(
   startDate,
   endDate,
   keywordSummaryListLength,
-  user_id
+  user_id,
+  entryType
 ) {
   return new Promise(function(resolve, reject) {
     Entries.findAll({
@@ -108,13 +125,15 @@ function getEntriesAndAggregateKeywordsBetweenDates(
         createdAt: {
           [Op.between]: [startDate, endDate]
         },
-        user_id: user_id
+        user_id: user_id,
+        type: entryType
       },
       include: [
         {
           model: Keywords
         }
-      ]
+      ],
+      order: [["createdAt", "DESC"]]
     })
       .then(entries => {
         let returnData = {
@@ -127,7 +146,12 @@ function getEntriesAndAggregateKeywordsBetweenDates(
               [Op.between]: [startDate, endDate]
             },
             user_id: user_id
-          }
+          },
+          include: [
+            {
+              model: Entries
+            }
+          ]
         })
           .then(keywords => {
             let combinedKeywords = combineKeywordsIntoAverage(keywords);

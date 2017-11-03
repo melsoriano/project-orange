@@ -103,6 +103,7 @@ app.use("/recording", checkAuthentication, speechToText);
 app.use("/", userRoute);
 app.use("/auth", oauthRoute);
 
+
 function checkAuthentication(req, res, next) {
   console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {

@@ -51,6 +51,17 @@ class Login extends Component {
     });
   };
 
+  handleEnterPress = e => {
+    if (e.key === 'Enter') {
+      let userLogin = {
+        username: this.state.username,
+        password: this.state.password
+      };
+
+      this.props.loginUser(userLogin);
+    }
+  };
+
   render() {
     return (
       <div className="container is-mobile" id="loginBox">
@@ -76,6 +87,7 @@ class Login extends Component {
               placeholder="Password"
               className="input"
               onChange={this.handlePassword}
+              onKeyPress={this.handleEnterPress}
             />
             <span className="icon is-small is-left">
               <i className="fa fa-unlock" />
