@@ -61,16 +61,18 @@ class Weekly extends Component {
       });
       return (
         <VictoryChart
-          theme={VictoryTheme.material}
+          height={400}
+          width={400}
+          theme={VictoryTheme.grayscale}
           domain={{ x: null, y: [0, 100] }}
           style={{
-            stroke: { fill: 'black' }
+            parent: { stroke: '#f9a346', fill: '#f9a346' }
           }}
         >
           <VictoryLine
             interpolation="monotoneX"
             animate={{
-              onLoad: { duration: 1500 }
+              duration: 2000
             }}
             data={graphObj}
             style={{
@@ -79,11 +81,11 @@ class Weekly extends Component {
           />
           <VictoryScatter
             animate={{
-              onLoad: { duration: 2000 }
+              duration: 2000
             }}
             style={{
               data: { fill: '#c43a31' },
-              labels: { fill: 'black', fontWeight: 'bold' }
+              labels: { fill: 'white', fontWeight: 'bold', fontSize: 20 }
             }}
             size={5}
             data={graphObj}
@@ -116,12 +118,12 @@ class Weekly extends Component {
           />
           <VictoryAxis
             label="Entries"
-            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
+            style={{ axisLabel: { padding: 35, fontSize: 17 } }}
           />
           <VictoryAxis
             dependentAxis
-            label="Sentiment Score"
-            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
+            label="Sentiment Score 0(bad) - 100(good)"
+            style={{ axisLabel: { padding: 35, fontSize: 17 } }}
           />
         </VictoryChart>
       );
