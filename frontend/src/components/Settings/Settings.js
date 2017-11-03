@@ -1,105 +1,51 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
+import React, { Component } from "react";
+import TwitterLogin from "react-twitter-auth";
 
-class Settings extends Component {
-  constructor(props) {
-    super(props);
+class App extends Component {
+  constructor() {
+    super();
 
-    this.state = {
-      twitterUsername: '',
-      twitterPassword: '',
-      twitterLoggedIn: false
-    };
+    this.state = { isAuthenticated: false, user: null, token: "" };
   }
 
-  handleTwitterUsername = e => {
-    this.setState({
-      twitterUsername: e.target.value
+  onSuccess = response => {
+    const token = response.headers.get("x-auth-token");
+    response.json().then(user => {
+      if (token) {
+        this.setState({ isAuthenticated: true, user: user, token: token });
+      }
     });
   };
 
-  handleTwitterPassword = e => {
-    this.setState({
-      twitterPassword: e.target.value
-    });
+  onFailed = error => {
+    alert(error);
   };
 
-  handleTwitterSubmitClick = e => {
-    var twitterLogin = {
-      username: this.state.twitterUsername,
-      password: this.state.twitterPassword
-    };
-    axios.get('/twitterlogin/connect').then(() => {
-      console.log(twitterLogin);
-    });
+  logout = () => {
+    this.setState({ isAuthenticated: false, token: "", user: null });
   };
 
   render() {
-    return (
-      <div className="container">
-        <div className="container is-mobile" id="mainBox">
-          <nav className="level">
-            <div className="level-item has-text-centered">
-              <h1 className="title is-4">Twitter Login</h1>
-            </div>
-          </nav>
-        </div>
-        <div className="container" id="loginBox">
-          <div className="field">
-            <label className="label">Username</label>
-            <div className="control has-icons-left">
-              <input
-                type="text"
-                className="input"
-                placeholder="Username"
-                onChange={this.handleTwitterUsername}
-              />
-              <span className="icon is-small is-left">
-                <i className="fa fa-twitter" />
-              </span>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Password</label>
-            <div className="control has-icons-left">
-              <input
-                type="password"
-                className="input"
-                placeholder="Password"
-                onChange={this.handleTwitterPassword}
-              />
-              <span className="icon is-small is-left">
-                <i className="fa fa-unlock" />
-              </span>
-            </div>
-          </div>
-          <div className="field is-grouped">
-            <div className="control">
-              <button
-                className="button is-danger"
-                onClick={this.handleTwitterSubmitClick}
-              >
-                Submit
-              </button>
-            </div>
-          </div>
+    let content = !!this.state.isAuthenticated ? (
+      <div>
+        <p>Authenticated</p>
+        <div>
+          <button onClick={this.logout} className="button">
+            Log out
+          </button>
         </div>
       </div>
+    ) : (
+      <TwitterLogin
+        loginUrl="http://localhost:3000/auth/twitter"
+        onFailure={this.onFailed}
+        onSuccess={this.onSuccess}
+        requestTokenUrl="http://localhost:3000/auth/twitter/reverse"
+      />
     );
+
+    return <div className="App">{content}</div>;
   }
 }
 
-const mapStatetoProps = state => {
-  return { authenticated: state.session.authenticated };
-};
-
-const mapDispatchtoProps = dispatch => {
-  return {};
-};
-
-const ConnectedSettings = connect(mapStatetoProps, mapDispatchtoProps)(
-  Settings
-);
-
-export default ConnectedSettings;
+export default App;

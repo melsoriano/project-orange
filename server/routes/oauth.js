@@ -1,117 +1,176 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const expressJwt = require("express-jwt");
+const cors = require("cors");
+const request = require("request");
+const TwitterTokenStrategy = require("passport-twitter-token");
 const session = require("express-session");
-const inspect = require("util-inspect");
-const OAuth = require("oauth").OAuth;
-
-const app = express();
-
-const CONFIG = require("../config/twitterConfig.json");
+const mongoose = require("./mongoose");
+const twitterConfig = require("../config/twitterConfig");
 const twitter = require("./helperFunctions/twitterUpdate.js");
 
-const configOAuth = new OAuth(
-  "https://api.twitter.com/oauth/request_token",
-  "https://api.twitter.com/oauth/access_token",
-  CONFIG.CONSUMER_KEY,
-  CONFIG.CONSUMER_SECRET,
-  "1.0",
-  "http://127.0.0.1:3001/twitterlogin/callback",
-  "HMAC-SHA1"
+mongoose();
+const User = require("mongoose").model("User");
+
+const app = express();
+const router = express.Router();
+
+// enable cors
+const corsOption = {
+  origin: true,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  exposedHeaders: ["x-auth-token"]
+};
+app.use(cors(corsOption));
+
+// passport
+passport.use(
+  new TwitterTokenStrategy(
+    {
+      consumerKey: twitterConfig.CONSUMER_KEY,
+      consumerSecret: twitterConfig.CONSUMER_SECRET
+    },
+    function(token, tokenSecret, profile, done) {
+      // User.findOrCreate({ twitter_id: profile.id }, (err, user) => {
+      //   return done(err, user);
+      // });
+
+      User.upsertTwitterUser(token, tokenSecret, profile, (err, user) => {
+        return done(err, user);
+      });
+    }
+  )
 );
 
-app.use(cookieParser());
-app.use(
-  session({
-    secret: CONFIG.SESSIONS_SECRET,
-    name: "twitter_sessions",
-    resave: false,
-    saveUninitialized: true
-  })
+router.route("/twitter/reverse").post((req, res) => {
+  request.post(
+    {
+      url: "https://api.twitter.com/oauth/request_token",
+      oauth: {
+        oauth_callback: "http%3A%2F%2Flocalhost%3A3000%2Ftwitter-callback",
+        consumer_key: twitterConfig.CONSUMER_KEY,
+        consumer_secret: twitterConfig.CONSUMER_SECRET
+      }
+    },
+    (err, r, body) => {
+      if (err) {
+        return res.status(500).send({ message: e.message });
+      }
+
+      const jsonStr =
+        '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
+      res.send(JSON.parse(jsonStr));
+    }
+  );
+});
+
+router.route("/twitter").post(
+  (req, res, next) => {
+    request.post(
+      {
+        url: `https://api.twitter.com/oauth/access_token?oauth_verifier`,
+        oauth: {
+          consumer_key: twitterConfig.CONSUMER_KEY,
+          consumer_secret: twitterConfig.CONSUMER_SECRET,
+          token: req.query.oauth_token
+        },
+        form: { oauth_verifier: req.query.oauth_verifier }
+      },
+      (err, r, body) => {
+        if (err) {
+          return res.status(500).send({ message: err.message });
+        }
+
+        const bodyString =
+          '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
+        const parsedBody = JSON.parse(bodyString);
+        console.log(">>> CHECKING PARSED BODY >>>", parsedBody);
+
+        req.body.oauth_token = parsedBody.oauth_token;
+        req.body.oauth_token_secret = parsedBody.oauth_token_secret;
+        req.body.user_id = parsedBody.user_id;
+        req.body.screen_name = parsedBody.screen_name;
+
+        next();
+      }
+    );
+  },
+  passport.authenticate("twitter-token", { session: false }),
+  (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).send("User Not Authenticated");
+    }
+
+    // prepare token for API
+    req.auth = {
+      id: req.user.id
+    };
+
+    return next();
+  },
+  generateToken,
+  sendToken
 );
 
-app.use((req, res, next) => {
-  res.locals.session = req.session;
-  next();
+//token handling middleware
+const authenticate = expressJwt({
+  secret: twitterConfig.SESSIONS_SECRET,
+  requestProperty: "auth",
+  getToken: req => {
+    if (req.headers["x-auth-token"]) {
+      return req.headers["x-auth-token"];
+    }
+    return null;
+  }
 });
 
-app.get("/connect", (req, res) => {
-  configOAuth.getOAuthRequestToken(
-    (error, oauthToken, oauthTokenSecret, results) => {
-      if (error) {
-        res
-          .status(500)
-          .send(`Error getting OAuth request token ${inspect(error)}`);
-      } else {
-        req.session.oauthRequestToken = oauthToken;
-        req.session.oauthRequestTokenSecret = oauthTokenSecret;
-        res.redirect(
-          "https://twitter.com/oauth/authorize?oauth_token=" +
-            req.session.oauthRequestToken
-        );
-      }
+function createToken(auth) {
+  return jwt.sign(
+    {
+      id: auth.id
+    },
+    twitterConfig.SESSIONS_SECRET,
+    {
+      expiresIn: 60 * 120
     }
   );
-});
+}
 
-app.get("/callback", (req, res) => {
-  configOAuth.getOAuthAccessToken(
-    req.session.oauthRequestToken,
-    req.session.oauthRequestTokenSecret,
-    req.query.oauth_verifier,
-    function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
-      if (error) {
-        res
-          .status(500)
-          .send(
-            `Error getting OAuth access token: [Error: ${inspect(
-              error
-            )}] [Access Token: ${oauthAccessToken}] [Token Secret: ${oauthAccessTokenSecret}] [Result:${inspect(
-              results
-            )}]`
-          );
-      } else {
-        req.session.oauthAccessToken = oauthAccessToken;
-        req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
-        res.redirect("/home");
-      }
+function generateToken(req, res, next) {
+  req.token = createToken(req.auth);
+  return next();
+}
+
+function sendToken(req, res) {
+  res.setHeader("x-auth-token", req.token);
+  return res.status(200).send(JSON.stringify(req.user));
+}
+
+function getCurrentUser(req, res, next) {
+  console.log("CHECKING REQ IN CURRENT USER >>>>", req);
+  User.findById(req.auth.id, (err, user) => {
+    if (err) {
+      next(err);
+    } else {
+      req.user = user;
+      next();
     }
-  );
-});
+  });
+}
 
-app.get("/home", (req, res) => {
-  configOAuth.get(
-    "https://api.twitter.com/1.1/account/verify_credentials.json",
-    req.session.oauthAccessToken,
-    req.session.oauthAccessTokenSecret,
-    (error, data, response) => {
-      if (error) {
-        res.redirect("/connect");
-      } else {
-        //let parsedData = JSON.parse(data);
-        //res.send(`You are logged in as ${parsedData.screen_name}`);
+function getOne(req, res) {
+  const user = req.user.toObject();
 
-        let twitterUpdateConfig = {
-          accessToken: req.session.oauthRequestToken,
-          accessTokenSecret: req.session.oauthRequestTokenSecret,
-          user_id: req.user.id,
-          screenName: req.session.screen_name
-        };
-        twitter
-          .getRecentUserTweets(twitterUpdateConfig)
-          .then(() => {
-            res.redirect("/user/entries/twitter");
-          })
-          .catch(err => {
-            console.log(err);
-            res.send(err);
-          });
-      }
-    }
-  );
-});
+  delete user.twitterProvider;
+  delete user.__v;
 
-app.get("*", (req, res) => {
-  res.redirect("/home");
-});
+  res.json(user);
+}
+
+router.route("/twitter-profile").get(authenticate, getCurrentUser, getOne);
+
+app.use(router);
 
 module.exports = app;

@@ -15,7 +15,9 @@ module.exports = function(sequelize, DataTypes) {
     location: DataTypes.STRING,
     occupation: DataTypes.STRING,
     gender: DataTypes.STRING,
-    token: DataTypes.STRING
+    twitter_id: DataTypes.STRING,
+    twitterToken: DataTypes.STRING,
+    twitterTokenSecret: DataTypes.STRING
   });
   Users.associate = function(models) {
     Users.hasMany(models.entries, {
