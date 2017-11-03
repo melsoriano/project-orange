@@ -20,7 +20,8 @@
     "react-swipeable": "^4.1.0",
     "redux": "^3.7.2",
     "redux-react-session": "^2.1.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "victory": "^0.24.0"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
