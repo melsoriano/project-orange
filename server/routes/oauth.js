@@ -33,10 +33,6 @@ passport.use(
       consumerSecret: twitterConfig.CONSUMER_SECRET
     },
     function(token, tokenSecret, profile, done) {
-      // User.findOrCreate({ twitter_id: profile.id }, (err, user) => {
-      //   return done(err, user);
-      // });
-
       User.upsertTwitterUser(token, tokenSecret, profile, (err, user) => {
         return done(err, user);
       });
@@ -79,10 +75,11 @@ router.route("/twitter").post(
         form: { oauth_verifier: req.query.oauth_verifier }
       },
       (err, r, body) => {
+        console.log("BODY >>>>>>>>", body);
         if (err) {
           return res.status(500).send({ message: err.message });
         }
-
+        //user query string
         const bodyString =
           '{ "' + body.replace(/&/g, '", "').replace(/=/g, '": "') + '"}';
         const parsedBody = JSON.parse(bodyString);
@@ -110,6 +107,7 @@ router.route("/twitter").post(
 
     return next();
   },
+  updateTwitter,
   generateToken,
   sendToken
 );
@@ -119,6 +117,7 @@ const authenticate = expressJwt({
   secret: twitterConfig.SESSIONS_SECRET,
   requestProperty: "auth",
   getToken: req => {
+    console.log("hitting authenticate >>>", req.headers);
     if (req.headers["x-auth-token"]) {
       return req.headers["x-auth-token"];
     }
@@ -143,13 +142,12 @@ function generateToken(req, res, next) {
   return next();
 }
 
-function sendToken(req, res) {
+function sendToken(req, res, next) {
   res.setHeader("x-auth-token", req.token);
   return res.status(200).send(JSON.stringify(req.user));
 }
 
 function getCurrentUser(req, res, next) {
-  console.log("CHECKING REQ IN CURRENT USER >>>>", req);
   User.findById(req.auth.id, (err, user) => {
     if (err) {
       next(err);
@@ -169,7 +167,25 @@ function getOne(req, res) {
   res.json(user);
 }
 
-router.route("/twitter-profile").get(authenticate, getCurrentUser, getOne);
+function updateTwitter(req, res, next) {
+  let twitterUpdateConfig = {
+    accessToken: req.body.oauth_token,
+    accessTokenSecret: req.body.oauth_token_secret,
+    user_id: req.session.passport.user,
+    screenName: req.body.screen_name
+  };
+  twitter
+    .getRecentUserTweets(twitterUpdateConfig)
+    .then(() => {
+      next();
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(err);
+    });
+}
+
+router.route("/twitter-callback").get(authenticate, getCurrentUser, getOne);
 
 app.use(router);
 
