@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getWeekEntries } from '../../actions';
+import { getWeekEntries, getMonthEntries } from '../../actions';
 import SingleEntry from './SingleEntry';
 import AngryIcon from '../../assets/anger.jpg';
 import DisgustIcon from '../../assets/disgust.jpg';
@@ -46,6 +46,16 @@ class Weekly extends Component {
     });
   }
 
+  handleMonthButton = () => {
+    this.props.getMonthEntries();
+    console.log(this.props.weekEntries.entries);
+  };
+
+  handleWeekButton = () => {
+    this.props.getWeekEntries();
+    console.log(this.props.weekEntries.entries);
+  };
+
   loadVictoryGraph() {
     if (Array.isArray(this.props.weekEntries.entries)) {
       let xAxis = this.props.weekEntries.entries.length;
@@ -61,24 +71,33 @@ class Weekly extends Component {
       });
       return (
         <VictoryChart
-          theme={VictoryTheme.material}
+          height={400}
+          width={400}
+          theme={VictoryTheme.grayscale}
           domain={{ x: null, y: [0, 100] }}
           style={{
-            strokeDasharray: { fill: 'black' }
+            parent: { stroke: '#f9a346', fill: '#f9a346' }
           }}
         >
           <VictoryLine
+            interpolation="monotoneX"
+            animate={{
+              duration: 2000
+            }}
             data={graphObj}
             style={{
               data: { stroke: '#c43a31' }
             }}
           />
           <VictoryScatter
+            animate={{
+              duration: 2000
+            }}
             style={{
               data: { fill: '#c43a31' },
-              labels: { fill: 'black', fontWeight: 'bold' }
+              labels: { fill: 'white', fontWeight: 'bold', fontSize: 20 }
             }}
-            size={7}
+            size={5}
             data={graphObj}
             events={[
               {
@@ -109,12 +128,12 @@ class Weekly extends Component {
           />
           <VictoryAxis
             label="Entries"
-            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
+            style={{ axisLabel: { padding: 35, fontSize: 17 } }}
           />
           <VictoryAxis
             dependentAxis
-            label="Sentiment Score"
-            style={{ axisLabel: { padding: 35, fontSize: 15 } }}
+            label="Sentiment Score 0(bad) - 100(good)"
+            style={{ axisLabel: { padding: 35, fontSize: 17 } }}
           />
         </VictoryChart>
       );
@@ -250,6 +269,24 @@ class Weekly extends Component {
     //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile">
+        <div className="columns is-mobile is-centered">
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleWeekButton}
+            >
+              Current Week
+            </button>
+          </div>
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleMonthButton}
+            >
+              Month
+            </button>
+          </div>
+        </div>
         {this.loadVictoryGraph()}
 
         <br />
@@ -270,6 +307,9 @@ const mapDispatchtoProps = dispatch => {
   return {
     getWeekEntries: () => {
       dispatch(getWeekEntries());
+    },
+    getMonthEntries: () => {
+      dispatch(getMonthEntries());
     }
   };
 };
