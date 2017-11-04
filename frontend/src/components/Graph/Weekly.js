@@ -74,7 +74,10 @@ class Weekly extends Component {
           height={400}
           width={400}
           theme={VictoryTheme.grayscale}
-          domain={{ x: null, y: [0, 100] }}
+          domain={{
+            x: [1, this.props.weekEntries.entries.length],
+            y: [0, 100]
+          }}
           style={{
             parent: { stroke: '#f9a346', fill: '#f9a346' }
           }}
