@@ -1,4 +1,4 @@
-import { GET_WEEK_ENTRIES } from '../actions';
+import { GET_WEEK_ENTRIES } from "../actions";
 const initialState = [];
 
 const weekEntries = (state = initialState, action) => {

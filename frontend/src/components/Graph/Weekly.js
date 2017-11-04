@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { getWeekEntries, getMonthEntries } from '../../actions';
-import SingleEntry from './SingleEntry';
-import AngryIcon from '../../assets/anger.jpg';
-import DisgustIcon from '../../assets/disgust.jpg';
-import FearIcon from '../../assets/fear.jpg';
-import JoyIcon from '../../assets/joy.jpg';
-import SadnessIcon from '../../assets/sadness.jpg';
-import SingleKeyword from './SingleKeyword';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getWeekEntries, getMonthEntries } from "../../actions";
+import SingleEntry from "./SingleEntry";
+import AngryIcon from "../../assets/anger.jpg";
+import DisgustIcon from "../../assets/disgust.jpg";
+import FearIcon from "../../assets/fear.jpg";
+import JoyIcon from "../../assets/joy.jpg";
+import SadnessIcon from "../../assets/sadness.jpg";
+import SingleKeyword from "./SingleKeyword";
 import {
   VictoryScatter,
   VictoryChart,
   VictoryTheme,
   VictoryLine,
   VictoryAxis
-} from 'victory';
+} from "victory";
 
 class Weekly extends Component {
   constructor(props) {
@@ -76,7 +76,7 @@ class Weekly extends Component {
           theme={VictoryTheme.grayscale}
           domain={{ x: null, y: [0, 100] }}
           style={{
-            parent: { stroke: '#f9a346', fill: '#f9a346' }
+            parent: { stroke: "#f9a346", fill: "#f9a346" }
           }}
         >
           <VictoryLine
@@ -86,7 +86,7 @@ class Weekly extends Component {
             }}
             data={graphObj}
             style={{
-              data: { stroke: '#c43a31' }
+              data: { stroke: "#c43a31" }
             }}
           />
           <VictoryScatter
@@ -94,28 +94,28 @@ class Weekly extends Component {
               duration: 2000
             }}
             style={{
-              data: { fill: '#c43a31' },
-              labels: { fill: 'white', fontWeight: 'bold', fontSize: 20 }
+              data: { fill: "#c43a31" },
+              labels: { fill: "white", fontWeight: "bold", fontSize: 20 }
             }}
             size={5}
             data={graphObj}
             events={[
               {
-                target: 'data',
+                target: "data",
                 eventHandlers: {
                   onClick: () => {
                     return [
                       {
-                        target: 'data',
+                        target: "data",
                         mutation: props => {
                           const fill = props.style && props.style.fill;
-                          return fill === 'black'
+                          return fill === "black"
                             ? null
-                            : { style: { fill: 'black' } };
+                            : { style: { fill: "black" } };
                         }
                       },
                       {
-                        target: 'labels',
+                        target: "labels",
                         mutation: props => {
                           return props.text ? null : { text: props.datum.date };
                         }
@@ -149,7 +149,7 @@ class Weekly extends Component {
       sadnessScore: e.sadnessScore
     };
     let highestNum = 0;
-    let highestEmotion = '';
+    let highestEmotion = "";
     Object.entries(emotionData).forEach(([key, value]) => {
       if (value > highestNum) {
         highestNum = value;
@@ -157,45 +157,45 @@ class Weekly extends Component {
       }
     });
     switch (highestEmotion) {
-      case 'angerScore':
+      case "angerScore":
         return {
           icon: AngryIcon,
-          style: { backgroundColor: '#F95738', borderColor: '#F95738' }
+          style: { backgroundColor: "#F95738", borderColor: "#F95738" }
         };
-      case 'disgustScore':
+      case "disgustScore":
         return {
           icon: DisgustIcon,
-          style: { backgroundColor: '#4a7c59', borderColor: '#4a7c59' }
+          style: { backgroundColor: "#4a7c59", borderColor: "#4a7c59" }
         };
-      case 'fearScore':
+      case "fearScore":
         return {
           icon: FearIcon,
           style: {
-            backgroundColor: '#353129',
-            borderColor: '#353129',
-            color: '#ecf1fa'
+            backgroundColor: "#353129",
+            borderColor: "#353129",
+            color: "#ecf1fa"
           }
         };
-      case 'joyScore':
+      case "joyScore":
         return {
           icon: JoyIcon,
-          style: { backgroundColor: '#f7ed83', borderColor: '#f7ed83' }
+          style: { backgroundColor: "#f7ed83", borderColor: "#f7ed83" }
         };
-      case 'sadnessScore':
+      case "sadnessScore":
         return {
           icon: SadnessIcon,
           style: {
-            backgroundColor: '#084887',
-            borderColor: '#084887',
-            color: '#ecf1fa'
+            backgroundColor: "#084887",
+            borderColor: "#084887",
+            color: "#ecf1fa"
           }
         };
       default:
         return {
           icon: null,
           style: {
-            backgroundColor: 'white',
-            borderColor: 'white'
+            backgroundColor: "white",
+            borderColor: "white"
           }
         };
     }
