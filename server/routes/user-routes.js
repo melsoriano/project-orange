@@ -46,8 +46,36 @@ router.get("/logout", checkAuthentication, (req, res) => {
   res.redirect("/");
 });
 
+router
+  .route("/profile")
+  .get((req, res) => {
+    User.findOne().then(data => {
+      let userInfoObj = {
+        userName: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        birthDate: data.birthDate,
+        location: data.location,
+        occupation: data.occupation,
+        gender: data.gender
+      };
+      res.json(userInfoObj);
+    });
+  })
+  .put((req, res) => {
+    let userId = req.session.passport.user;
+    User.findById(userId).then(user => {
+      User.update(req.body, {
+        where: {
+          id: user.id
+        }
+      }).then(data => {
+        User.findById(userId).then(() => res.send(JSON.stringify(req.body)));
+      });
+    });
+  });
+
 function checkAuthentication(req, res, next) {
-  // console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     return next();
   } else {
