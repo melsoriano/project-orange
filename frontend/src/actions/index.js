@@ -6,6 +6,7 @@ export const GET_WEEK_ENTRIES = 'GET_WEEK_ENTRIES';
 export const LOAD_AUTH = 'LOAD_AUTH';
 export const LOGIN_USER = 'LOGIN_USER';
 export const GET_MONTH_ENTRIES = 'GET_MONTH_ENTRIES';
+export const GET_TWITTER_ENTRIES = 'GET_TWITTER_ENTRIES';
 
 export const addEntry = entry => {
   return dispatch => {
@@ -20,6 +21,17 @@ export const addEntry = entry => {
           weekEntries: entries.data
         });
       });
+  };
+};
+
+export const getTwitterEntries = () => {
+  return dispatch => {
+    axios.get('/user/entries/twitter').then(entries => {
+      dispatch({
+        type: GET_TWITTER_ENTRIES,
+        twitterEntries: entries.data
+      });
+    });
   };
 };
 
