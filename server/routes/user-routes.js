@@ -46,6 +46,25 @@ router.get("/logout", checkAuthentication, (req, res) => {
   res.redirect("/");
 });
 
+router.route("/profile").get((req, res) => {
+  User.findOne({ where: { id: req.user.id } }).then(data => res.send(data));
+});
+
+router.route("/profile").put((req, res) => {
+  let userId = req.user.id;
+  User.findById(userId).then(user => {
+    User.update(req.body, {
+      where: {
+        id: user.id
+      }
+    }).then(data => {
+      User.findById(userId).then(data => {
+        res.send(JSON.stringify(data));
+      });
+    });
+  });
+});
+
 function checkAuthentication(req, res, next) {
   // console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
