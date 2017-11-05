@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SingleEntry from './SingleEntry';
+import SingleKeyword from './SingleKeyword';
 import {
   VictoryScatter,
   VictoryChart,
@@ -36,14 +37,65 @@ class LineGraph extends Component {
     });
   }
 
-  componentWillMount() {
-    console.log(this.props);
+  emotionIcon(e) {
+    let emotionData = {
+      angerScore: e.angerScore,
+      disgustScore: e.disgustScore,
+      fearScore: e.fearScore,
+      joyScore: e.joyScore,
+      sadnessScore: e.sadnessScore
+    };
+    let highestNum = 0;
+    let highestEmotion = '';
+    Object.entries(emotionData).forEach(([key, value]) => {
+      if (value > highestNum) {
+        highestNum = value;
+        highestEmotion = key;
+      }
+    });
+    switch (highestEmotion) {
+      case 'angerScore':
+        return {
+          style: { backgroundColor: '#F95738', borderColor: '#F95738' }
+        };
+      case 'disgustScore':
+        return {
+          style: { backgroundColor: '#4a7c59', borderColor: '#4a7c59' }
+        };
+      case 'fearScore':
+        return {
+          style: {
+            backgroundColor: '#353129',
+            borderColor: '#353129',
+            color: '#ecf1fa'
+          }
+        };
+      case 'joyScore':
+        return {
+          style: { backgroundColor: '#f7ed83', borderColor: '#f7ed83' }
+        };
+      case 'sadnessScore':
+        return {
+          style: {
+            backgroundColor: '#084887',
+            borderColor: '#084887',
+            color: '#ecf1fa'
+          }
+        };
+      default:
+        return {
+          style: {
+            backgroundColor: 'white',
+            borderColor: 'white'
+          }
+        };
+    }
   }
 
   loadVictoryGraph() {
-    if (Array.isArray(this.props.data)) {
-      let xAxis = this.props.data.length;
-      let graphObj = this.props.data.map(data => {
+    if (Array.isArray(this.props.entries)) {
+      let xAxis = this.props.entries.length;
+      let graphObj = this.props.entries.map(data => {
         let newDate = new Date(data.createdAt);
         let point = {
           x: xAxis,
@@ -61,7 +113,7 @@ class LineGraph extends Component {
             width={400}
             theme={VictoryTheme.grayscale}
             domain={{
-              x: [1, this.props.data.length],
+              x: [1, this.props.entries.length],
               y: [0, 100]
             }}
             style={{
@@ -121,6 +173,77 @@ class LineGraph extends Component {
     }
   }
 
+  loadKeywords() {
+    if (Array.isArray(this.props.keywords)) {
+      let counter = -1;
+      return this.props.keywords.map(keyword => {
+        counter++;
+        return (
+          <div key={counter} className="column is-narrow">
+            <button
+              className="button keywordButton"
+              style={this.emotionIcon(keyword).style}
+              onClick={e => this.modalHander(e, keyword.keyword)}
+            >
+              <span className="icon is-small">
+                <i className="fa fa-pie-chart" />
+              </span>
+              <span>{keyword.keyword}</span>
+            </button>
+            <SingleKeyword
+              show={this.state.activeModal === keyword.keyword}
+              onHide={this.hideModal}
+              keywordData={keyword}
+            />
+          </div>
+        );
+      });
+    }
+  }
+
+  loadEntries() {
+    if (Array.isArray(this.props.entries)) {
+      return this.props.entries.map(entry => {
+        let sentimentBar = (entry.sentimentScore + 1) * 50;
+        let newDate = new Date(entry.createdAt);
+        return (
+          <article key={entry.id} className="media" id={entry.id}>
+            <div className="media-left">
+              <span
+                className="icon is-large"
+                id={entry.id}
+                onClick={e => this.modalHander(e, entry.id)}
+              >
+                <i className="fa fa-bars" />
+              </span>
+            </div>
+            <div className="media-content">
+              <div className="content" id="entryText">
+                <p id={entry.id} onClick={e => this.modalHander(e, entry.id)}>
+                  <small>{newDate.toLocaleString()}</small>
+                  <br />
+
+                  <progress
+                    className="progress sentimentProgress"
+                    value={sentimentBar}
+                    max="100"
+                  />
+                </p>
+              </div>
+            </div>
+            <SingleEntry
+              show={this.state.activeModal === entry.id}
+              onHide={this.hideModal}
+              entry={entry}
+              date={newDate.toLocaleString()}
+              emotionIcon={this.emotionIcon(entry)}
+            />
+          </article>
+        );
+      });
+    }
+  }
+
   loadModals() {
     if (Array.isArray(this.props.data)) {
       return this.props.data.map(entry => {
@@ -144,6 +267,10 @@ class LineGraph extends Component {
       <div>
         {this.loadVictoryGraph()}
         {this.loadModals()}
+        <div className="columns is-multiline is-mobile">
+          {this.loadKeywords()}
+        </div>
+        {this.loadEntries()}
       </div>
     );
   }
