@@ -16,26 +16,11 @@ class Graph extends Component {
   }
 
   render() {
-    return (
-      <div className="container is-mobile" id="mainBox">
-        <div className="columns is-mobile is-centered">
-          <div className="column">
-            <Link to="/graph/weekly">
-              <button className="button is-danger is-fullwidth">
-                Current Week
-              </button>
-            </Link>
-          </div>
-          <div className="column">
-            <Link to="/graph/monthly">
-              <button className="button is-danger is-fullwidth">Month</button>
-            </Link>
-          </div>
-        </div>
-
-        <Route exact path="/graph" render={() => <Weekly />} />
-        <Route path="/graph/weekly/" component={Weekly} />
-        <Route path="/graph/monthly/" component={Monthly} />
+     return (
+      <div className="container">
+           <Route path="/graph" component={Weekly} />
+          <Route path="/graph/weekly/" component={Weekly} />
+          <Route path="/graph/monthly/" component={Monthly} />
       </div>
     );
   }

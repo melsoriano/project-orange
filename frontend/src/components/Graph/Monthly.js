@@ -14,7 +14,7 @@ class Monthly extends Component {
 
   render() {
     return (
-      <div className="container is-mobile" id="mainBox">
+      <div className="container" id="mainBox">
         <img src={demoGraph} alt="demo graph" />
         MONTHLY
       </div>

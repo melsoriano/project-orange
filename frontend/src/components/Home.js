@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addEntry, getWeekEntries } from '../actions';
 import { Redirect } from 'react-router-dom';
-import Logo from '../assets/orangelogo.png';
 import { sessionService } from 'redux-react-session';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Logo from '../assets/OrangeLogo_outline.png';
 
 class Home extends Component {
   constructor(props) {
@@ -46,43 +47,36 @@ class Home extends Component {
       return <Redirect to="/graph/weekly/" />;
     }
     return (
-      <div className="container">
-        <nav className="level is-mobile">
-          <div className="level-left" />
-          <div className="level-right">
-            <button className="button is-danger" onClick={this.handleLogout}>
-              Logout
-            </button>
+      <section className="hero is-flex-touch">
+        <div className="hero-head">
+          <div className="container has-text-centered orangeLogo">
+            <img src={Logo} alt="Logo" />
           </div>
-        </nav>
-        <div className="container" id="mainBox">
-          <img src={Logo} alt="Logo" />
-          <div className="level">
-            <div className="level-item">
-              <div className="field">
-                <div className="control">
-                  <textarea
-                    className="textarea is-fullwidth"
-                    placeholder="Your feelings"
-                    onChange={this.handleEntryBox}
-                    value={this.state.currentEntry}
-                  />
-                </div>
+        </div>
+
+        <div className="textarea_container hero-body">
+          <div className="container has-text-centered">
+            <div className="columns is-vcentered">
+              <div className="textareaBox column is-5">
+                <figure className="image">
+                  <textarea className="textarea" placehold="HOW ARE YOU DOING" row="10"></textarea>
+                  <button className="button is-primary is-inverted is-fullwidth" onClick={this.handleSubmit}>Submit </button>
+                </figure>
               </div>
-            </div>
-            <div className="level-item">
-              <div className="control">
-                <button
-                  className="button is-danger is-fullwidth"
-                  onClick={this.handleSubmit}
-                >
-                  Submit
-                </button>
+              <div className="questionBox column is-6 is-offset-1 has-text-centered">
+                <h1 className="title is-5">
+                  QUESTION OF THE DAY!
+                </h1>
+                <hr />
+                <h2 className="subtitle is-6">
+                  Let this cover page describe a product or service.
+                </h2>
+                <br />
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

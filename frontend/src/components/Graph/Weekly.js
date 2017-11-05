@@ -250,6 +250,24 @@ class Weekly extends Component {
     //console.log(typeof this.props.weekEntries.entries);
     return (
       <div className="container is-mobile">
+        <div className="columns is-mobile is-centered">
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleWeekButton}
+            >
+              Current Week
+            </button>
+          </div>
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleMonthButton}
+            >
+              Month
+            </button>
+          </div>
+        </div>
         {this.loadVictoryGraph()}
 
         <br />
@@ -261,6 +279,7 @@ class Weekly extends Component {
     );
   }
 }
+
 
 const mapStatetoProps = state => {
   return { weekEntries: state.weekEntries };
