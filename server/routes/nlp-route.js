@@ -45,7 +45,7 @@ router.post("/", (req, res) => {
           let entry_id = entry.dataValues.id;
 
           dbHelper
-            .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+            .enterKeywordsToDb(nlpData.keywords, entry_id, user_id, entry.type)
             .then(() => {
               res.redirect("/user/entries/weekly");
             })
