@@ -145,7 +145,8 @@ function getEntriesAndAggregateKeywordsBetweenDates(
             createdAt: {
               [Op.between]: [startDate, endDate]
             },
-            user_id: user_id
+            user_id: user_id,
+            type: entryType
           },
           include: [
             {
