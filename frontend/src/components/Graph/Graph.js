@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {} from '../../actions';
-import { Route } from 'react-router-dom';
-import Weekly from './Weekly';
-import Monthly from './Monthly';
+import LineGraph from './LineGraph';
+import { getWeekEntries, getMonthEntries } from '../../actions';
 
 class Graph extends Component {
   constructor(props) {
@@ -11,27 +9,81 @@ class Graph extends Component {
 
     this.state = {
       entries: [],
-      currentPage: 'weekly'
+      currentView: null,
+      activeModal: null
     };
+
+    this.modalHander = this.modalHander.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
+
+  componentWillMount() {
+    this.props.getWeekEntries();
+  }
+
+  modalHander(e, index) {
+    this.setState({
+      activeModal: index
+    });
+  }
+
+  hideModal() {
+    this.setState({
+      activeModal: null
+    });
+  }
+
+  handleMonthButton = () => {
+    this.props.getMonthEntries();
+  };
+
+  handleWeekButton = () => {
+    this.props.getWeekEntries();
+  };
 
   render() {
     return (
-      <div className="container is-mobile" id="mainBox">
-        <Route exact path="/graph" render={() => <Weekly />} />
-        <Route path="/graph/weekly/" component={Weekly} />
-        <Route path="/graph/monthly/" component={Monthly} />
+      <div className="container is-mobile">
+        <div className="columns is-mobile is-centered">
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleWeekButton}
+            >
+              Current Week
+            </button>
+          </div>
+          <div className="column">
+            <button
+              className="button is-danger is-fullwidth"
+              onClick={this.handleMonthButton}
+            >
+              Month
+            </button>
+          </div>
+        </div>
+        <LineGraph
+          entries={this.props.weekEntries.entries}
+          keywords={this.props.weekEntries.keywordSummary}
+        />
       </div>
     );
   }
 }
 
 const mapStatetoProps = state => {
-  return { entries: state.entries };
+  return { weekEntries: state.weekEntries };
 };
 
 const mapDispatchtoProps = dispatch => {
-  return {};
+  return {
+    getWeekEntries: () => {
+      dispatch(getWeekEntries());
+    },
+    getMonthEntries: () => {
+      dispatch(getMonthEntries());
+    }
+  };
 };
 
 const ConnectedGraph = connect(mapStatetoProps, mapDispatchtoProps)(Graph);
