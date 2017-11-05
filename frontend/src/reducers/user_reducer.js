@@ -1,12 +1,13 @@
-import { USER_INFO } from "../actions";
-const initialState = [];
+import { USER_DATA } from "../actions";
 
 const userData = (state = [], action) => {
   switch (action.type) {
     case USER_DATA:
-      return action.userData;
+      return action.user;
 
     default:
       return state;
   }
 };
+
+export default userData;

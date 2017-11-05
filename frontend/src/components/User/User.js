@@ -1,46 +1,33 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loadUser } from "../../actions";
+import { loadUser, updateUser } from "../../actions";
 
 class User extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: this.props.user
-    };
-  }
-
   componentWillMount() {
     this.props.loadUser();
+    this.props.updateUser(this.props.user.username);
   }
 
-  handleUserButton = () => {
-    this.props.loadUser();
-    console.log(this.props.loadUser.user);
-  };
-
   render() {
-    return (
-      <div>
-        <button onClick={this.props.handleUserButton}>CLICK ME</button>
-      </div>
-    );
+    console.log("PROPS IN RENDER>>", this.props.user);
+
+    return <div>HELLO</div>;
   }
 }
 
-const mapStatetoProps = state => {
-  return { userData: state.userData };
-};
+const mapStateToProps = state => ({
+  user: state.userData
+});
 
-const mapDispatchtoProps = dispatch => {
-  return {
-    loadUser: () => {
-      dispatch(loadUser());
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  loadUser: () => {
+    dispatch(loadUser());
+  },
+  updateUser: user => {
+    dispatch(updateUser(user));
+  }
+});
 
-const ConnectedUser = connect(mapStatetoProps, mapDispatchtoProps)(User);
+const ConnectedUser = connect(mapStateToProps, mapDispatchToProps)(User);
 
 export default ConnectedUser;

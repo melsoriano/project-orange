@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TwitterLogin from "react-twitter-auth";
 
-class App extends Component {
+class Twitter extends Component {
   constructor() {
     super();
 
@@ -41,11 +41,12 @@ class App extends Component {
         onFailure={this.onFailed}
         onSuccess={this.onSuccess}
         requestTokenUrl="http://localhost:3000/auth/twitter/reverse"
+        text=""
       />
     );
 
-    return <div className="App">{content}</div>;
+    return <div className="Twitter">{content}</div>;
   }
 }
 
-export default App;
+export default Twitter;

@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import FooterTab from "./components/FooterTab";
 import Main from "./components/Main";
 import Login from "./components/Login/Login";
-import User from "./components/User/User";
 import { getWeekEntries } from "./actions";
 import "../node_modules/font-awesome/css/font-awesome.min.css";
 const browserHistory = Router.browserHistory;
@@ -15,7 +14,6 @@ class App extends Component {
       <Router history={browserHistory}>
         <div className="container">
           <Main />
-          <User />
           <FooterTab />
         </div>
       </Router>

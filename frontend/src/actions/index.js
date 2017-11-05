@@ -8,18 +8,6 @@ export const LOGIN_USER = "LOGIN_USER";
 export const GET_MONTH_ENTRIES = "GET_MONTH_ENTRIES";
 export const USER_DATA = "USER_DATA";
 
-export const loadUser = user => {
-  return dispatch => {
-    axios.get("/profile").then(user => {
-      console.log("hitting user", user);
-      dispatch({
-        type: USER_DATA,
-        userData: user.data
-      });
-    });
-  };
-};
-
 export const addEntry = entry => {
   return dispatch => {
     axios
@@ -68,6 +56,30 @@ export const loginUser = user => {
       dispatch({
         type: LOGIN_USER,
         auth: res.data
+      });
+    });
+  };
+};
+
+export const loadUser = user => {
+  return dispatch => {
+    axios.get("/profile").then(user => {
+      console.log("hitting load user action", user.data);
+      dispatch({
+        type: USER_DATA,
+        user: user.data
+      });
+    });
+  };
+};
+
+export const updateUser = (id, user) => {
+  return dispatch => {
+    axios.put("/profile").then(user => {
+      console.log("hitting update user", user.data);
+      dispatch({
+        type: USER_DATA,
+        user: user.data
       });
     });
   };
