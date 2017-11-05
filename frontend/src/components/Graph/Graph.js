@@ -4,7 +4,6 @@ import LineGraph from './LineGraph';
 import { getWeekEntries, getMonthEntries } from '../../actions';
 import SingleEntry from './SingleEntry';
 import SingleKeyword from './SingleKeyword';
-import { VictoryBar, VictoryGroup, VictoryAxis } from 'victory';
 
 class Graph extends Component {
   constructor(props) {
@@ -129,7 +128,6 @@ class Graph extends Component {
 
   loadEntries() {
     if (Array.isArray(this.props.weekEntries.entries)) {
-      console.log(this.props.weekEntries.entries);
       let newArr = this.props.weekEntries.entries;
       return newArr.map(entry => {
         let sentimentBar = (entry.sentimentScore + 1) * 50;
