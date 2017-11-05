@@ -135,7 +135,16 @@ class Graph extends Component {
         let sentimentBar = (entry.sentimentScore + 1) * 50;
         let newDate = new Date(entry.createdAt);
         return (
-          <article key={entry.id} className="media">
+          <article key={entry.id} className="media" id={entry.id}>
+            <div className="media-left">
+              <span
+                className="icon is-large"
+                id={entry.id}
+                onClick={e => this.modalHander(e, entry.id)}
+              >
+                <i className="fa fa-bars" />
+              </span>
+            </div>
             <div className="media-content">
               <div className="content" id="entryText">
                 <p id={entry.id} onClick={e => this.modalHander(e, entry.id)}>
