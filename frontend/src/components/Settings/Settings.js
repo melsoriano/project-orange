@@ -4,7 +4,7 @@ import LineGraph from './../Graph/LineGraph';
 import TwitterLogin from 'react-twitter-auth';
 import { getTwitterEntries } from '../../actions';
 
-class App extends Component {
+class Twitter extends Component {
   constructor() {
     super();
 
@@ -69,6 +69,7 @@ class App extends Component {
         onFailure={this.onFailed}
         onSuccess={this.onSuccess}
         requestTokenUrl="http://localhost:3000/auth/twitter/reverse"
+        text=""
       />
     );
 
@@ -98,6 +99,6 @@ const mapDispatchtoProps = dispatch => {
   };
 };
 
-const ConnectedApp = connect(mapStatetoProps, mapDispatchtoProps)(App);
+const ConnectedApp = connect(mapStatetoProps, mapDispatchtoProps)(Twitter);
 
 export default ConnectedApp;
