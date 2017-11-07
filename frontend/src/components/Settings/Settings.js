@@ -69,6 +69,7 @@ class Twitter extends Component {
         onFailure={this.onFailed}
         onSuccess={this.onSuccess}
         requestTokenUrl="https://projectorange.me/auth/twitter/reverse"
+        text=""
       />
     );
 
