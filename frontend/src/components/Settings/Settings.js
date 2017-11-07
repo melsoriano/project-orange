@@ -4,7 +4,7 @@ import LineGraph from "./../Graph/LineGraph";
 import TwitterLogin from "react-twitter-auth";
 import { getTwitterEntries } from "../../actions";
 
-class App extends Component {
+class Twitter extends Component {
   constructor() {
     super();
 
@@ -98,6 +98,6 @@ const mapDispatchtoProps = dispatch => {
   };
 };
 
-const ConnectedApp = connect(mapStatetoProps, mapDispatchtoProps)(App);
+const ConnectedApp = connect(mapStatetoProps, mapDispatchtoProps)(Twitter);
 
 export default ConnectedApp;

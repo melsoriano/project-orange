@@ -4,3 +4,4 @@ server/config/speechToText.json
 server/config/nlp.json
 server/config/twitterConfig.json
 .vscode/
+dump.rdb
