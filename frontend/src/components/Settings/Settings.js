@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import LineGraph from './../Graph/LineGraph';
-import TwitterLogin from 'react-twitter-auth';
-import { getTwitterEntries } from '../../actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import LineGraph from "./../Graph/LineGraph";
+import TwitterLogin from "react-twitter-auth";
+import { getTwitterEntries } from "../../actions";
 
 class App extends Component {
   constructor() {
@@ -11,7 +11,7 @@ class App extends Component {
     this.state = {
       isAuthenticated: false,
       user: null,
-      token: '',
+      token: "",
       activeModal: null
     };
 
@@ -36,7 +36,7 @@ class App extends Component {
   }
 
   onSuccess = response => {
-    const token = response.headers.get('x-auth-token');
+    const token = response.headers.get("x-auth-token");
     response.json().then(user => {
       if (token) {
         this.setState({ isAuthenticated: true, user: user, token: token });
@@ -49,7 +49,7 @@ class App extends Component {
   };
 
   logout = () => {
-    this.setState({ isAuthenticated: false, token: '', user: null });
+    this.setState({ isAuthenticated: false, token: "", user: null });
   };
 
   render() {
@@ -65,10 +65,10 @@ class App extends Component {
       </div>
     ) : (
       <TwitterLogin
-        loginUrl="http://localhost:3000/auth/twitter"
+        loginUrl="https://projectorange.me/auth/twitter"
         onFailure={this.onFailed}
         onSuccess={this.onSuccess}
-        requestTokenUrl="http://localhost:3000/auth/twitter/reverse"
+        requestTokenUrl="https://projectorange.me/auth/twitter/reverse"
       />
     );
 
