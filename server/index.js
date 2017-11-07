@@ -1,19 +1,19 @@
-const express = require('express');
-const bp = require('body-parser');
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
+const express = require("express");
+const bp = require("body-parser");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+const RedisStore = require("connect-redis")(session);
 
-const db = require('./models');
-const nlpRoute = require('./routes/nlp-route.js');
-const speechToText = require('./routes/speechToTextAPI.js');
-const userRoute = require('./routes/user-routes.js');
-const CONFIG = require('./config/config.json');
-const getEntriesRoutes = require('./routes/entriesRoutes.js');
-const getEntryRoutes = require('./routes/entryRoutes.js');
-const oauthRoute = require('./routes/oauth.js');
+const db = require("./models");
+const nlpRoute = require("./routes/nlp-route.js");
+const speechToText = require("./routes/speechToTextAPI.js");
+const userRoute = require("./routes/user-routes.js");
+const CONFIG = require("./config/config.json");
+const getEntriesRoutes = require("./routes/entriesRoutes.js");
+const getEntryRoutes = require("./routes/entryRoutes.js");
+const oauthRoute = require("./routes/oauth.js");
 
 const Entry = db.entries;
 const Keyword = db.keywords;
@@ -29,7 +29,7 @@ app.use(
   session({
     store: new RedisStore(),
     secret: CONFIG.SESSION_SECRET,
-    name: 'orange_sessions',
+    name: "orange_sessions",
     cookie: {
       maxAge: 1000000000
     },
@@ -57,18 +57,18 @@ passport.use(
                 return done(null, user);
               } else {
                 return done(null, false, {
-                  message: 'username or password incorrect!'
+                  message: "username or password incorrect!"
                 });
               }
             })
             .catch(err => console.log(err));
         } else {
-          throw 'user not found!';
+          throw "user not found!";
         }
       })
       .catch(err => {
         return done(null, false, {
-          message: 'username or password incorrect!'
+          message: "username or password incorrect!"
         });
       });
   })
@@ -95,20 +95,20 @@ passport.deserializeUser((userId, done) => {
     });
 });
 
-app.use('/user/entry/new', checkAuthentication, nlpRoute);
-app.use('/user/entries', checkAuthentication, getEntriesRoutes);
-app.use('/user/entry', checkAuthentication, getEntryRoutes);
+app.use("/user/entry/new", checkAuthentication, nlpRoute);
+app.use("/user/entries", checkAuthentication, getEntriesRoutes);
+app.use("/user/entry", checkAuthentication, getEntryRoutes);
 
-app.use('/recording', checkAuthentication, speechToText);
-app.use('/', userRoute);
-app.use('/auth', oauthRoute);
+app.use("/recording", checkAuthentication, speechToText);
+app.use("/", userRoute);
+app.use("/auth", oauthRoute);
 
 function checkAuthentication(req, res, next) {
   console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     return next();
   } else {
-    res.redirect('/login');
+    res.redirect("/login");
   }
 }
 
