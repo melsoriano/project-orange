@@ -25,6 +25,7 @@ router.post("/", (req, res) => {
     .analyze(textEntry)
     .then(data => {
       let nlpData = JSON.parse(data);
+      console.log(nlpData);
 
       let sentimentData = nlpData.sentiment.document;
       let emotionData = nlpData.emotion.document.emotion;
