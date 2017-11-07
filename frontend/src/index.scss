@@ -53,6 +53,38 @@ textarea {
   animation-duration: 0.4s;
 }
 
+.progress {
+  animation: progress 2s;
+}
+
+// .progress::-webkit-progress-value {
+//   animation: progress 2s !important;
+//   background-color: orange !important;
+// }
+
+.sentimentProgress {
+  @extend .progress;
+}
+
+.sentimentProgress::-webkit-progress-value {
+  // background: #fff linear-gradient(to right, white, black) !important;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+    0 2px 5px 0px rgba(0, 0, 0, 0.3) !important;
+  // animation-name: progress !important;
+  // animation-duration: 2s !important;
+
+  // animation-timing-function: ease;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
 @-webkit-keyframes animatetop {
   from {
     top: -300px;

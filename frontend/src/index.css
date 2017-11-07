@@ -43,6 +43,18 @@ textarea {
   animation-name: animatetop;
   animation-duration: 0.4s; }
 
+.progress, .sentimentProgress {
+  animation: progress 2s; }
+
+.sentimentProgress::-webkit-progress-value {
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4), 0 2px 5px 0px rgba(0, 0, 0, 0.3) !important; }
+
+@keyframes progress {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
 @-webkit-keyframes animatetop {
   from {
     top: -300px;
@@ -2874,7 +2886,7 @@ a.box:active {
     background-color: #f47f70;
     color: #fff; }
 
-.progress {
+.progress, .sentimentProgress {
   -moz-appearance: none;
   -webkit-appearance: none;
   border: none;
@@ -2884,59 +2896,59 @@ a.box:active {
   overflow: hidden;
   padding: 0;
   width: 100%; }
-  .progress:not(:last-child) {
+  .progress:not(:last-child), .sentimentProgress:not(:last-child) {
     margin-bottom: 1.5rem; }
-  .progress::-webkit-progress-bar {
+  .progress::-webkit-progress-bar, .sentimentProgress::-webkit-progress-bar {
     background-color: #dbdbdb; }
-  .progress::-webkit-progress-value {
+  .progress::-webkit-progress-value, .sentimentProgress::-webkit-progress-value {
     background-color: #4a4a4a; }
-  .progress::-moz-progress-bar {
+  .progress::-moz-progress-bar, .sentimentProgress::-moz-progress-bar {
     background-color: #4a4a4a; }
-  .progress.is-white::-webkit-progress-value {
+  .progress.is-white::-webkit-progress-value, .is-white.sentimentProgress::-webkit-progress-value {
     background-color: white; }
-  .progress.is-white::-moz-progress-bar {
+  .progress.is-white::-moz-progress-bar, .is-white.sentimentProgress::-moz-progress-bar {
     background-color: white; }
-  .progress.is-black::-webkit-progress-value {
+  .progress.is-black::-webkit-progress-value, .is-black.sentimentProgress::-webkit-progress-value {
     background-color: #0a0a0a; }
-  .progress.is-black::-moz-progress-bar {
+  .progress.is-black::-moz-progress-bar, .is-black.sentimentProgress::-moz-progress-bar {
     background-color: #0a0a0a; }
-  .progress.is-light::-webkit-progress-value {
+  .progress.is-light::-webkit-progress-value, .is-light.sentimentProgress::-webkit-progress-value {
     background-color: #f95738; }
-  .progress.is-light::-moz-progress-bar {
+  .progress.is-light::-moz-progress-bar, .is-light.sentimentProgress::-moz-progress-bar {
     background-color: #f95738; }
-  .progress.is-dark::-webkit-progress-value {
+  .progress.is-dark::-webkit-progress-value, .is-dark.sentimentProgress::-webkit-progress-value {
     background-color: #353129; }
-  .progress.is-dark::-moz-progress-bar {
+  .progress.is-dark::-moz-progress-bar, .is-dark.sentimentProgress::-moz-progress-bar {
     background-color: #353129; }
-  .progress.is-primary::-webkit-progress-value {
+  .progress.is-primary::-webkit-progress-value, .is-primary.sentimentProgress::-webkit-progress-value {
     background-color: #00d1b2; }
-  .progress.is-primary::-moz-progress-bar {
+  .progress.is-primary::-moz-progress-bar, .is-primary.sentimentProgress::-moz-progress-bar {
     background-color: #00d1b2; }
-  .progress.is-link::-webkit-progress-value {
+  .progress.is-link::-webkit-progress-value, .is-link.sentimentProgress::-webkit-progress-value {
     background-color: #084887; }
-  .progress.is-link::-moz-progress-bar {
+  .progress.is-link::-moz-progress-bar, .is-link.sentimentProgress::-moz-progress-bar {
     background-color: #084887; }
-  .progress.is-info::-webkit-progress-value {
+  .progress.is-info::-webkit-progress-value, .is-info.sentimentProgress::-webkit-progress-value {
     background-color: #209cee; }
-  .progress.is-info::-moz-progress-bar {
+  .progress.is-info::-moz-progress-bar, .is-info.sentimentProgress::-moz-progress-bar {
     background-color: #209cee; }
-  .progress.is-success::-webkit-progress-value {
+  .progress.is-success::-webkit-progress-value, .is-success.sentimentProgress::-webkit-progress-value {
     background-color: #4a7c59; }
-  .progress.is-success::-moz-progress-bar {
+  .progress.is-success::-moz-progress-bar, .is-success.sentimentProgress::-moz-progress-bar {
     background-color: #4a7c59; }
-  .progress.is-warning::-webkit-progress-value {
+  .progress.is-warning::-webkit-progress-value, .is-warning.sentimentProgress::-webkit-progress-value {
     background-color: #f7ed83; }
-  .progress.is-warning::-moz-progress-bar {
+  .progress.is-warning::-moz-progress-bar, .is-warning.sentimentProgress::-moz-progress-bar {
     background-color: #f7ed83; }
-  .progress.is-danger::-webkit-progress-value {
+  .progress.is-danger::-webkit-progress-value, .is-danger.sentimentProgress::-webkit-progress-value {
     background-color: #f47f70; }
-  .progress.is-danger::-moz-progress-bar {
+  .progress.is-danger::-moz-progress-bar, .is-danger.sentimentProgress::-moz-progress-bar {
     background-color: #f47f70; }
-  .progress.is-small {
+  .progress.is-small, .is-small.sentimentProgress {
     height: 0.75rem; }
-  .progress.is-medium {
+  .progress.is-medium, .is-medium.sentimentProgress {
     height: 1.25rem; }
-  .progress.is-large {
+  .progress.is-large, .is-large.sentimentProgress {
     height: 1.5rem; }
 
 .table {

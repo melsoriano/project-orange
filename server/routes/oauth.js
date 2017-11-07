@@ -168,6 +168,7 @@ function getOne(req, res) {
 }
 
 function updateTwitter(req, res, next) {
+  console.log("USER >>>>", req.session.passport);
   let twitterUpdateConfig = {
     accessToken: req.body.oauth_token,
     accessTokenSecret: req.body.oauth_token_secret,

@@ -88,7 +88,12 @@ function getRecentUserTweets(userInfoObj) {
                     .then(entry => {
                       let entry_id = entry.dataValues.id;
                       dbHelper
-                        .enterKeywordsToDb(nlpData.keywords, entry_id, user_id)
+                        .enterKeywordsToDb(
+                          nlpData.keywords,
+                          entry_id,
+                          user_id,
+                          entry.type
+                        )
                         .then(() => {
                           resolve();
                         })
