@@ -5,9 +5,9 @@ class FooterTab extends Component {
   render() {
     return (
       <section className="footerTab_container">
-        <div class="hero-foot">
-          <div class="tabs is-fullwidth">
-            <div class="container">
+        <div className="hero-foot">
+          <div className="tabs is-fullwidth">
+            <div className="container">
               <ul>
                 <li>
                   <Link to="/">
@@ -34,7 +34,7 @@ class FooterTab extends Component {
                 </li>
 
                 <li>
-                   <Link to="/quotes">
+                  <Link to="/quotes">
                     <span className="icon is-medium">
                       <i className="fa fa-quote-right" />
                     </span>
@@ -45,7 +45,7 @@ class FooterTab extends Component {
           </div>
         </div>
       </section>
-    )
+    );
   }
 }
 

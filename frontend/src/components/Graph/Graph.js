@@ -45,11 +45,15 @@ class Graph extends Component {
     return (
       <section className="mainGraph_container hero is-fullheight">
         <div className="hero-header">
-          <nav class="level is-mobile">
-            <div class="level-item has-text-centered">
-              <button className="button" onClick={this.handleWeekButton}> Current Week
+          <nav className="level is-mobile">
+            <div className="level-item has-text-centered">
+              <button className="button" onClick={this.handleWeekButton}>
+                {' '}
+                Current Week
               </button>
-              <button className="button" onClick={this.handleMonthButton}> Month
+              <button className="button" onClick={this.handleMonthButton}>
+                {' '}
+                Month
               </button>
             </div>
           </nav>
@@ -58,8 +62,8 @@ class Graph extends Component {
         <div className="emotionGraph hero-body">
           <div className="container">
             <LineGraph
-            entries={this.props.weekEntries.entries}
-            keywords={this.props.weekEntries.keywordSummary}
+              entries={this.props.weekEntries.entries}
+              keywords={this.props.weekEntries.keywordSummary}
             />
           </div>
         </div>

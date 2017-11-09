@@ -44,7 +44,7 @@ class Home extends Component {
 
   render() {
     if (this.state.redirectToGraph) {
-      return <Redirect to="/graph/" />;
+      return <Redirect to="/graph" />;
     }
     return (
       <section className="hero is-fullheight">
@@ -58,11 +58,13 @@ class Home extends Component {
           <div className="container has-text-centered">
             <div className="columns is-vcentered">
               <div className="textareaBox column is-5">
-                <figure className="image">
+                <div className="control">
                   <textarea
                     className="textarea"
                     placehold="HOW ARE YOU DOING"
                     row="10"
+                    onChange={this.handleEntryBox}
+                    value={this.state.currentEntry}
                   />
                   <button
                     className="button is-primary is-inverted is-fullwidth"
@@ -70,7 +72,7 @@ class Home extends Component {
                   >
                     Submit{' '}
                   </button>
-                </figure>
+                </div>
               </div>
               <div className="questionBox column is-6 is-offset-1 has-text-centered">
                 <h1 className="title is-5">QUESTION OF THE DAY!</h1>
