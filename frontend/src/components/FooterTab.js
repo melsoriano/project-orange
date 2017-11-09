@@ -32,14 +32,6 @@ class FooterTab extends Component {
                     </span>
                   </Link>
                 </li>
-
-                <li>
-                  <Link to="/quotes">
-                    <span className="icon is-medium">
-                      <i className="fa fa-quote-right" />
-                    </span>
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
