@@ -4,7 +4,6 @@ import { addEntry, getWeekEntries } from "../actions";
 import { Redirect } from "react-router-dom";
 import { sessionService } from "redux-react-session";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Logo from "../assets/OrangeLogo_outline.png";
 
 class Home extends Component {
