@@ -20,6 +20,7 @@ function getMostRecentTweetId(user_id) {
       order: [["createdAt", "DESC"]]
     })
       .then(entry => {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@", entry);
         let tweet_id = entry.dataValues.source_id;
         resolve(tweet_id);
       })
