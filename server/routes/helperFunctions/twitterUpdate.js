@@ -44,7 +44,7 @@ function getRecentUserTweets(userInfoObj) {
     let screenName = userInfoObj.screenName;
     let user_id = userInfoObj.user_id;
 
-    getMostRecentTweetId()
+    getMostRecentTweetId(user_id)
       .then(tweetId => {
         let twitterQueryConfig = {
           screen_name: screenName,
