@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import SingleEntry from './SingleEntry';
-import SingleKeyword from './SingleKeyword';
+import React, { Component } from "react";
+import SingleEntry from "./SingleEntry";
+import SingleKeyword from "./SingleKeyword";
 import {
   VictoryScatter,
   VictoryChart,
@@ -10,8 +10,8 @@ import {
   VictoryVoronoiContainer,
   VictoryGroup,
   VictoryTooltip
-} from 'victory';
-import { withGetScreen } from 'react-getscreen';
+} from "victory";
+import { withGetScreen } from "react-getscreen";
 
 class LineGraph extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class LineGraph extends Component {
       sadnessScore: e.sadnessScore
     };
     let highestNum = 0;
-    let highestEmotion = '';
+    let highestEmotion = "";
     Object.entries(emotionData).forEach(([key, value]) => {
       if (value > highestNum) {
         highestNum = value;
@@ -54,39 +54,39 @@ class LineGraph extends Component {
       }
     });
     switch (highestEmotion) {
-      case 'angerScore':
+      case "angerScore":
         return {
-          style: { backgroundColor: '#F95738', borderColor: '#F95738' }
+          style: { backgroundColor: "#F95738", borderColor: "#F95738" }
         };
-      case 'disgustScore':
+      case "disgustScore":
         return {
-          style: { backgroundColor: '#4a7c59', borderColor: '#4a7c59' }
+          style: { backgroundColor: "#4a7c59", borderColor: "#4a7c59" }
         };
-      case 'fearScore':
+      case "fearScore":
         return {
           style: {
-            backgroundColor: '#353129',
-            borderColor: '#353129',
-            color: '#ecf1fa'
+            backgroundColor: "#353129",
+            borderColor: "#353129",
+            color: "#ecf1fa"
           }
         };
-      case 'joyScore':
+      case "joyScore":
         return {
-          style: { backgroundColor: '#f7ed83', borderColor: '#f7ed83' }
+          style: { backgroundColor: "#f7ed83", borderColor: "#f7ed83" }
         };
-      case 'sadnessScore':
+      case "sadnessScore":
         return {
           style: {
-            backgroundColor: '#084887',
-            borderColor: '#084887',
-            color: '#ecf1fa'
+            backgroundColor: "#084887",
+            borderColor: "#084887",
+            color: "#ecf1fa"
           }
         };
       default:
         return {
           style: {
-            backgroundColor: 'white',
-            borderColor: 'white'
+            backgroundColor: "white",
+            borderColor: "white"
           }
         };
     }
@@ -106,10 +106,9 @@ class LineGraph extends Component {
         xAxis--;
         return point;
       });
-
       return (
-        <div>
-          <VictoryChart
+        <section className="victoryChart">
+          {/* <VictoryChart
             height={400}
             width={400}
             theme={VictoryTheme.grayscale}
@@ -118,58 +117,55 @@ class LineGraph extends Component {
               y: [0, 100]
             }}
             style={{
-              parent: { stroke: '#f9a346', fill: '#f9a346' }
+              parent: { stroke: "#f9a346", fill: "#f9a346" }
             }}
             containerComponent={<VictoryVoronoiContainer radius={25} />}
+          > */}
+          <VictoryGroup
+            data={graphObj}
+            color="#c43a31"
+            labels={this.props.isMobile() ? null : d => d.date}
+            labelComponent={<VictoryTooltip style={{ fontSize: 14 }} />}
           >
-            <VictoryGroup
-              data={graphObj}
-              color="#c43a31"
-              labels={this.props.isMobile() ? null : d => d.date}
-              labelComponent={<VictoryTooltip style={{ fontSize: 14 }} />}
-            >
-              <VictoryLine
-                interpolation="monotoneX"
-                animate={{
-                  duration: 2000
-                }}
-              />
-              <VictoryScatter
-                size={6}
-                animate={{
-                  duration: 2000
-                }}
-                events={[
-                  {
-                    target: 'data',
-                    eventHandlers: {
-                      onClick: evt => {
-                        return [
-                          {
-                            target: 'data',
-                            mutation: props => {
-                              this.modalHander(evt, props.datum.id);
-                            }
+            <VictoryLine
+              interpolation="monotoneX"
+              animate={{
+                duration: 2000
+              }}
+            />
+            <VictoryScatter
+              size={20}
+              animate={{
+                duration: 2000
+              }}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onClick: evt => {
+                      return [
+                        {
+                          target: "data",
+                          mutation: props => {
+                            this.modalHander(evt, props.datum.id);
                           }
-                        ];
-                      }
+                        }
+                      ];
                     }
                   }
-                ]}
-              />
-            </VictoryGroup>
-
-            <VictoryAxis
-              label="Entries"
-              style={{ axisLabel: { padding: 35, fontSize: 17 } }}
+                }
+              ]}
             />
+          </VictoryGroup>
+
+          {/* <VictoryAxis style={{ axisLabel: { padding: 35, fontSize: 17 } }} />
             <VictoryAxis
               dependentAxis
               label="Sentiment Score 0(bad) - 100(good)"
               style={{ axisLabel: { padding: 35, fontSize: 17 } }}
-            />
-          </VictoryChart>
-        </div>
+            /> */}
+          {/* </VictoryChart> */}
+        </section>
       );
     }
   }
@@ -180,17 +176,13 @@ class LineGraph extends Component {
       return this.props.keywords.map(keyword => {
         counter++;
         return (
-          <div key={counter} className="column is-narrow">
-            <button
-              className="button keywordButton"
-              style={this.emotionIcon(keyword).style}
+          <div key={counter} className="keywords">
+            <div
+              className="keywordButton"
               onClick={e => this.modalHander(e, keyword.keyword)}
             >
-              <span className="icon is-small">
-                <i className="fa fa-pie-chart" />
-              </span>
               <span>{keyword.keyword}</span>
-            </button>
+            </div>
             <SingleKeyword
               show={this.state.activeModal === keyword.keyword}
               onHide={this.hideModal}
@@ -208,30 +200,14 @@ class LineGraph extends Component {
         let sentimentBar = (entry.sentimentScore + 1) * 50;
         let newDate = new Date(entry.createdAt);
         return (
-          <article key={entry.id} className="media" id={entry.id}>
-            <div className="media-left">
-              <span
-                className="icon is-large"
-                id={entry.id}
-                onClick={e => this.modalHander(e, entry.id)}
-              >
-                <i className="fa fa-bars" />
-              </span>
+          <section key={entry.id} className="entryBox" id={entry.id}>
+            <div className="entryText">
+              <p id={entry.id} onClick={e => this.modalHander(e, entry.id)}>
+                <small>{newDate.toLocaleString()}</small>
+                {entry.text}
+              </p>
             </div>
-            <div className="media-content">
-              <div className="content" id="entryText">
-                <p id={entry.id} onClick={e => this.modalHander(e, entry.id)}>
-                  <small>{newDate.toLocaleString()}</small>
-                  <br />
 
-                  <progress
-                    className="progress sentimentProgress"
-                    value={sentimentBar}
-                    max="100"
-                  />
-                </p>
-              </div>
-            </div>
             <SingleEntry
               show={this.state.activeModal === entry.id}
               onHide={this.hideModal}
@@ -239,7 +215,7 @@ class LineGraph extends Component {
               date={newDate.toLocaleString()}
               emotionIcon={this.emotionIcon(entry)}
             />
-          </article>
+          </section>
         );
       });
     }
@@ -265,21 +241,16 @@ class LineGraph extends Component {
 
   render() {
     return (
-      <section className="hero">
+      <div ClassName="graphBox">
+        {this.loadVictoryGraph()}
+        {this.loadModals()}
 
-        <div className="hero-header">
-          <div className="container has-text-centered">
-            {this.loadVictoryGraph()}
-            {this.loadModals()}
-          </div>
-        </div>
+        {/* <p className="keyTitle">KEYWORDS</p> */}
+        <div className="keywordsBox">{this.loadKeywords()}</div>
 
-        <div className="hero-body">
-          <div className="container has-text-centered">
-            {this.loadKeywords()}
-          </div>
-        </div>
-      </section>
+        {/* <p className="entryTitle"> JOURNAL ENTRIES </p> */}
+        <div className="entryContainer">{this.loadEntries()}</div>
+      </div>
     );
   }
 }
