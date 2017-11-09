@@ -44,7 +44,7 @@ class Home extends Component {
 
   render() {
     if (this.state.redirectToGraph) {
-      return <Redirect to="/graph/weekly/" />
+      return <Redirect to="/graph/" />;
     }
     return (
       <section className="hero is-fullheight">
@@ -59,14 +59,21 @@ class Home extends Component {
             <div className="columns is-vcentered">
               <div className="textareaBox column is-5">
                 <figure className="image">
-                  <textarea className="textarea" placehold="HOW ARE YOU DOING" row="10"></textarea>
-                  <button className="button is-primary is-inverted is-fullwidth" onClick={this.handleSubmit}>Submit </button>
+                  <textarea
+                    className="textarea"
+                    placehold="HOW ARE YOU DOING"
+                    row="10"
+                  />
+                  <button
+                    className="button is-primary is-inverted is-fullwidth"
+                    onClick={this.handleSubmit}
+                  >
+                    Submit{' '}
+                  </button>
                 </figure>
               </div>
               <div className="questionBox column is-6 is-offset-1 has-text-centered">
-                <h1 className="title is-5">
-                  QUESTION OF THE DAY!
-                </h1>
+                <h1 className="title is-5">QUESTION OF THE DAY!</h1>
                 <hr />
                 <h2 className="subtitle is-6">
                   Let this cover page describe a product or service.
