@@ -178,6 +178,9 @@ function updateTwitter(req, res, next) {
   twitter
     .getRecentUserTweets(twitterUpdateConfig)
     .then(() => {
+      console.log(
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@new tweet get!!!!!"
+      );
       next();
     })
     .catch(err => {
