@@ -26,7 +26,7 @@ const app = express();
 app.use(bp.json({ extended: true }));
 app.use(bp.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(express.static(path.join(__dirname, "/../frontend/build")));
 
 app.use(
   session({
@@ -107,7 +107,7 @@ app.use("/", userRoute);
 app.use("/auth", oauthRoute);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "../frontend/build/index.html"));
+  res.sendFile(path.join(__dirname + "/../frontend/build/index.html"));
 });
 
 function checkAuthentication(req, res, next) {
