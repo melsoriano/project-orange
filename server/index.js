@@ -5,6 +5,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
+const path = require("path");
 
 const db = require("./models");
 const nlpRoute = require("./routes/nlp-route.js");
