@@ -20,7 +20,6 @@ class SingleEntry extends Component {
   }
 
   render() {
-    console.log(this.props.entry);
     if (!this.props.show) {
       return null;
     }
