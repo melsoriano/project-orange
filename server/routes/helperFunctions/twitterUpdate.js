@@ -46,6 +46,7 @@ function getRecentUserTweets(userInfoObj) {
 
     getMostRecentTweetId(user_id)
       .then(tweetId => {
+        console.log("$$$$$$$$$$$$$$tweetid is", tweetId);
         let twitterQueryConfig = {
           screen_name: screenName,
           count: "5" //remove this when ready, otherwise only gets latest tweet.
