@@ -70,9 +70,6 @@ function getRecentUserTweets(userInfoObj) {
               watson
                 .analyze(tweetText)
                 .then(data => {
-                  console.log("@@@@@@@@@@@@@@data@@@@@@@@@@@@@@@@@");
-                  console.log(data);
-
                   let nlpData = JSON.parse(data);
                   let sentimentData = nlpData.sentiment.document;
                   let emotionData = nlpData.emotion.document.emotion;
