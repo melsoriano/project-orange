@@ -58,6 +58,8 @@ function getRecentUserTweets(userInfoObj) {
           },
           data => {
             let returnData = JSON.parse(data);
+            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            console.log(returnData);
             if (returnData.length === 0) {
               resolve();
             }
