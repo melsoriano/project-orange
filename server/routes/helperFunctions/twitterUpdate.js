@@ -50,7 +50,6 @@ function getRecentUserTweets(userInfoObj) {
         if (tweetId !== null) {
           twitterQueryConfig.since_id = tweetId;
         }
-        console.log(twitterQueryConfig);
         twitter.getUserTimeline(
           twitterQueryConfig,
           err => {
@@ -58,8 +57,6 @@ function getRecentUserTweets(userInfoObj) {
           },
           data => {
             let returnData = JSON.parse(data);
-            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            console.log(returnData);
             if (returnData.length === 0) {
               resolve();
             }
@@ -70,6 +67,9 @@ function getRecentUserTweets(userInfoObj) {
               watson
                 .analyze(tweetText)
                 .then(data => {
+                  console.log("@@@@@@@@@@@@@@data@@@@@@@@@@@@@@@@@");
+                  console.log(data);
+
                   let nlpData = JSON.parse(data);
                   let sentimentData = nlpData.sentiment.document;
                   let emotionData = nlpData.emotion.document.emotion;
