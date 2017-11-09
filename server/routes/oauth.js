@@ -45,7 +45,7 @@ router.route("/twitter/reverse").post((req, res) => {
     {
       url: "https://api.twitter.com/oauth/request_token",
       oauth: {
-        oauth_callback: "http://localhost:3000/twitter-callback",
+        oauth_callback: "https://projectorange.me/twitter-callback",
         consumer_key: twitterConfig.CONSUMER_KEY,
         consumer_secret: twitterConfig.CONSUMER_SECRET
       }
@@ -178,10 +178,6 @@ function updateTwitter(req, res, next) {
   twitter
     .getRecentUserTweets(twitterUpdateConfig)
     .then(tweets => {
-      console.log(
-        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@new tweet get!!!!!"
-      );
-      console.log(tweets);
       next();
     })
     .catch(err => {

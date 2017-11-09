@@ -12,7 +12,6 @@ const Users = db.users;
 
 function getMostRecentTweetId(user_id) {
   return new Promise((resolve, reject) => {
-    console.log("user_id is ", user_id);
     Entries.findOne({
       where: {
         type: "tweet",
@@ -21,7 +20,6 @@ function getMostRecentTweetId(user_id) {
       order: [["createdAt", "DESC"]]
     })
       .then(entry => {
-        console.log("@@@@@@@@@@entry@@@@@@@@@@@@@@", entry);
         let tweet_id = entry.dataValues.source_id;
         resolve(tweet_id);
       })
@@ -46,7 +44,6 @@ function getRecentUserTweets(userInfoObj) {
 
     getMostRecentTweetId(user_id)
       .then(tweetId => {
-        console.log("$$$$$$$$$$$$$$tweetid is", tweetId);
         let twitterQueryConfig = {
           screen_name: screenName,
           count: "5" //remove this when ready, otherwise only gets latest tweet.
