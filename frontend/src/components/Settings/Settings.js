@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import LineGraph from './../Graph/LineGraph';
-import TwitterLogin from 'react-twitter-auth';
-import { getTwitterEntries } from '../../actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import LineGraph from "./../Graph/LineGraph";
+import TwitterLogin from "react-twitter-auth";
+import { getTwitterEntries } from "../../actions";
 
 class Twitter extends Component {
   constructor() {
@@ -11,7 +11,7 @@ class Twitter extends Component {
     this.state = {
       isAuthenticated: false,
       user: null,
-      token: '',
+      token: "",
       activeModal: null
     };
 
@@ -36,13 +36,17 @@ class Twitter extends Component {
   }
 
   onSuccess = response => {
-    const token = response.headers.get('x-auth-token');
-    response.json().then(user => {
-      if (token) {
-        this.setState({ isAuthenticated: true, user: user, token: token });
+    const token = response.headers.get("x-auth-token");
+    response
+      .json()
+      .then(user => {
+        if (token) {
+          this.setState({ isAuthenticated: true, user: user, token: token });
+        }
+      })
+      .then(() => {
         this.props.getTwitterEntries();
-      }
-    });
+      });
   };
 
   onFailed = error => {
@@ -50,7 +54,7 @@ class Twitter extends Component {
   };
 
   logout = () => {
-    this.setState({ isAuthenticated: false, token: '', user: null });
+    this.setState({ isAuthenticated: false, token: "", user: null });
   };
 
   render() {
@@ -66,10 +70,10 @@ class Twitter extends Component {
       </div>
     ) : (
       <TwitterLogin
-        loginUrl="https://projectorange.me/auth/twitter"
+        loginUrl="http://localhost:3000/auth/twitter"
         onFailure={this.onFailed}
         onSuccess={this.onSuccess}
-        requestTokenUrl="https://projectorange.me/auth/twitter/reverse"
+        requestTokenUrl="http://localhost:3000/auth/twitter/reverse"
         text=""
       />
     );
@@ -78,10 +82,12 @@ class Twitter extends Component {
       <div className="container is-mobile">
         {content}
         <div>
-          <LineGraph
-            entries={this.props.twitterEntries.entries}
-            keywords={this.props.twitterEntries.keywordSummary}
-          />
+          {this.props.twitterEntries.entries ? (
+            <LineGraph
+              entries={this.props.twitterEntries.entries}
+              keywords={this.props.twitterEntries.keywordSummary}
+            />
+          ) : null}
         </div>
       </div>
     );

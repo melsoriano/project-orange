@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addEntry, getWeekEntries } from '../actions';
-import { Redirect } from 'react-router-dom';
-import { sessionService } from 'redux-react-session';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Logo from '../assets/OrangeLogo_outline.png';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addEntry, getWeekEntries } from "../actions";
+import { Redirect } from "react-router-dom";
+import { sessionService } from "redux-react-session";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Logo from "../assets/OrangeLogo_outline.png";
 
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentEntry: '',
+      currentEntry: "",
       redirectToGraph: false
     };
   }
@@ -21,7 +21,7 @@ class Home extends Component {
     this.props.addEntry(this.state.currentEntry);
     this.props.getWeekEntries();
     this.setState({
-      currentEntry: '',
+      currentEntry: "",
       redirectToGraph: true
     });
   };
@@ -33,7 +33,7 @@ class Home extends Component {
   };
 
   handleLogout = () => {
-    axios.get('/logout').then(() => {
+    axios.get("/logout").then(() => {
       sessionService.deleteSession();
       sessionService.deleteUser();
       this.setState = {
@@ -52,6 +52,9 @@ class Home extends Component {
           <div className="container has-text-centered orangeLogo">
             <img src={Logo} alt="Logo" />
           </div>
+          <button className="button" onClick={this.handleLogout}>
+            Logout
+          </button>
         </div>
 
         <div className="textarea_container hero-body">
@@ -70,7 +73,7 @@ class Home extends Component {
                     className="button is-primary is-inverted is-fullwidth"
                     onClick={this.handleSubmit}
                   >
-                    Submit{' '}
+                    Submit{" "}
                   </button>
                 </div>
               </div>
