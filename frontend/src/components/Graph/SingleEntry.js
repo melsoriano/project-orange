@@ -80,37 +80,6 @@ class SingleEntry extends Component {
                   }}
                 />
               </VictoryChart>
-
-              {/* Anger:
-              <progress
-                className="progress is-light"
-                value={this.progressColor(this.props.entry).angerColor}
-                max="100"
-              />
-              Disgust:
-              <progress
-                className="progress is-success"
-                value={this.progressColor(this.props.entry).disgustColor}
-                max="100"
-              />
-              Fear:
-              <progress
-                className="progress is-dark"
-                value={this.progressColor(this.props.entry).fearColor}
-                max="100"
-              />
-              Joy:
-              <progress
-                className="progress is-warning"
-                value={this.progressColor(this.props.entry).joyColor}
-                max="100"
-              />
-              Sadness:
-              <progress
-                className="progress is-link"
-                value={this.progressColor(this.props.entry).sadnessColor}
-                max="100"
-              /> */}
             </div>
             <div className="content" id="entryText">
               {this.props.entry.text}
