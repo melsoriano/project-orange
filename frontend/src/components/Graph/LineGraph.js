@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import SingleEntry from './SingleEntry';
-import SingleKeyword from './SingleKeyword';
+import React, { Component } from "react";
+import SingleEntry from "./SingleEntry";
+import SingleKeyword from "./SingleKeyword";
 import {
   VictoryScatter,
   VictoryChart,
@@ -10,8 +10,8 @@ import {
   VictoryVoronoiContainer,
   VictoryGroup,
   VictoryTooltip
-} from 'victory';
-import { withGetScreen } from 'react-getscreen';
+} from "victory";
+import { withGetScreen } from "react-getscreen";
 
 class LineGraph extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class LineGraph extends Component {
       sadnessScore: e.sadnessScore
     };
     let highestNum = 0;
-    let highestEmotion = '';
+    let highestEmotion = "";
     Object.entries(emotionData).forEach(([key, value]) => {
       if (value > highestNum) {
         highestNum = value;
@@ -54,39 +54,39 @@ class LineGraph extends Component {
       }
     });
     switch (highestEmotion) {
-      case 'angerScore':
+      case "angerScore":
         return {
-          style: { backgroundColor: '#F95738', borderColor: '#F95738' }
+          style: { backgroundColor: "#F95738", borderColor: "#F95738" }
         };
-      case 'disgustScore':
+      case "disgustScore":
         return {
-          style: { backgroundColor: '#4a7c59', borderColor: '#4a7c59' }
+          style: { backgroundColor: "#4a7c59", borderColor: "#4a7c59" }
         };
-      case 'fearScore':
+      case "fearScore":
         return {
           style: {
-            backgroundColor: '#353129',
-            borderColor: '#353129',
-            color: '#ecf1fa'
+            backgroundColor: "#353129",
+            borderColor: "#353129",
+            color: "#ecf1fa"
           }
         };
-      case 'joyScore':
+      case "joyScore":
         return {
-          style: { backgroundColor: '#f7ed83', borderColor: '#f7ed83' }
+          style: { backgroundColor: "#f7ed83", borderColor: "#f7ed83" }
         };
-      case 'sadnessScore':
+      case "sadnessScore":
         return {
           style: {
-            backgroundColor: '#084887',
-            borderColor: '#084887',
-            color: '#ecf1fa'
+            backgroundColor: "#084887",
+            borderColor: "#084887",
+            color: "#ecf1fa"
           }
         };
       default:
         return {
           style: {
-            backgroundColor: 'white',
-            borderColor: 'white'
+            backgroundColor: "white",
+            borderColor: "white"
           }
         };
     }
@@ -113,11 +113,17 @@ class LineGraph extends Component {
             width={400}
             theme={VictoryTheme.grayscale}
             domain={{
-              x: [1, this.props.entries.length],
+              x: [
+                1,
+                this.props.entries.length > 0 &&
+                Array.isArray(this.props.entries)
+                  ? this.props.entries.length
+                  : 2
+              ],
               y: [0, 100]
             }}
             style={{
-              parent: { stroke: '#f9a346', fill: '#f9a346' }
+              parent: { stroke: "#f9a346", fill: "#f9a346" }
             }}
             containerComponent={<VictoryVoronoiContainer radius={25} />}
           >
@@ -140,12 +146,12 @@ class LineGraph extends Component {
                 }}
                 events={[
                   {
-                    target: 'data',
+                    target: "data",
                     eventHandlers: {
                       onClick: evt => {
                         return [
                           {
-                            target: 'data',
+                            target: "data",
                             mutation: props => {
                               this.modalHander(evt, props.datum.id);
                             }

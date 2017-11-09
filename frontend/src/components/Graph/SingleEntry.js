@@ -1,6 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import {
+  VictoryPie,
+  VictoryLegend,
+  VictoryChart,
+  VictoryPolarAxis
+} from "victory";
 
 class SingleEntry extends Component {
   progressColor(e) {
@@ -14,6 +20,7 @@ class SingleEntry extends Component {
   }
 
   render() {
+    console.log(this.props.entry);
     if (!this.props.show) {
       return null;
     }
@@ -27,7 +34,54 @@ class SingleEntry extends Component {
           </header>
           <section className="modal-card-body">
             <div className="content">
-              Anger:
+              <VictoryChart
+                polar
+                height={475}
+                width={400}
+              >
+                <VictoryLegend
+                  x={50}
+                  title="Legend"
+                  centerTitle
+                  orientation="horizontal"
+                  gutter={10}
+                  style={{border: {stroke: "black"}, title: {fontSize: 20}}}
+                  data={[
+                    {name: "Anger", symbol: {fill: "#F95738"}},
+                    {name: "Disgust", symbol: {fill: "#4a7c59"}},
+                    {name: "Fear", symbol: {fill: "#353129"}},
+                    {name: "Joy", symbol: {fill: "#f7ed83"}},
+                    {name: "Sadness", symbol: {fill: "#084887"}},
+                  ]}
+                />
+                <VictoryPie
+                  colorScale={[
+                    "#F95738",
+                    "#4a7c59",
+                    "#353129",
+                    "#f7ed83",
+                    "#084887"
+                  ]}
+                  data={[
+                    { x: null, y: this.props.entry.angerScore * 100 },
+                    { x: null, y: this.props.entry.disgustScore * 100 },
+                    { x: null, y: this.props.entry.fearScore * 100 },
+                    { x: null, y: this.props.entry.joyScore * 100 },
+                    { x: null, y: this.props.entry.sadnessScore * 100 }
+                  ]}
+                  animate={{
+                    onLoad: { duration: 2000 }
+                  }}
+                />
+                <VictoryPolarAxis
+                  style={{
+                    axis: { stroke: "none" },
+                    tickLabels: { fill: "none" }
+                  }}
+                />
+              </VictoryChart>
+
+              {/* Anger:
               <progress
                 className="progress is-light"
                 value={this.progressColor(this.props.entry).angerColor}
@@ -56,7 +110,7 @@ class SingleEntry extends Component {
                 className="progress is-link"
                 value={this.progressColor(this.props.entry).sadnessColor}
                 max="100"
-              />
+              /> */}
             </div>
             <div className="content" id="entryText">
               {this.props.entry.text}

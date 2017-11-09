@@ -45,7 +45,7 @@ router.route("/twitter/reverse").post((req, res) => {
     {
       url: "https://api.twitter.com/oauth/request_token",
       oauth: {
-        oauth_callback: "https://projectorange.me/twitter-callback",
+        oauth_callback: "http://localhost:3000/twitter-callback",
         consumer_key: twitterConfig.CONSUMER_KEY,
         consumer_secret: twitterConfig.CONSUMER_SECRET
       }
