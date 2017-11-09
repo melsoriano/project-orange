@@ -9,6 +9,10 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 const browserHistory = Router.browserHistory;
 
 class App extends Component {
+  componentWillMount() {
+    //this.props.checkUser();
+  }
+
   ifLoggedIn() {
     return (
       <Router history={browserHistory}>

@@ -43,30 +43,27 @@ class Graph extends Component {
 
   render() {
     return (
-      <div className="container is-mobile">
-        <div className="columns is-mobile is-centered">
-          <div className="column">
-            <button
-              className="button is-danger is-fullwidth"
-              onClick={this.handleWeekButton}
-            >
-              Current Week
-            </button>
-          </div>
-          <div className="column">
-            <button
-              className="button is-danger is-fullwidth"
-              onClick={this.handleMonthButton}
-            >
-              Month
-            </button>
+      <section className="mainGraph_container hero is-fullheight">
+        <div className="hero-header">
+          <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+              <button className="button" onClick={this.handleWeekButton}> Current Week
+              </button>
+              <button className="button" onClick={this.handleMonthButton}> Month
+              </button>
+            </div>
+          </nav>
+        </div>
+
+        <div className="emotionGraph hero-body">
+          <div className="container">
+            <LineGraph
+            entries={this.props.weekEntries.entries}
+            keywords={this.props.weekEntries.keywordSummary}
+            />
           </div>
         </div>
-        <LineGraph
-          entries={this.props.weekEntries.entries}
-          keywords={this.props.weekEntries.keywordSummary}
-        />
-      </div>
+      </section>
     );
   }
 }

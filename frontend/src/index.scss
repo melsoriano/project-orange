@@ -1,16 +1,67 @@
+@import "../node_modules/bulma/sass/utilities/initial-variables";
+@import "../node_modules/bulma/bulma.sass";
+$tabs-toggle-link-hover-background-color: #fed156;
+$tabs-link-color: #627586;
+$body-background-color: linear-gradient(to right, #f47f70 , #fed156);
+$tabs-toggle-link-border-color: #627586;
+$primary: #f47f70;
+$danger: #f47f70;
+// $navbar-background-color: #f9a346;
+$navbar-dropdown-background-color: #f9a346;
+$family-sans-serif: "Poiret One", cursive;
+
+//seolhee
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  height: 100%;
-  font-family: "Poiret One", cursive;
+  background: #f47f70;
+  background: -webkit-linear-gradient(left, #f47f70 , #fed156);
+  background: -o-linear-gradient(right, #f47f70 , #fed156);
+  background: -moz-linear-gradient(right, #f47f70 , #fed156);
+  background: linear-gradient(to right, #f47f70 , #fed156);
 }
 
-#mainBox {
-  background-color: #f9a346;
-  padding: 1rem;
-  padding-bottom: 2rem;
+.orangeLogo {
+  width: 28%;
+  margin: 0 auto;
+  padding: 28px 0px 0px 0px;
 }
+
+.footerTab_container {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.textareaBox {
+  padding: 0px 0px 35px 0px;
+}
+
+.questionBox {
+  padding: 25px 0px 0px 0px;
+}
+
+.textarea {
+  max-width: 100%;
+  min-width: 100%;
+  padding: 0.625em;
+  resize: vertical;
+  display: block;
+
+}
+
+.textarea:not([rows]) {
+  max-height: 600px;
+  min-height: 185px;
+}
+
+.textarea_container {
+  padding-top: 35px;
+}
+
+.emotionGraph {
+  padding: 0px 15px 0px 20px;
+}
+//seolhee
+
 
 #hiddenText {
   font-size: 10px;
@@ -19,20 +70,6 @@ body {
   overflow: hidden;
 }
 
-#footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #f9a346;
-}
-
-#loginBox {
-  padding: 2rem;
-}
-
-textarea {
-  width: 100%;
-}
 
 #entryText {
   font-family: "Heebo", sans-serif;
@@ -53,38 +90,8 @@ textarea {
   animation-duration: 0.4s;
 }
 
-.progress {
-  animation: progress 2s;
-}
 
-// .progress::-webkit-progress-value {
-//   animation: progress 2s !important;
-//   background-color: orange !important;
-// }
-
-.sentimentProgress {
-  @extend .progress;
-}
-
-.sentimentProgress::-webkit-progress-value {
-  // background: #fff linear-gradient(to right, white, black) !important;
-  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4),
-    0 2px 5px 0px rgba(0, 0, 0, 0.3) !important;
-  // animation-name: progress !important;
-  // animation-duration: 2s !important;
-
-  // animation-timing-function: ease;
-}
-
-@keyframes progress {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
+//modal dropdowns
 @-webkit-keyframes animatetop {
   from {
     top: -300px;
@@ -107,20 +114,5 @@ textarea {
   }
 }
 
-@import "../node_modules/bulma/sass/utilities/initial-variables";
-$tabs-toggle-link-hover-background-color: #fed156;
-$tabs-link-color: #627586;
-$body-background-color: #f9a346;
-$tabs-toggle-link-border-color: #627586;
-$danger: #f47f70;
-$navbar-background-color: #f9a346;
-$navbar-dropdown-background-color: #f9a346;
-$family-sans-serif: "Poiret One", cursive;
-$warning: #f7ed83;
-$link: #084887;
-$dark: #353129;
-$success: #4a7c59;
-$light: #f95738;
-$column-gap: 0.5rem;
 
-@import "../node_modules/bulma/bulma.sass";
+

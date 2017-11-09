@@ -106,6 +106,7 @@ class LineGraph extends Component {
         xAxis--;
         return point;
       });
+
       return (
         <div>
           <VictoryChart
@@ -264,14 +265,21 @@ class LineGraph extends Component {
 
   render() {
     return (
-      <div>
-        {this.loadVictoryGraph()}
-        {this.loadModals()}
-        <div className="columns is-multiline is-mobile">
-          {this.loadKeywords()}
+      <section className="hero">
+
+        <div className="hero-header">
+          <div className="container has-text-centered">
+            {this.loadVictoryGraph()}
+            {this.loadModals()}
+          </div>
         </div>
-        {this.loadEntries()}
-      </div>
+
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            {this.loadKeywords()}
+          </div>
+        </div>
+      </section>
     );
   }
 }
