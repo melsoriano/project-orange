@@ -10,15 +10,18 @@ const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
 
-function getMostRecentTweetId() {
+function getMostRecentTweetId(user_id) {
   return new Promise((resolve, reject) => {
+    console.log("user_id is ", user_id);
     Entries.findOne({
       where: {
-        type: "tweet"
+        type: "tweet",
+        user_id: user_id
       },
       order: [["createdAt", "DESC"]]
     })
       .then(entry => {
+        console.log("@@@@@@@@@@entry@@@@@@@@@@@@@@", entry);
         let tweet_id = entry.dataValues.source_id;
         resolve(tweet_id);
       })
@@ -50,7 +53,6 @@ function getRecentUserTweets(userInfoObj) {
         if (tweetId !== null) {
           twitterQueryConfig.since_id = tweetId;
         }
-        console.log(twitterQueryConfig);
         twitter.getUserTimeline(
           twitterQueryConfig,
           err => {
@@ -68,6 +70,9 @@ function getRecentUserTweets(userInfoObj) {
               watson
                 .analyze(tweetText)
                 .then(data => {
+                  console.log("@@@@@@@@@@@@@@data@@@@@@@@@@@@@@@@@");
+                  console.log(data);
+
                   let nlpData = JSON.parse(data);
                   let sentimentData = nlpData.sentiment.document;
                   let emotionData = nlpData.emotion.document.emotion;

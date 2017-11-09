@@ -5,6 +5,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
+const path = require("path");
 
 const db = require("./models");
 const nlpRoute = require("./routes/nlp-route.js");
@@ -24,6 +25,8 @@ const app = express();
 
 app.use(bp.json({ extended: true }));
 app.use(bp.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "/../frontend/build")));
 
 app.use(
   session({
@@ -102,6 +105,10 @@ app.use("/user/entry", checkAuthentication, getEntryRoutes);
 app.use("/recording", checkAuthentication, speechToText);
 app.use("/", userRoute);
 app.use("/auth", oauthRoute);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../frontend/build/index.html"));
+});
 
 function checkAuthentication(req, res, next) {
   console.log(req.isAuthenticated());
