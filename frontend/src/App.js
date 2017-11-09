@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
-import FooterTab from './components/FooterTab';
-import Main from './components/Main';
-import Login from './components/Login/Login';
-import { getWeekEntries } from './actions';
-import '../node_modules/font-awesome/css/font-awesome.min.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import Main from "./components/Main";
+import Login from "./components/Login/Login";
+import { getWeekEntries } from "./actions";
+import "../node_modules/font-awesome/css/font-awesome.min.css";
 const browserHistory = Router.browserHistory;
 
 class App extends Component {
@@ -16,9 +16,8 @@ class App extends Component {
   ifLoggedIn() {
     return (
       <Router history={browserHistory}>
-        <div className="container">
+        <div className="App">
           <Main />
-          <FooterTab />
         </div>
       </Router>
     );
