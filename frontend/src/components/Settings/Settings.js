@@ -81,7 +81,7 @@ class Twitter extends Component {
     return (
       <div className="container is-mobile">
         {content}
-        <div>
+        <div className="container">
           {this.props.twitterEntries.entries ? (
             <LineGraph
               entries={this.props.twitterEntries.entries}

@@ -9,7 +9,8 @@ import {
   VictoryAxis,
   VictoryVoronoiContainer,
   VictoryGroup,
-  VictoryTooltip
+  VictoryTooltip,
+  VictoryLegend
 } from "victory";
 import { withGetScreen } from "react-getscreen";
 
@@ -127,6 +128,16 @@ class LineGraph extends Component {
             }}
             containerComponent={<VictoryVoronoiContainer radius={25} />}
           >
+            <VictoryLegend
+              x={80}
+              y={0}
+              title="Legend"
+              centerTitle
+              orientation="horizontal"
+              gutter={10}
+              style={{ border: { stroke: "black" }, title: { fontSize: 20 } }}
+              data={[{ name: "Sentiment Score 0(bad)-100(good)", symbol: { fill: "#c43a31" } }]}
+            />
             <VictoryGroup
               data={graphObj}
               color="#c43a31"
@@ -165,12 +176,10 @@ class LineGraph extends Component {
             </VictoryGroup>
 
             <VictoryAxis
-              label="Entries"
               style={{ axisLabel: { padding: 35, fontSize: 17 } }}
             />
             <VictoryAxis
               dependentAxis
-              label="Sentiment Score 0(bad) - 100(good)"
               style={{ axisLabel: { padding: 35, fontSize: 17 } }}
             />
           </VictoryChart>
