@@ -6135,22 +6135,17 @@ label.panel-block {
   background-color: whitesmoke;
   padding: 3rem 1.5rem 6rem; }
 
-body {
-  background: #f47f70;
-  background: -webkit-linear-gradient(left, #f47f70, #fed156);
-  background: -o-linear-gradient(right, #f47f70, #fed156);
-  background: -moz-linear-gradient(right, #f47f70, #fed156);
-  background: linear-gradient(to right, #f47f70, #fed156); }
+ul {
+  display: flex;
+  justify-content: center; }
+
+.App {
+  background-color: #f47f70; }
 
 .orangeLogo {
   width: 28%;
   margin: 0 auto;
   padding: 28px 0px 0px 0px; }
-
-.footerTab_container {
-  bottom: 0;
-  position: fixed;
-  width: 100%; }
 
 .textareaBox {
   padding: 0px 0px 35px 0px; }
@@ -6169,24 +6164,49 @@ body {
   max-height: 600px;
   min-height: 185px; }
 
-.textarea_container {
-  padding-top: 35px; }
+.graphBox {
+  border: 1px solid white;
+  margin: 5px;
+  padding: 10px; }
 
-.emotionGraph {
-  padding: 0px 15px 0px 20px; }
+.VictoryContainer {
+  padding: 10px; }
 
-#hiddenText {
-  font-size: 10px;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden; }
+.victoryChart {
+  margin: 0px 13px 0px 13px; }
 
-#entryText {
-  font-family: "Heebo", sans-serif;
-  font-size: 12px; }
+.keywords {
+  border: 1px solid white;
+  background: white;
+  margin: 3px;
+  padding: 3px; }
 
 .keywordButton {
-  font-weight: bold; }
+  margin: 2px;
+  font-size: 12px; }
+
+.keywordsBox {
+  padding: 4px;
+  align-items: center;
+  text-align: center; }
+
+.entryContainer {
+  padding: 5px 0px 10px 0px; }
+
+.entryText {
+  margin: 4px;
+  padding: 3px;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 21px;
+  max-height: 48px;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; }
+
+.textarea_container {
+  padding: 0px 0px 100px 0px; }
 
 .modal {
   opacity: 1;
