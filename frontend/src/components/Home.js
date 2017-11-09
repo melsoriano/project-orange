@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addEntry, getWeekEntries } from '../actions';
-import { Redirect } from 'react-router-dom';
-import { sessionService } from 'redux-react-session';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Logo from '../assets/OrangeLogo_outline.png';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addEntry, getWeekEntries } from "../actions";
+import { Redirect } from "react-router-dom";
+import { sessionService } from "redux-react-session";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Logo from "../assets/OrangeLogo_outline.png";
 
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentEntry: '',
+      currentEntry: "",
       redirectToGraph: false
     };
   }
@@ -21,7 +21,7 @@ class Home extends Component {
     this.props.addEntry(this.state.currentEntry);
     this.props.getWeekEntries();
     this.setState({
-      currentEntry: '',
+      currentEntry: "",
       redirectToGraph: true
     });
   };
@@ -33,7 +33,7 @@ class Home extends Component {
   };
 
   handleLogout = () => {
-    axios.get('/logout').then(() => {
+    axios.get("/logout").then(() => {
       sessionService.deleteSession();
       sessionService.deleteUser();
       this.setState = {
@@ -44,29 +44,39 @@ class Home extends Component {
 
   render() {
     if (this.state.redirectToGraph) {
-      return <Redirect to="/graph/weekly/" />
+      return <Redirect to="/graph/weekly/" />;
     }
     return (
-      <section className="hero is-fullheight">
+      <section className="hero">
         <div className="hero-head">
           <div className="container has-text-centered orangeLogo">
             <img src={Logo} alt="Logo" />
           </div>
         </div>
 
-        <div className="textarea_container hero-body">
+        <div className="hero-body textarea_container">
           <div className="container has-text-centered">
             <div className="columns is-vcentered">
               <div className="textareaBox column is-5">
-                <figure className="image">
-                  <textarea className="textarea" placehold="HOW ARE YOU DOING" row="10"></textarea>
-                  <button className="button is-primary is-inverted is-fullwidth" onClick={this.handleSubmit}>Submit </button>
+                <figure className="text">
+                  <textarea
+                    className="textarea"
+                    placehold="HOW ARE YOU DOING"
+                    row="10"
+                    onChange={this.handleEntryBox}
+                    value={this.state.currentEntry}
+                  />
+
+                  <button
+                    className="button is-primary is-inverted is-fullwidth"
+                    onClick={this.handleSubmit}
+                  >
+                    Submit
+                  </button>
                 </figure>
               </div>
               <div className="questionBox column is-6 is-offset-1 has-text-centered">
-                <h1 className="title is-5">
-                  QUESTION OF THE DAY!
-                </h1>
+                <h1 className="title is-5">QUESTION OF THE DAY!</h1>
                 <hr />
                 <h2 className="subtitle is-6">
                   Let this cover page describe a product or service.
