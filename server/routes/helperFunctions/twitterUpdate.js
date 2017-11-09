@@ -10,11 +10,12 @@ const Entries = db.entries;
 const Keywords = db.keywords;
 const Users = db.users;
 
-function getMostRecentTweetId() {
+function getMostRecentTweetId(user_id) {
   return new Promise((resolve, reject) => {
     Entries.findOne({
       where: {
-        type: "tweet"
+        type: "tweet",
+        user_id: user_id
       },
       order: [["createdAt", "DESC"]]
     })
