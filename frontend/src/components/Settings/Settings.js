@@ -36,7 +36,7 @@ class Twitter extends Component {
 
   render() {
     return (
-      <div className="container is-mobile">
+      <div className="container is-mobile" id="paddingTop">
         <div className="mainGraph_container hero is-fullheight">
           <div className="container is-mobile">
             {this.props.twitterEntries.entries ? (

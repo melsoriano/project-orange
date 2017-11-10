@@ -6207,6 +6207,9 @@ body {
 #loginBox {
   padding: 20px; }
 
+#paddingTop {
+  padding-top: 2rem; }
+
 @-webkit-keyframes animatetop {
   from {
     top: -300px;

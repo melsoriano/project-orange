@@ -43,22 +43,19 @@ class Graph extends Component {
 
   render() {
     return (
-      <section className="mainGraph_container hero is-fullheight">
-        <div className="hero-header">
-          <nav className="level is-mobile">
-            <div className="level-item has-text-centered" id="loginBox">
-              <button className="button" onClick={this.handleWeekButton}>
-                {" "}
-                Current Week
-              </button>
-              <button className="button" onClick={this.handleMonthButton}>
-                {" "}
-                Month
-              </button>
-            </div>
-          </nav>
-        </div>
-
+      <div className="mainGraph_container hero is-fullheight">
+        <nav className="level is-mobile">
+          <div className="level-item has-text-centered" id="loginBox">
+            <button className="button" onClick={this.handleWeekButton}>
+              {" "}
+              Current Week
+            </button>
+            <button className="button" onClick={this.handleMonthButton}>
+              {" "}
+              Month
+            </button>
+          </div>
+        </nav>
         <div className="emotionGraph hero-body">
           <div className="container">
             <LineGraph
@@ -67,7 +64,7 @@ class Graph extends Component {
             />
           </div>
         </div>
-      </section>
+      </div>
     );
   }
 }
