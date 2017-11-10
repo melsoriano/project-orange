@@ -71,7 +71,7 @@ class Login extends Component {
         <section className="hero is-small">
           <div className="hero-body">
             <div className="container is-mobile">
-              <h1 className="title">Get Start With Orange</h1>
+              <h1 className="title">Get Started With Orange</h1>
               <h2 className="subtitle">Tracking your mental health</h2>
               <figure className="image is-square" style={{ height: 260 }}>
                 <img src={Logo} alt="Logo" />
