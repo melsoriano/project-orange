@@ -1,13 +1,13 @@
-import axios from 'axios';
-import querystring from 'querystring';
-import { sessionService } from 'redux-react-session';
-export const ADD_ENTRY = 'ADD_ENTRY';
-export const GET_WEEK_ENTRIES = 'GET_WEEK_ENTRIES';
-export const LOAD_AUTH = 'LOAD_AUTH';
-export const LOGIN_USER = 'LOGIN_USER';
-export const GET_MONTH_ENTRIES = 'GET_MONTH_ENTRIES';
+import axios from "axios";
+import querystring from "querystring";
+import { sessionService } from "redux-react-session";
+export const ADD_ENTRY = "ADD_ENTRY";
+export const GET_WEEK_ENTRIES = "GET_WEEK_ENTRIES";
+export const LOAD_AUTH = "LOAD_AUTH";
+export const LOGIN_USER = "LOGIN_USER";
+export const GET_MONTH_ENTRIES = "GET_MONTH_ENTRIES";
 export const USER_DATA = "USER_DATA";
-export const GET_TWITTER_ENTRIES = 'GET_TWITTER_ENTRIES';
+export const GET_TWITTER_ENTRIES = "GET_TWITTER_ENTRIES";
 
 export const addEntry = entry => {
   return dispatch => {
@@ -27,7 +27,7 @@ export const addEntry = entry => {
 
 export const getTwitterEntries = () => {
   return dispatch => {
-    axios.get('/user/entries/twitter').then(entries => {
+    axios.get("/user/entries/twitter").then(entries => {
       dispatch({
         type: GET_TWITTER_ENTRIES,
         twitterEntries: entries.data
@@ -61,10 +61,7 @@ export const getMonthEntries = () => {
 export const loginUser = user => {
   return dispatch => {
     axios.post("/login", querystring.stringify(user)).then(res => {
-      const { token } = res;
-      sessionService.saveSession({ token }).then(() => {
-        sessionService.saveUser(res.data);
-      });
+      sessionService.saveSession(res.data);
       dispatch({
         type: LOGIN_USER,
         auth: res.data
