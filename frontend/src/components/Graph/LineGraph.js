@@ -219,7 +219,6 @@ class LineGraph extends Component {
   loadEntries() {
     if (Array.isArray(this.props.entries)) {
       return this.props.entries.map(entry => {
-        let sentimentBar = (entry.sentimentScore + 1) * 50;
         let newDate = new Date(entry.createdAt);
         return (
           <article key={entry.id} className="media" id={entry.id}>
@@ -237,12 +236,7 @@ class LineGraph extends Component {
                 <p id={entry.id} onClick={e => this.modalHander(e, entry.id)}>
                   <small>{newDate.toLocaleString()}</small>
                   <br />
-
-                  <progress
-                    className="progress sentimentProgress"
-                    value={sentimentBar}
-                    max="100"
-                  />
+                  {entry.text}
                 </p>
               </div>
             </div>

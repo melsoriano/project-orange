@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class FooterTab extends Component {
   render() {
@@ -28,7 +28,7 @@ class FooterTab extends Component {
                 <li>
                   <Link to="/settings">
                     <span className="icon is-medium">
-                      <i className="fa fa-gear" />
+                      <i className="fa fa-twitter" />
                     </span>
                   </Link>
                 </li>

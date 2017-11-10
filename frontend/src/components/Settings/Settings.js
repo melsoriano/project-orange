@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import LineGraph from "./../Graph/LineGraph";
-import TwitterLogin from "react-twitter-auth";
 import { getTwitterEntries } from "../../actions";
 
 class Twitter extends Component {
@@ -35,30 +34,7 @@ class Twitter extends Component {
     });
   }
 
-  onSuccess = response => {
-    const token = response.headers.get("x-auth-token");
-    response
-      .json()
-      .then(user => {
-        if (token) {
-          this.setState({ isAuthenticated: true, user: user, token: token });
-        }
-      })
-      .then(() => {
-        this.props.getTwitterEntries();
-      });
-  };
-
-  onFailed = error => {
-    alert(error);
-  };
-
-  logout = () => {
-    this.setState({ isAuthenticated: false, token: "", user: null });
-  };
-
   render() {
-    console.log(this.props);
     let content = this.state.isAuthenticated ? (
       <div>
         <p>Authenticated</p>
@@ -79,15 +55,16 @@ class Twitter extends Component {
     );
 
     return (
-      <div className="container is-mobile">
-        {content}
-        <div className="container">
-          {this.props.twitterEntries.entries ? (
-            <LineGraph
-              entries={this.props.twitterEntries.entries}
-              keywords={this.props.twitterEntries.keywordSummary}
-            />
-          ) : null}
+      <div className="container is-mobile" id="paddingTop">
+        <div className="mainGraph_container hero is-fullheight">
+          <div className="container is-mobile">
+            {this.props.twitterEntries.entries ? (
+              <LineGraph
+                entries={this.props.twitterEntries.entries}
+                keywords={this.props.twitterEntries.keywordSummary}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     );
