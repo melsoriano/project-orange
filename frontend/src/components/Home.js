@@ -21,9 +21,7 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    sessionService
-      .loadSession()
-      .then(currentSession => console.log(currentSession));
+    sessionService.loadSession().then(currentSession => null);
   }
 
   handleSubmit = () => {
@@ -114,20 +112,25 @@ class Home extends Component {
             </div>
           </div>
         </div>
-        <div className="hero-head">
-          <div className="container has-text-centered orangeLogo">
-            <img src={Logo} alt="Logo" />
-          </div>
-        </div>
 
         <div className="textarea_container hero-body">
           <div className="container has-text-centered">
+            <div className="container has-text-centered orangeLogo">
+              <img src={Logo} alt="Logo" />
+            </div>
             <div className="columns is-vcentered">
+              <div className="questionBox column is-6 is-offset-1 has-text-centered">
+                <h1 className="title is-5">
+                  Hello {this.props.session.user.username}, how are you doing
+                  today?
+                </h1>
+                <hr />
+              </div>
               <div className="textareaBox column is-5">
                 <div className="control">
                   <textarea
                     className="textarea"
-                    placehold="HOW ARE YOU DOING"
+                    placeholder="Type here!"
                     row="10"
                     onChange={this.handleEntryBox}
                     value={this.state.currentEntry}
@@ -139,15 +142,6 @@ class Home extends Component {
                     Submit{" "}
                   </button>
                 </div>
-              </div>
-              <div className="questionBox column is-6 is-offset-1 has-text-centered">
-                <h1 className="title is-5">
-                  Hello {this.props.session.user.username}, how are you doing
-                  today?
-                </h1>
-                <hr />
-                <h2 className="subtitle is-6">Type in the box above!</h2>
-                <br />
               </div>
             </div>
           </div>
