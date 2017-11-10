@@ -6150,7 +6150,12 @@ body {
 .footerTab_container {
   bottom: 0;
   position: fixed;
-  width: 100%; }
+  width: 100%;
+  background: #f47f70;
+  background: -webkit-linear-gradient(left, #f47f70, #fed156);
+  background: -o-linear-gradient(right, #f47f70, #fed156);
+  background: -moz-linear-gradient(right, #f47f70, #fed156);
+  background: linear-gradient(to right, #f47f70, #fed156); }
 
 .textareaBox {
   padding: 0px 0px 35px 0px; }
@@ -6195,6 +6200,15 @@ body {
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
   animation-duration: 0.4s; }
+
+.mainPage_container {
+  padding-bottom: 3rem; }
+
+#loginBox {
+  padding: 20px; }
+
+#paddingTop {
+  padding-top: 2rem; }
 
 @-webkit-keyframes animatetop {
   from {

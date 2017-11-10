@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { loginUser } from '../../actions';
-import Register from './Register';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions";
+import Register from "./Register";
+import Logo from "../../assets/OrangeLogo_outline.png";
+import { sessionService } from "redux-react-session";
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
       newUser: null,
       activeModal: null
     };
@@ -20,7 +22,7 @@ class Login extends Component {
 
   modalHandler(e) {
     this.setState({
-      activeModal: 'register'
+      activeModal: "register"
     });
   }
 
@@ -35,6 +37,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
+    sessionService.saveSession(userLogin);
 
     this.props.loginUser(userLogin);
   };
@@ -52,7 +55,7 @@ class Login extends Component {
   };
 
   handleEnterPress = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       let userLogin = {
         username: this.state.username,
         password: this.state.password
@@ -64,62 +67,75 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="container is-mobile" id="loginBox">
-        <div className="field">
-          <label className="label">Username</label>
-          <div className="control has-icons-left">
-            <input
-              type="text"
-              placeholder="Username"
-              className="input"
-              onChange={this.handleUsername}
-            />
-            <span className="icon is-small is-left">
-              <i className="fa fa-user" />
-            </span>
+      <div className="container is-mobile">
+        <section className="hero is-small">
+          <div className="hero-body">
+            <div className="container is-mobile">
+              <h1 className="title">Get Started With Orange</h1>
+              <h2 className="subtitle">Tracking your mental health</h2>
+              <figure className="image is-square" style={{ height: 260 }}>
+                <img src={Logo} alt="Logo" />
+              </figure>
+            </div>
           </div>
+        </section>
+        <div className="container" id="loginBox">
+          <div className="field">
+            <label className="label">Username</label>
+            <div className="control has-icons-left">
+              <input
+                type="text"
+                placeholder="Username"
+                className="input"
+                onChange={this.handleUsername}
+              />
+              <span className="icon is-small is-left">
+                <i className="fa fa-user" />
+              </span>
+            </div>
+          </div>
+          <div className="field">
+            <label className="label">Password</label>
+            <div className="control has-icons-left">
+              <input
+                type="password"
+                placeholder="Password"
+                className="input"
+                onChange={this.handlePassword}
+                onKeyPress={this.handleEnterPress}
+              />
+              <span className="icon is-small is-left">
+                <i className="fa fa-unlock" />
+              </span>
+            </div>
+          </div>
+          <div className="field is-grouped">
+            <div className="control">
+              <button
+                className="button is-danger"
+                onClick={this.handleLoginClick}
+              >
+                Submit
+              </button>
+            </div>
+            <div className="control">
+              <button
+                className="button is-text"
+                onClick={e => this.modalHandler(e)}
+              >
+                New User?
+              </button>
+            </div>
+          </div>
+          <Register show={this.state.activeModal} onHide={this.hideModal} />
         </div>
-        <div className="field">
-          <label className="label">Password</label>
-          <div className="control has-icons-left">
-            <input
-              type="password"
-              placeholder="Password"
-              className="input"
-              onChange={this.handlePassword}
-              onKeyPress={this.handleEnterPress}
-            />
-            <span className="icon is-small is-left">
-              <i className="fa fa-unlock" />
-            </span>
-          </div>
-        </div>
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              className="button is-danger"
-              onClick={this.handleLoginClick}
-            >
-              Submit
-            </button>
-          </div>
-          <div className="control">
-            <button
-              className="button is-text"
-              onClick={e => this.modalHandler(e)}
-            >
-              New User?
-            </button>
-          </div>
-        </div>
-        <Register show={this.state.activeModal} onHide={this.hideModal} />
       </div>
     );
   }
 }
 
 const mapStatetoProps = state => {
-  return { auth: state.auth };
+  return { auth: state.auth, session: state.session };
 };
 
 const mapDispatchtoProps = dispatch => {

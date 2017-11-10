@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import { sessionService } from "redux-react-session";
 import axios from "axios";
 import Logo from "../assets/OrangeLogo_outline.png";
+import TwitterLogin from "react-twitter-auth";
 
 class Home extends Component {
   constructor(props) {
@@ -12,8 +13,17 @@ class Home extends Component {
 
     this.state = {
       currentEntry: "",
-      redirectToGraph: false
+      redirectTo: null,
+      isAuthenticated: false,
+      user: null,
+      token: ""
     };
+  }
+
+  componentWillMount() {
+    sessionService
+      .loadSession()
+      .then(currentSession => console.log(currentSession));
   }
 
   handleSubmit = () => {
@@ -21,7 +31,7 @@ class Home extends Component {
     this.props.getWeekEntries();
     this.setState({
       currentEntry: "",
-      redirectToGraph: true
+      redirectTo: "graph"
     });
   };
 
@@ -36,24 +46,78 @@ class Home extends Component {
       sessionService.deleteSession();
       sessionService.deleteUser();
       this.setState = {
-        redirectToGraph: false
+        redirectTo: null
       };
     });
   };
 
+  onSuccess = response => {
+    const token = response.headers.get("x-auth-token");
+    response
+      .json()
+      .then(user => {
+        if (token) {
+          this.setState({ isAuthenticated: true, user: user, token: token });
+        }
+      })
+      .then(() => {
+        this.setState({
+          redirectTo: "twitter"
+        });
+      });
+  };
+
+  onFailed = error => {
+    alert(error);
+  };
+
+  logout = () => {
+    this.setState({ isAuthenticated: false, token: "", user: null });
+  };
+
   render() {
-    if (this.state.redirectToGraph) {
+    if (this.state.redirectTo === "graph") {
       return <Redirect to="/graph" />;
+    } else if (this.state.redirectTo === "twitter") {
+      return <Redirect to="/settings" />;
     }
+    let content = this.state.isAuthenticated ? (
+      <div>
+        <p>Authenticated</p>
+        <div>
+          <button onClick={this.logout} className="button">
+            Log out
+          </button>
+        </div>
+      </div>
+    ) : (
+      <TwitterLogin
+        loginUrl="http://localhost:3000/auth/twitter"
+        onFailure={this.onFailed}
+        onSuccess={this.onSuccess}
+        requestTokenUrl="http://localhost:3000/auth/twitter/reverse"
+        text=""
+      />
+    );
+
     return (
       <section className="hero is-fullheight">
+        <div className="hero-head">
+          <div className="level is-mobile" id="loginBox">
+            <div className="level-left">{content}</div>
+            <div className="level-right">
+              <div className="level-item">
+                <button className="button" onClick={this.handleLogout}>
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="hero-head">
           <div className="container has-text-centered orangeLogo">
             <img src={Logo} alt="Logo" />
           </div>
-          <button className="button" onClick={this.handleLogout}>
-            Logout
-          </button>
         </div>
 
         <div className="textarea_container hero-body">
@@ -77,11 +141,12 @@ class Home extends Component {
                 </div>
               </div>
               <div className="questionBox column is-6 is-offset-1 has-text-centered">
-                <h1 className="title is-5">QUESTION OF THE DAY!</h1>
+                <h1 className="title is-5">
+                  Hello {this.props.session.user.username}, how are you doing
+                  today?
+                </h1>
                 <hr />
-                <h2 className="subtitle is-6">
-                  Let this cover page describe a product or service.
-                </h2>
+                <h2 className="subtitle is-6">Type in the box above!</h2>
                 <br />
               </div>
             </div>
@@ -93,7 +158,7 @@ class Home extends Component {
 }
 
 const mapStatetoProps = state => {
-  return { entries: state.entries };
+  return { entries: state.entries, session: state.session };
 };
 
 const mapDispatchtoProps = dispatch => {
