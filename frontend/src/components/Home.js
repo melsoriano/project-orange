@@ -6,7 +6,6 @@ import { sessionService } from "redux-react-session";
 import axios from "axios";
 import Logo from "../assets/OrangeLogo_outline.png";
 import TwitterLogin from "react-twitter-auth";
-import { getTwitterEntries } from "../actions";
 
 class Home extends Component {
   constructor(props) {
@@ -19,6 +18,12 @@ class Home extends Component {
       user: null,
       token: ""
     };
+  }
+
+  componentWillMount() {
+    sessionService
+      .loadSession()
+      .then(currentSession => console.log(currentSession));
   }
 
   handleSubmit = () => {
@@ -76,7 +81,6 @@ class Home extends Component {
     } else if (this.state.redirectTo === "twitter") {
       return <Redirect to="/settings" />;
     }
-
     let content = this.state.isAuthenticated ? (
       <div>
         <p>Authenticated</p>
@@ -137,7 +141,10 @@ class Home extends Component {
                 </div>
               </div>
               <div className="questionBox column is-6 is-offset-1 has-text-centered">
-                <h1 className="title is-5">How are you doing today?</h1>
+                <h1 className="title is-5">
+                  Hello {this.props.session.user.username}, how are you doing
+                  today?
+                </h1>
                 <hr />
                 <h2 className="subtitle is-6">Type in the box above!</h2>
                 <br />
@@ -151,7 +158,7 @@ class Home extends Component {
 }
 
 const mapStatetoProps = state => {
-  return { entries: state.entries };
+  return { entries: state.entries, session: state.session };
 };
 
 const mapDispatchtoProps = dispatch => {
