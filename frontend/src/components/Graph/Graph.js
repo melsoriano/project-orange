@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import LineGraph from './LineGraph';
-import { getWeekEntries, getMonthEntries } from '../../actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import LineGraph from "./LineGraph";
+import { getWeekEntries, getMonthEntries } from "../../actions";
 
 class Graph extends Component {
   constructor(props) {
@@ -46,13 +46,13 @@ class Graph extends Component {
       <section className="mainGraph_container hero is-fullheight">
         <div className="hero-header">
           <nav className="level is-mobile">
-            <div className="level-item has-text-centered">
+            <div className="level-item has-text-centered" id="loginBox">
               <button className="button" onClick={this.handleWeekButton}>
-                {' '}
+                {" "}
                 Current Week
               </button>
               <button className="button" onClick={this.handleMonthButton}>
-                {' '}
+                {" "}
                 Month
               </button>
             </div>
