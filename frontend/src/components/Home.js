@@ -12,7 +12,7 @@ class Home extends Component {
 
     this.state = {
       currentEntry: "",
-      redirectToGraph: false
+      redirectTo: null
     };
   }
 
@@ -21,7 +21,7 @@ class Home extends Component {
     this.props.getWeekEntries();
     this.setState({
       currentEntry: "",
-      redirectToGraph: true
+      redirectTo: "graph"
     });
   };
 
@@ -36,24 +36,33 @@ class Home extends Component {
       sessionService.deleteSession();
       sessionService.deleteUser();
       this.setState = {
-        redirectToGraph: false
+        redirectTo: null
       };
     });
   };
 
   render() {
-    if (this.state.redirectToGraph) {
+    if (this.state.redirectTo === "graph") {
       return <Redirect to="/graph" />;
     }
     return (
       <section className="hero is-fullheight">
         <div className="hero-head">
+          <div className="level is-mobile" id="loginBox">
+            <div className="level-left" />
+            <div className="level-right">
+              <div className="level-item">
+                <button className="button" onClick={this.handleLogout}>
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="hero-head">
           <div className="container has-text-centered orangeLogo">
             <img src={Logo} alt="Logo" />
           </div>
-          <button className="button" onClick={this.handleLogout}>
-            Logout
-          </button>
         </div>
 
         <div className="textarea_container hero-body">
@@ -77,11 +86,9 @@ class Home extends Component {
                 </div>
               </div>
               <div className="questionBox column is-6 is-offset-1 has-text-centered">
-                <h1 className="title is-5">QUESTION OF THE DAY!</h1>
+                <h1 className="title is-5">How are you doing today?</h1>
                 <hr />
-                <h2 className="subtitle is-6">
-                  Let this cover page describe a product or service.
-                </h2>
+                <h2 className="subtitle is-6">Type in the box above!</h2>
                 <br />
               </div>
             </div>

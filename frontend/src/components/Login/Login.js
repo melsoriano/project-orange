@@ -65,66 +65,68 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="container is-mobile" id="loginBox">
-        <section className="hero is-large">
+      <div className="container is-mobile">
+        <section className="hero is-small">
           <div className="hero-body">
             <div className="container is-mobile">
               <h1 className="title">Get Start With Orange</h1>
               <h2 className="subtitle">Tracking your mental health</h2>
-              <figure className="image is-square">
+              <figure className="image is-square" style={{ height: 260 }}>
                 <img src={Logo} alt="Logo" />
               </figure>
             </div>
           </div>
         </section>
-        <div className="field">
-          <label className="label">Username</label>
-          <div className="control has-icons-left">
-            <input
-              type="text"
-              placeholder="Username"
-              className="input"
-              onChange={this.handleUsername}
-            />
-            <span className="icon is-small is-left">
-              <i className="fa fa-user" />
-            </span>
+        <div className="container" id="loginBox">
+          <div className="field">
+            <label className="label">Username</label>
+            <div className="control has-icons-left">
+              <input
+                type="text"
+                placeholder="Username"
+                className="input"
+                onChange={this.handleUsername}
+              />
+              <span className="icon is-small is-left">
+                <i className="fa fa-user" />
+              </span>
+            </div>
           </div>
+          <div className="field">
+            <label className="label">Password</label>
+            <div className="control has-icons-left">
+              <input
+                type="password"
+                placeholder="Password"
+                className="input"
+                onChange={this.handlePassword}
+                onKeyPress={this.handleEnterPress}
+              />
+              <span className="icon is-small is-left">
+                <i className="fa fa-unlock" />
+              </span>
+            </div>
+          </div>
+          <div className="field is-grouped">
+            <div className="control">
+              <button
+                className="button is-danger"
+                onClick={this.handleLoginClick}
+              >
+                Submit
+              </button>
+            </div>
+            <div className="control">
+              <button
+                className="button is-text"
+                onClick={e => this.modalHandler(e)}
+              >
+                New User?
+              </button>
+            </div>
+          </div>
+          <Register show={this.state.activeModal} onHide={this.hideModal} />
         </div>
-        <div className="field">
-          <label className="label">Password</label>
-          <div className="control has-icons-left">
-            <input
-              type="password"
-              placeholder="Password"
-              className="input"
-              onChange={this.handlePassword}
-              onKeyPress={this.handleEnterPress}
-            />
-            <span className="icon is-small is-left">
-              <i className="fa fa-unlock" />
-            </span>
-          </div>
-        </div>
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              className="button is-danger"
-              onClick={this.handleLoginClick}
-            >
-              Submit
-            </button>
-          </div>
-          <div className="control">
-            <button
-              className="button is-text"
-              onClick={e => this.modalHandler(e)}
-            >
-              New User?
-            </button>
-          </div>
-        </div>
-        <Register show={this.state.activeModal} onHide={this.hideModal} />
       </div>
     );
   }

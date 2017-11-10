@@ -2,7 +2,7 @@
 @import "../node_modules/bulma/bulma.sass";
 $tabs-toggle-link-hover-background-color: #fed156;
 $tabs-link-color: #627586;
-$body-background-color: linear-gradient(to right, #f47f70 , #fed156);
+$body-background-color: linear-gradient(to right, #f47f70, #fed156);
 $tabs-toggle-link-border-color: #627586;
 $primary: #f47f70;
 $danger: #f47f70;
@@ -13,10 +13,10 @@ $family-sans-serif: "Poiret One", cursive;
 //seolhee
 body {
   background: #f47f70;
-  background: -webkit-linear-gradient(left, #f47f70 , #fed156);
-  background: -o-linear-gradient(right, #f47f70 , #fed156);
-  background: -moz-linear-gradient(right, #f47f70 , #fed156);
-  background: linear-gradient(to right, #f47f70 , #fed156);
+  background: -webkit-linear-gradient(left, #f47f70, #fed156);
+  background: -o-linear-gradient(right, #f47f70, #fed156);
+  background: -moz-linear-gradient(right, #f47f70, #fed156);
+  background: linear-gradient(to right, #f47f70, #fed156);
 }
 
 .orangeLogo {
@@ -29,6 +29,11 @@ body {
   bottom: 0;
   position: fixed;
   width: 100%;
+  background: #f47f70;
+  background: -webkit-linear-gradient(left, #f47f70, #fed156);
+  background: -o-linear-gradient(right, #f47f70, #fed156);
+  background: -moz-linear-gradient(right, #f47f70, #fed156);
+  background: linear-gradient(to right, #f47f70, #fed156);
 }
 
 .textareaBox {
@@ -45,7 +50,6 @@ body {
   padding: 0.625em;
   resize: vertical;
   display: block;
-
 }
 
 .textarea:not([rows]) {
@@ -62,14 +66,12 @@ body {
 }
 //seolhee
 
-
 #hiddenText {
   font-size: 10px;
   white-space: nowrap;
   width: 100%;
   overflow: hidden;
 }
-
 
 #entryText {
   font-family: "Heebo", sans-serif;
@@ -90,6 +92,13 @@ body {
   animation-duration: 0.4s;
 }
 
+.mainPage_container {
+  padding-bottom: 3rem;
+}
+
+#loginBox {
+  padding: 20px;
+}
 
 //modal dropdowns
 @-webkit-keyframes animatetop {
@@ -113,6 +122,3 @@ body {
     opacity: 1;
   }
 }
-
-
-
