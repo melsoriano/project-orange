@@ -1,5 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import {
+  VictoryPie,
+  VictoryLegend,
+  VictoryChart,
+  VictoryPolarAxis
+} from "victory";
 
 class SingleKeyword extends Component {
   progressColor(e) {
@@ -16,9 +22,6 @@ class SingleKeyword extends Component {
     return e.map(entry => {
       let newDate = new Date(entry.createdAt);
       return (
-        // <div className="content" id="entryText" key={entry.createdAt}>
-        //   {entry.text}
-        // </div>
         <article key={entry.createdAt} className="media">
           <div className="media-content">
             <div className="content" id="entryText">
@@ -48,36 +51,51 @@ class SingleKeyword extends Component {
           </header>
           <section className="modal-card-body">
             <div className="content">
-              Anger:
-              <progress
-                className="progress is-light"
-                value={this.progressColor(this.props.keywordData).angerColor}
-                max="100"
-              />
-              Disgust:
-              <progress
-                className="progress is-success"
-                value={this.progressColor(this.props.keywordData).disgustColor}
-                max="100"
-              />
-              Fear:
-              <progress
-                className="progress is-dark"
-                value={this.progressColor(this.props.keywordData).fearColor}
-                max="100"
-              />
-              Joy:
-              <progress
-                className="progress is-warning"
-                value={this.progressColor(this.props.keywordData).joyColor}
-                max="100"
-              />
-              Sadness:
-              <progress
-                className="progress is-link"
-                value={this.progressColor(this.props.keywordData).sadnessColor}
-                max="100"
-              />
+              <VictoryChart polar height={475} width={400}>
+                <VictoryLegend
+                  x={50}
+                  title="Legend"
+                  centerTitle
+                  orientation="horizontal"
+                  gutter={10}
+                  style={{
+                    border: { stroke: "black" },
+                    title: { fontSize: 20 }
+                  }}
+                  data={[
+                    { name: "Anger", symbol: { fill: "#F95738" } },
+                    { name: "Disgust", symbol: { fill: "#4a7c59" } },
+                    { name: "Fear", symbol: { fill: "#353129" } },
+                    { name: "Joy", symbol: { fill: "#f7ed83" } },
+                    { name: "Sadness", symbol: { fill: "#084887" } }
+                  ]}
+                />
+                <VictoryPie
+                  colorScale={[
+                    "#F95738",
+                    "#4a7c59",
+                    "#353129",
+                    "#f7ed83",
+                    "#084887"
+                  ]}
+                  data={[
+                    { x: null, y: this.props.keywordData.angerScore * 100 },
+                    { x: null, y: this.props.keywordData.disgustScore * 100 },
+                    { x: null, y: this.props.keywordData.fearScore * 100 },
+                    { x: null, y: this.props.keywordData.joyScore * 100 },
+                    { x: null, y: this.props.keywordData.sadnessScore * 100 }
+                  ]}
+                  animate={{
+                    onLoad: { duration: 2000 }
+                  }}
+                />
+                <VictoryPolarAxis
+                  style={{
+                    axis: { stroke: "none" },
+                    tickLabels: { fill: "none" }
+                  }}
+                />
+              </VictoryChart>
             </div>
             {this.loadRelatedEntries(this.props.keywordData.entries)}
           </section>

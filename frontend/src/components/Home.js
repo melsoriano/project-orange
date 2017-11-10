@@ -23,7 +23,7 @@ class Home extends Component {
   componentWillMount() {
     sessionService
       .loadSession()
-      .then(currentSession => console.log(currentSession));
+      .then(currentSession => null);
   }
 
   handleSubmit = () => {
