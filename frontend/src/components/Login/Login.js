@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { loginUser } from '../../actions';
-import Register from './Register';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions";
+import Register from "./Register";
+import Logo from "../../assets/OrangeLogo_outline.png";
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
       newUser: null,
       activeModal: null
     };
@@ -20,7 +21,7 @@ class Login extends Component {
 
   modalHandler(e) {
     this.setState({
-      activeModal: 'register'
+      activeModal: "register"
     });
   }
 
@@ -52,7 +53,7 @@ class Login extends Component {
   };
 
   handleEnterPress = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       let userLogin = {
         username: this.state.username,
         password: this.state.password
@@ -65,6 +66,17 @@ class Login extends Component {
   render() {
     return (
       <div className="container is-mobile" id="loginBox">
+        <section className="hero is-large">
+          <div className="hero-body">
+            <div className="container is-mobile">
+              <h1 className="title">Get Start With Orange</h1>
+              <h2 className="subtitle">Tracking your mental health</h2>
+              <figure className="image is-square">
+                <img src={Logo} alt="Logo" />
+              </figure>
+            </div>
+          </div>
+        </section>
         <div className="field">
           <label className="label">Username</label>
           <div className="control has-icons-left">
