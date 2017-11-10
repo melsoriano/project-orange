@@ -35,25 +35,6 @@ class Twitter extends Component {
   }
 
   render() {
-    let content = this.state.isAuthenticated ? (
-      <div>
-        <p>Authenticated</p>
-        <div>
-          <button onClick={this.logout} className="button">
-            Log out
-          </button>
-        </div>
-      </div>
-    ) : (
-      <TwitterLogin
-        loginUrl="https://projectorange.me/auth/twitter"
-        onFailure={this.onFailed}
-        onSuccess={this.onSuccess}
-        requestTokenUrl="https://projectorange.me/auth/twitter/reverse"
-        text=""
-      />
-    );
-
     return (
       <div className="container is-mobile" id="paddingTop">
         <div className="mainGraph_container hero is-fullheight">
