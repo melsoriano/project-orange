@@ -97,7 +97,7 @@ class Home extends Component {
         text=""
       />
     );
-
+    console.log(this.props);
     return (
       <section className="hero is-fullheight">
         <div className="hero-head">

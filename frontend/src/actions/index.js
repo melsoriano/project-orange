@@ -61,7 +61,10 @@ export const getMonthEntries = () => {
 export const loginUser = user => {
   return dispatch => {
     axios.post("/login", querystring.stringify(user)).then(res => {
-      sessionService.saveSession(res.data);
+      const { token } = res;
+      sessionService.saveSession(res.data).then(() => {
+        sessionService.saveUser(res.data);
+      });
       dispatch({
         type: LOGIN_USER,
         auth: res.data
