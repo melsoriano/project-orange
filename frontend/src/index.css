@@ -6143,9 +6143,12 @@ body {
   background: linear-gradient(to right, #f47f70, #fed156); }
 
 .orangeLogo {
-  width: 28%;
-  margin: 0 auto;
-  padding: 28px 0px 0px 0px; }
+  width: 50%;
+  margin: 0 auto; }
+
+.orangeLogoLogin {
+  width: 80%;
+  margin: 0 auto; }
 
 .footerTab_container {
   bottom: 0;
