@@ -1,5 +1,5 @@
-import { LOGIN_USER } from '../actions';
-const initialState = null;
+import { LOGIN_USER } from "../actions";
+const initialState = [];
 
 const auth = (state = initialState, action) => {
   switch (action.type) {

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { loginUser } from "../../actions";
 import Register from "./Register";
 import Logo from "../../assets/OrangeLogo_outline.png";
-import { sessionService } from "redux-react-session";
 
 class Login extends Component {
   constructor(props) {
@@ -37,9 +36,9 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    sessionService.saveSession(userLogin);
 
     this.props.loginUser(userLogin);
+    console.log(this.props.auth);
   };
 
   handleUsername = e => {
