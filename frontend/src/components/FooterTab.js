@@ -32,6 +32,13 @@ class FooterTab extends Component {
                     </span>
                   </Link>
                 </li>
+                <li>
+                  <Link to="/info">
+                    <span className="icon is-medium">
+                      <i className="fa fa-info-circle" />
+                    </span>
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>

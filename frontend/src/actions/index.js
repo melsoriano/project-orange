@@ -61,7 +61,6 @@ export const getMonthEntries = () => {
 export const loginUser = user => {
   return dispatch => {
     axios.post("/login", querystring.stringify(user)).then(res => {
-      const { token } = res;
       sessionService.saveSession(res.data).then(() => {
         sessionService.saveUser(res.data);
       });
@@ -76,7 +75,6 @@ export const loginUser = user => {
 export const loadUser = user => {
   return dispatch => {
     axios.get("/profile").then(user => {
-      console.log("hitting load user action", user.data);
       dispatch({
         type: USER_DATA,
         user: user.data
@@ -88,7 +86,6 @@ export const loadUser = user => {
 export const updateUser = (id, user) => {
   return dispatch => {
     axios.put("/profile").then(user => {
-      console.log("hitting update user", user.data);
       dispatch({
         type: USER_DATA,
         user: user.data
