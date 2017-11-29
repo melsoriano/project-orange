@@ -1,132 +1,20 @@
-@import "../node_modules/bulma/sass/utilities/initial-variables";
-@import "../node_modules/bulma/bulma.sass";
-$tabs-toggle-link-hover-background-color: #fed156;
-$tabs-link-color: #627586;
-$body-background-color: linear-gradient(to right, #f47f70, #fed156);
-$tabs-toggle-link-border-color: #627586;
-$primary: #f47f70;
-$danger: #f47f70;
-// $navbar-background-color: #f9a346;
-$navbar-dropdown-background-color: #f9a346;
-$family-sans-serif: "Poiret One", cursive;
+// @import "../node_modules/bulma/bulma.sass";
+@import "../scss/partials/fonts.scss";
+@import "../scss/partials/colors.scss";
 
-//seolhee
+@import "../scss/partials/login.scss";
+
 body {
-  background: #f47f70;
-  background: -webkit-linear-gradient(left, #f47f70, #fed156);
-  background: -o-linear-gradient(right, #f47f70, #fed156);
-  background: -moz-linear-gradient(right, #f47f70, #fed156);
-  background: linear-gradient(to right, #f47f70, #fed156);
+  font-family: $ptsans;
 }
 
-.orangeLogo {
-  width: 50%;
-  margin: 0 auto;
+h1,
+h2,
+h3 {
+  font-family: $nunito;
+  text-transform: uppercase;
 }
 
-.orangeLogoLogin {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.footerTab_container {
-  bottom: 0;
-  position: fixed;
-  width: 100%;
-  background: #f47f70;
-  background: -webkit-linear-gradient(left, #f47f70, #fed156);
-  background: -o-linear-gradient(right, #f47f70, #fed156);
-  background: -moz-linear-gradient(right, #f47f70, #fed156);
-  background: linear-gradient(to right, #f47f70, #fed156);
-}
-
-.textareaBox {
-  padding: 0px 0px 35px 0px;
-}
-
-.questionBox {
-  padding: 25px 0px 0px 0px;
-}
-
-.textarea {
-  max-width: 100%;
-  min-width: 100%;
-  padding: 0.625em;
-  resize: vertical;
-  display: block;
-}
-
-.textarea:not([rows]) {
-  max-height: 600px;
-  min-height: 185px;
-}
-
-.textarea_container {
-  padding-top: 35px;
-}
-
-.emotionGraph {
-  padding: 0px 15px 0px 20px;
-}
-//seolhee
-
-#hiddenText {
-  font-size: 10px;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden;
-}
-
-#entryText {
-  font-family: "Heebo", sans-serif;
-  font-size: 12px;
-}
-
-.keywordButton {
-  font-weight: bold;
-  // text-shadow: 0px 0px 6px white;
-}
-
-.modal {
-  opacity: 1;
-  transition: opacity 300ms ease-in-out;
-  -webkit-animation-name: animatetop;
-  -webkit-animation-duration: 0.4s;
-  animation-name: animatetop;
-  animation-duration: 0.4s;
-}
-
-.mainPage_container {
-  padding-bottom: 3rem;
-}
-
-#loginBox {
-  padding: 20px;
-}
-
-#paddingTop {
-  padding-top: 2rem;
-}
-
-//modal dropdowns
-@-webkit-keyframes animatetop {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes animatetop {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
+body {
+  background-color: $orange;
 }
