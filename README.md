@@ -1,6 +1,6 @@
 # Orange
 
-## Website: [projectorange.me](projectorange.me)
+WEBSITE: [projectorange.me](projectorange.me)
 
 With the help of IBM Watson's Natural Language Processing, Orange gives users
 insight into their mental and emotional process. Orange provides a safe place
@@ -19,7 +19,9 @@ their mental health.
 
 ### Prerequisites
 
-[Node.js](https://nodejs.org) [Postgres](https://www.postgresql.org)
+[Node.js](https://nodejs.org)
+
+[Postgres](https://www.postgresql.org)
 
 #### Install Backend
 
