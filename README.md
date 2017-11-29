@@ -1,7 +1,43 @@
-We are working on a mobile app that utilizes IBM Watson's Natural Language Processor to help users better track their mental health.
+#Orange
 
-Users will be encouraged to share their daily thoughts by simply speaking into the app. After the app analyzes the recording, the user will then be presented with a visual representation of their mental and emotional insight.
+## Website: projectorange.me
 
-Users will also be able to add their social media account to see if their social media presense is being viewed positively or negatively by others.
+With the help of IBM Watson's Natural Language Processing, Orange gives users
+insight into their mental and emotional process. Orange provides a safe place
+for users to share their thoughts openly and privately.
 
-By helping user's understand their mental outputs both privately and publicly, users will be able to have better awareness about how their thoughts impact their mental health.
+After Orange analyzes the data, the user will be presented with data
+visualization that represents their emotional state. The user also has the
+option to connect their Twitter account, to get a representation of their public
+face.
+
+By helping users understand their mental outputs both privately and publicly,
+users will be able to have better awareness about how their thoughts impact
+their mental health.
+
+## Installation
+
+### Prerequisites
+
+[Node.js](https://nodejs.org) [Postgres](https://www.postgresql.org)
+
+#### Install Backend
+
+In the server folder you will find a config examples to set up the backend.
+
+Make sure you have postgres database setup and running before starting the
+project.
+
+In the root of the project directory, using the command line, enter:
+
+`npm install`
+
+### Install Frontend
+
+Change directory to the frontend folder and run the command:
+
+`npm install`
+
+To start project run:
+
+`npm start`
