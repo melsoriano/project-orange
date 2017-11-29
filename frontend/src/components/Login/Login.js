@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions";
-import Register from "./Register";
-import Logo from "../../assets/OrangeLogo_outline.png";
+// import Register from "./Register";
+import axios from "axios";
+import querystring from "querystring";
+import Logo from "../../assets/orange-logo.png";
 
 class Login extends Component {
   constructor(props) {
@@ -11,34 +13,18 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      newUser: null,
-      activeModal: null
+      newUser: null
     };
-
-    this.modalHandler = this.modalHandler.bind(this);
-    this.hideModal = this.hideModal.bind(this);
   }
 
-  modalHandler(e) {
-    this.setState({
-      activeModal: "register"
-    });
-  }
-
-  hideModal() {
-    this.setState({
-      activeModal: null
-    });
-  }
-
-  handleLoginClick = () => {
+  handleLoginClick = e => {
     let userLogin = {
       username: this.state.username,
       password: this.state.password
     };
 
     this.props.loginUser(userLogin);
-    console.log(this.props.auth);
+    e.preventDefault();
   };
 
   handleUsername = e => {
@@ -64,69 +50,73 @@ class Login extends Component {
     }
   };
 
+  handleNewUser = () => {
+    let newUser = {
+      username: this.state.username,
+      password: this.state.password
+    };
+
+    axios.post("/register", querystring.stringify(newUser));
+  };
+
   render() {
     return (
-      <div className="container is-mobile">
-        <section className="hero is-small">
-          <div className="hero-body">
-            <div className="container is-mobile">
-              <h1 className="title">Get Started With Orange</h1>
-              <h2 className="subtitle">Tracking your mental health</h2>
-              <figure className="container has-text-centered orangeLogoLogin">
-                <img src={Logo} alt="Logo" />
-              </figure>
-            </div>
-          </div>
-        </section>
-        <div className="container" id="loginBox">
-          <div className="field">
-            <label className="label">Username</label>
-            <div className="control has-icons-left">
+      <div className="login-container">
+        <canvas id="background-canvas" />
+        <div className="login-page">
+          <div className="form">
+            <img src={Logo} className="logo" alt="logo" />
+            <p className="subtitle">
+              Take control of your mind today,live better tomorrow.
+            </p>
+            <form id="register-form" className="switch-form">
               <input
                 type="text"
                 placeholder="Username"
                 className="input"
-                onChange={this.handleUsername}
+                onChange={this.handleUsername.bind(this)}
               />
-              <span className="icon is-small is-left">
-                <i className="fa fa-user" />
-              </span>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Password</label>
-            <div className="control has-icons-left">
               <input
                 type="password"
                 placeholder="Password"
                 className="input"
-                onChange={this.handlePassword}
-                onKeyPress={this.handleEnterPress}
+                onChange={this.handlePassword.bind(this)}
+                onKeyPress={this.handleEnterPress.bind(this)}
               />
-              <span className="icon is-small is-left">
-                <i className="fa fa-unlock" />
-              </span>
-            </div>
-          </div>
-          <div className="field is-grouped">
-            <div className="control">
-              <button
-                className="button is-danger"
-                onClick={this.handleLoginClick}
-              >
-                Submit
+
+              <button onClick={this.handleNewUser.bind(this)}>create</button>
+              <p className="message">
+                Already registered? <span>Sign In</span>
+              </p>
+            </form>
+            <form
+              id="login-form"
+              className="switch-form"
+              onSubmit={this.handleLoginClick.bind(this)}
+            >
+              <input
+                type="text"
+                placeholder="Username"
+                className="input"
+                onChange={this.handleUsername.bind(this)}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                className="input"
+                onChange={this.handlePassword.bind(this)}
+                onKeyPress={this.handleEnterPress.bind(this)}
+              />
+
+              <button className="login-button" type="submit" value="submit">
+                login
               </button>
-            </div>
-            <div className="control">
-              <button
-                className="button is-text"
-                onClick={e => this.modalHandler(e)}
-              >
-                New User?
-              </button>
-            </div>
+
+              <p className="message">
+                Not registered? <span>Create an account</span>
+              </p>
+            </form>
           </div>
-          <Register show={this.state.activeModal} onHide={this.hideModal} />
         </div>
       </div>
     );
