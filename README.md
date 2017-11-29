@@ -1,6 +1,6 @@
-#Orange
+# Orange
 
-## Website: projectorange.me
+## Website: [projectorange.me](projectorange.me)
 
 With the help of IBM Watson's Natural Language Processing, Orange gives users
 insight into their mental and emotional process. Orange provides a safe place
