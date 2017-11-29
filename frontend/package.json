@@ -7,6 +7,8 @@
     "axios": "^0.16.2",
     "bulma": "^0.6.0",
     "font-awesome": "^4.7.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.1",
     "querystring": "^0.2.0",
@@ -27,7 +29,8 @@
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
