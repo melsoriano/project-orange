@@ -4,7 +4,7 @@ import { addEntry, getWeekEntries } from "../actions";
 import { Redirect } from "react-router-dom";
 import { sessionService } from "redux-react-session";
 import axios from "axios";
-import Logo from "../assets/OrangeLogo_outline.png";
+// import Logo from "../assets/OrangeLogo_outline.png";
 import TwitterLogin from "react-twitter-auth";
 
 class Home extends Component {
@@ -114,9 +114,6 @@ class Home extends Component {
 
         <div className="textarea_container hero-body">
           <div className="container has-text-centered">
-            <div className="container has-text-centered orangeLogo">
-              <img src={Logo} alt="Logo" />
-            </div>
             <div className="columns is-vcentered">
               <div className="questionBox column is-6 is-offset-1 has-text-centered">
                 <h1 className="title is-5">

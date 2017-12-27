@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions";
-// import Register from "./Register";
 import axios from "axios";
 import querystring from "querystring";
 import Logo from "../../assets/orange-logo.png";
@@ -64,10 +63,10 @@ class Login extends Component {
       <div className="login-container">
         <canvas id="background-canvas" />
         <div className="login-page">
-          <div className="form">
+          <form className="form">
             <img src={Logo} className="logo" alt="logo" />
             <p className="subtitle">
-              Take control of your mind today,live better tomorrow.
+              Take control of your mind today, live better tomorrow.
             </p>
             <form id="register-form" className="switch-form">
               <input
@@ -83,10 +82,9 @@ class Login extends Component {
                 onChange={this.handlePassword.bind(this)}
                 onKeyPress={this.handleEnterPress.bind(this)}
               />
-
-              <button onClick={this.handleNewUser.bind(this)}>create</button>
+              <button onClick={this.handleNewUser.bind(this)}> create </button>
               <p className="message">
-                Already registered? <span>Sign In</span>
+                Already registered ? <span> Sign In </span>
               </p>
             </form>
             <form
@@ -107,16 +105,14 @@ class Login extends Component {
                 onChange={this.handlePassword.bind(this)}
                 onKeyPress={this.handleEnterPress.bind(this)}
               />
-
               <button className="login-button" type="submit" value="submit">
                 login
               </button>
-
               <p className="message">
-                Not registered? <span>Create an account</span>
+                Not registered ? <span> Create an account </span>
               </p>
             </form>
-          </div>
+          </form>
         </div>
       </div>
     );
@@ -124,7 +120,10 @@ class Login extends Component {
 }
 
 const mapStatetoProps = state => {
-  return { auth: state.auth, session: state.session };
+  return {
+    auth: state.auth,
+    session: state.session
+  };
 };
 
 const mapDispatchtoProps = dispatch => {

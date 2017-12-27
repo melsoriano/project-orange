@@ -1,3 +1,3 @@
 $(".message span").click(function() {
-  $("form").animate({ height: "toggle", opacity: "toggle" }, "slow");
+  $(".switch-form").animate({ height: "toggle", opacity: "toggle" }, "slow");
 });
