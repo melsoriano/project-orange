@@ -1,7 +1,5 @@
 # Orange
 
-WEBSITE: [projectorange.me](https://projectorange.me/)
-
 With the help of IBM Watson's Natural Language Processing, Orange gives users
 insight into their mental and emotional process. Orange provides a safe place
 for users to share their thoughts openly and privately.
